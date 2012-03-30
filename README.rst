@@ -11,8 +11,8 @@ All of the code is written for the Arduino_ development environment and the PCB 
 What's been done so far
 -----------------------------------
 - board layout with 64-channel multiplexing capabilities, with the ability to toggle between impedance testing (Analog Devices AD5933) and an adjustable current source (LM234).
-- assemble prototype board and verify that multiplexing is working
-- write code for I2C communication with AD5933 and AD5245 programmable potentiometer
+- assemble prototype board and verify that multiplexing is working (multiplexing.pde_)
+- write code for I2C communication with AD5933 and AD5245 programmable potentiometer (autoimpedance.pde_)
 
 TODO List (short term)
 -------------------------------
@@ -33,4 +33,5 @@ TODO List (long term)
 .. _Arduino: http://www.arduino.cc/
 .. _Eagle: http://www.cadsoftusa.com/
 .. _datasheet: https://github.com/open-ephys/autoimpedance/blob/master/PCB/AD5933.pdf
-
+.. _autoimpedance.pde: https://github.com/open-ephys/autoimpedance/blob/master/autoimpedance.pde
+.. _multiplexing.pde: https://github.com/open-ephys/autoimpedance/blob/master/multiplexing.pde
