@@ -20,6 +20,7 @@ TODO List (short term)
 - calibrate the LM234 adjustable current source
 - create a simple GUI to manually control the device via USB
 - write and refine a simple feedback algorithm to automatically bring impedance to desired levels
+- design and manufacture a case
 
 TODO List (long term)
 --------------------------------
