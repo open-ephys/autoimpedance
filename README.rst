@@ -2,13 +2,11 @@
 Autoimpedance
 =====================
 
-This repository contains code, schematics, and board designs for a digital impedance meter/electroplater based on the Arduino Nano_ and the Analog Devices AD5933_ impedance converter.
+In neuroscience studies, it's important to measure electrode impedances before every experiment. If impedance levels are not in the right range, they must be adjusted by plating electrode tips with gold or platinum. The most common way to do this is with an analog impedance meter and current source, but this method is slow and unreliable. Autoimpedance will be an open-source, digital alternative that aims to speed up the impedance measurement and plating process.
+
+This repository contains code, schematics, and board designs for Autoimpedance. It's based on the Arduino Nano_ and the Analog Devices AD5933_ impedance converter.
 
 All of the code is written for the Arduino_ development environment and the PCB layout was done with Eagle_.
-
-Goals
-----------
-In neuroscience studies, it's important to measure electrode impedances before every experiment. If impedance levels are not in the right range, they must be adjusted by plating electrode tips with gold or platinum. The most common way to do this is with an analog impedance meter and current source, but this method is slow and unreliable. Autoimpedance will be an open-source, digital alternative that aims to speed up the impedance measurement and plating process.
 
 What's been done so far
 -----------------------------------
