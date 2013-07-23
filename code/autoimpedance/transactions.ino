@@ -13,8 +13,8 @@ int getByte(int address) {
   int rxByte;
 
   Wire.beginTransmission(AD5933_ADDR);
-  Wire.send(ADDRESS_PTR);
-  Wire.send(address);
+  Wire.write(ADDRESS_PTR);
+  Wire.write(address);
   int i2cStatus = Wire.endTransmission();
 
   Wire.requestFrom(AD5933_ADDR, 1);

@@ -23,8 +23,8 @@ boolean configureAD5245(float R)
      int D = int(( 256 * (R + 2*Rw) ) / Rab);
      
      Wire.beginTransmission(AD5245_ADDR); // master sends a 7-bit slave address
-     Wire.send(0x00); // instruction byte
-     Wire.send(D);    // data byte
+     Wire.write(0x00); // instruction byte
+     Wire.write(D);    // data byte
      i2cStatus = Wire.endTransmission();
      
      if (i2cStatus)
