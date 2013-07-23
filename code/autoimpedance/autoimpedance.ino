@@ -88,6 +88,10 @@ void loop()
 
     delay(50);
     
+    setSignalPath(0);
+    
+    setChannel(channelNumber);
+    
     configureAD5933(1000, // number of settling times
                     1*pow(10,3), // start frequency (Hz)
                     2*pow(10,2), // frequency increment (Hz)
@@ -97,11 +101,11 @@ void loop()
 
     delay(50);
     
-     measureTemperature();
+    measureTemperature();
      
-     delay(50);
+    delay(50);
      
-     measureImpedance();
+    measureImpedance();
 
     digitalWrite(ledPin, LOW);  
 
