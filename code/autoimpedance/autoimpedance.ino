@@ -56,6 +56,19 @@ byte rxByte;
 // D12 = green LED
 // D13 = yellow LED
 
+const int mux16A = 2;
+const int mux16B = 3;
+const int mux16C = 4;
+const int mux16D = 5;
+
+const int mux4A = 6;
+const int mux4B = 7;
+
+const int mux2A = 8;
+const int mux2B = 9;
+
+int channelNumber = 0;
+
 void setup() 
 {
   Wire.begin();

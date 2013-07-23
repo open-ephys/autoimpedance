@@ -20,7 +20,7 @@ int getByte(int address) {
   Wire.requestFrom(AD5933_ADDR, 1);
 
   if (1 <= Wire.available()) {
-    rxByte = Wire.receive();
+    rxByte = Wire.read();
   } 
   else {
     rxByte = -1;
@@ -33,8 +33,8 @@ int getByte(int address) {
 boolean setByte(int address, int value) {
 
   Wire.beginTransmission(AD5933_ADDR);
-  Wire.send(address);
-  Wire.send(value);
+  Wire.write(address);
+  Wire.write(value);
   int i2cStatus = Wire.endTransmission();
 
   if (i2cStatus)
