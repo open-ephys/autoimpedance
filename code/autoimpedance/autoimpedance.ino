@@ -75,6 +75,16 @@ void setup()
   Serial.begin(9600);
 
   pinMode(ledPin, OUTPUT);
+  
+  pinMode(mux16A, OUTPUT);
+  pinMode(mux16B, OUTPUT);
+  pinMode(mux16C, OUTPUT);
+  pinMode(mux16D, OUTPUT);
+  pinMode(mux4A, OUTPUT);
+  pinMode(mux4B, OUTPUT);
+  pinMode(mux2A, OUTPUT);
+  pinMode(mux2B, OUTPUT);
+  
 
 }
 
