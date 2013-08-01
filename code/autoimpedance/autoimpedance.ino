@@ -85,7 +85,6 @@ void setup()
   pinMode(mux2A, OUTPUT);
   pinMode(mux2B, OUTPUT);
   
-
 }
 
 void loop() 
@@ -100,24 +99,28 @@ void loop()
     
     setSignalPath(0);
     
-    setChannel(channelNumber);
-    
-    configureAD5933(1000, // number of settling times
+        configureAD5933(100, // number of settling times
                     1*pow(10,3), // start frequency (Hz)
-                    2*pow(10,2), // frequency increment (Hz)
-                    21); // number of increments
-
-    configureAD5245(40*pow(10,3));
-
-    delay(50);
+                    1*pow(10,2), // frequency increment (Hz)
+                    30); // number of increments
+                    
+                     configureAD5245(40*pow(10,3));
     
-    measureTemperature();
-     
-    delay(50);
-     
-    measureImpedance();
+    for (channelNumber = 0; channelNumber < 1; channelNumber++)
+    {
+    
+      setChannel(channelNumber);
 
-    digitalWrite(ledPin, LOW);  
+      delay(50);
+    
+   // measureTemperature();
+     
+   // delay(50);
+     
+      measureImpedance();
+
+      digitalWrite(ledPin, LOW);  
+    }
 
   }
 }

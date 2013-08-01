@@ -17,7 +17,7 @@ void measureImpedance() {
   // 4. poll status register until complete
    //while (checkStatus() < validImpedanceData) {
    //}
-   delay(500); // delay seems to determine the minimum frequency that can be used for an accurate measurement
+   delay(100); // delay seems to determine the minimum frequency that can be used for an accurate measurement
            // examples (for settling times = 1000)
            // 1 ms:
            // 2 ms:
@@ -45,12 +45,12 @@ void measureImpedance() {
      imag -= 0x10000;
    }
    
-   float magnitude = sqrt(pow(real,2) + pow(imag,2));
-   float gain = 2.3 * pow(10, -10); //calibrated with 220kOhm resistor on 1/3/12
+   double magnitude = sqrt(pow(double(real),2) + pow(double(imag),2));
+   double gain = 2.3 * pow(10, -10); //calibrated with 220kOhm resistor on 1/3/12
    
-   float impedance = 1/(gain*magnitude);
+   double impedance = 1/(gain*magnitude);
    
-   float phase = atan(imag/real);
+   double phase = atan(double(imag)/double(real));
    
    //Serial.print("Real: ");
    Serial.print(real);
