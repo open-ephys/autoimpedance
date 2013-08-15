@@ -9456,7 +9456,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="U3" library="SparkFun-DigitalIC" deviceset="ATSHA204" device="-TSU"/>
 <part name="P+4" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND6" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="C4" library="SparkFun-Passives" deviceset="CAP" device="0402-CAP" value="0.1uF"/>
 <part name="C2" library="SparkFun-Passives" deviceset="CAP" device="0805" value="22uF"/>
 <part name="L1" library="SparkFun-Passives" deviceset="INDUCTOR" device="VLF4012A" value="2.2uH"/>
 <part name="GND1" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
@@ -9476,14 +9475,13 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="JP3" library="SparkFun-Connectors" deviceset="M02" device="SMD"/>
 <part name="U$5" library="SparkFun-Aesthetics" deviceset="OSHW-LOGO" device="S"/>
 <part name="JP8" library="SparkFun" deviceset="FIDUCIAL" device="UFIDUCIAL"/>
-<part name="JP9" library="SparkFun" deviceset="FIDUCIAL" device="UFIDUCIAL"/>
 <part name="S1" library="RHD2000" deviceset="OMNETICS_A79025" device=""/>
 <part name="U$3" library="autoimpedance" deviceset="AD5933" device=""/>
 <part name="U$4" library="autoimpedance" deviceset="AD5245" device=""/>
 <part name="U4" library="SparkFun-PowerIC" deviceset="MCP73831" device=""/>
 <part name="C3" library="SparkFun-Passives" deviceset="CAP" device="1210" value="4.7uF"/>
 <part name="GND12" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="R4" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="330k"/>
+<part name="R4" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="330"/>
 <part name="D1" library="SparkFun-LED" deviceset="LED-GREEN" device="0603" value="GREEN"/>
 <part name="R5" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="2k"/>
 <part name="GND13" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
@@ -9524,7 +9522,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="C11" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="GND26" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="P+19" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
-<part name="C13" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
+<part name="C7" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="GND28" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="P+21" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="R2" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="10"/>
@@ -9543,6 +9541,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="P+5" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND19" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="P+14" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
+<part name="C4" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 </parts>
 <sheets>
 <sheet>
@@ -9564,7 +9563,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="U3" gate="G$1" x="35.56" y="30.48" rot="MR0"/>
 <instance part="P+4" gate="G$1" x="22.86" y="45.72" rot="MR0"/>
 <instance part="GND6" gate="1" x="22.86" y="17.78" rot="MR0"/>
-<instance part="C4" gate="G$1" x="15.24" y="27.94" rot="MR0"/>
 <instance part="C2" gate="G$1" x="124.46" y="144.78"/>
 <instance part="L1" gate="G$1" x="109.22" y="152.4" smashed="yes" rot="R90">
 <attribute name="NAME" x="104.14" y="154.94" size="1.778" layer="95" rot="R90"/>
@@ -9587,7 +9585,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="JP3" gate="G$1" x="10.16" y="119.38"/>
 <instance part="U$5" gate="G$1" x="132.08" y="10.16"/>
 <instance part="JP8" gate="G$1" x="243.84" y="33.02"/>
-<instance part="JP9" gate="G$1" x="243.84" y="27.94"/>
 <instance part="S1" gate="A" x="121.92" y="106.68" rot="R270"/>
 <instance part="U$3" gate="G$1" x="167.64" y="157.48"/>
 <instance part="U$4" gate="G$1" x="220.98" y="162.56"/>
@@ -9601,9 +9598,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="GND14" gate="1" x="76.2" y="160.02"/>
 <instance part="U$6" gate="G$1" x="213.36" y="127"/>
 <instance part="R6" gate="G$1" x="91.44" y="45.72" rot="MR90"/>
-<instance part="R7" gate="G$1" x="96.52" y="43.18" rot="MR90"/>
+<instance part="R7" gate="G$1" x="101.6" y="43.18" rot="MR90"/>
 <instance part="P+6" gate="G$1" x="91.44" y="50.8" rot="MR0"/>
-<instance part="P+7" gate="G$1" x="96.52" y="48.26" rot="MR0"/>
+<instance part="P+7" gate="G$1" x="101.6" y="48.26" rot="MR0"/>
 <instance part="P+8" gate="G$1" x="187.96" y="144.78" rot="R180"/>
 <instance part="GND15" gate="1" x="193.04" y="152.4"/>
 <instance part="GND16" gate="1" x="198.12" y="162.56" rot="R270"/>
@@ -9620,9 +9617,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="P+13" gate="G$1" x="101.6" y="25.4" rot="MR0"/>
 <instance part="GND8" gate="1" x="152.4" y="53.34" rot="MR0"/>
 <instance part="GND20" gate="1" x="182.88" y="68.58" rot="MR270"/>
-<instance part="C8" gate="G$1" x="137.16" y="63.5"/>
-<instance part="GND23" gate="1" x="137.16" y="58.42"/>
-<instance part="P+16" gate="G$1" x="137.16" y="68.58"/>
+<instance part="C8" gate="G$1" x="132.08" y="63.5"/>
+<instance part="GND23" gate="1" x="132.08" y="55.88"/>
+<instance part="P+16" gate="G$1" x="132.08" y="71.12"/>
 <instance part="U7" gate="G$1" x="200.66" y="106.68"/>
 <instance part="U8" gate="G$1" x="162.56" y="68.58"/>
 <instance part="U$7" gate="G$1" x="119.38" y="20.32"/>
@@ -9635,7 +9632,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="C11" gate="G$1" x="172.72" y="109.22"/>
 <instance part="GND26" gate="1" x="172.72" y="101.6"/>
 <instance part="P+19" gate="G$1" x="172.72" y="116.84"/>
-<instance part="C13" gate="G$1" x="226.06" y="106.68"/>
+<instance part="C7" gate="G$1" x="226.06" y="106.68"/>
 <instance part="GND28" gate="1" x="226.06" y="101.6"/>
 <instance part="P+21" gate="G$1" x="226.06" y="111.76"/>
 <instance part="R2" gate="G$1" x="200.66" y="119.38" rot="R180"/>
@@ -9654,6 +9651,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="P+5" gate="G$1" x="187.96" y="76.2"/>
 <instance part="GND19" gate="1" x="180.34" y="124.46"/>
 <instance part="P+14" gate="G$1" x="139.7" y="99.06" rot="R180"/>
+<instance part="C4" gate="G$1" x="15.24" y="27.94"/>
 </instances>
 <busses>
 </busses>
@@ -9678,11 +9676,11 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="GND6" gate="1" pin="GND"/>
 <wire x1="27.94" y1="27.94" x2="22.86" y2="27.94" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="27.94" x2="22.86" y2="22.86" width="0.1524" layer="91"/>
-<pinref part="C4" gate="G$1" pin="2"/>
 <wire x1="22.86" y1="22.86" x2="22.86" y2="20.32" width="0.1524" layer="91"/>
 <wire x1="15.24" y1="25.4" x2="15.24" y2="22.86" width="0.1524" layer="91"/>
 <wire x1="15.24" y1="22.86" x2="22.86" y2="22.86" width="0.1524" layer="91"/>
 <junction x="22.86" y="22.86"/>
+<pinref part="C4" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="GND1" gate="1" pin="GND"/>
@@ -9786,6 +9784,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <pinref part="C8" gate="G$1" pin="2"/>
 <pinref part="GND23" gate="1" pin="GND"/>
+<wire x1="132.08" y1="60.96" x2="132.08" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="C9" gate="G$1" pin="2"/>
@@ -9803,7 +9802,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="172.72" y1="106.68" x2="172.72" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="C13" gate="G$1" pin="2"/>
+<pinref part="C7" gate="G$1" pin="2"/>
 <pinref part="GND28" gate="1" pin="GND"/>
 </segment>
 <segment>
@@ -9878,11 +9877,11 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="P+4" gate="G$1" pin="3.3V"/>
 <wire x1="27.94" y1="33.02" x2="22.86" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="33.02" x2="22.86" y2="38.1" width="0.1524" layer="91"/>
-<pinref part="C4" gate="G$1" pin="1"/>
 <wire x1="22.86" y1="38.1" x2="22.86" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="15.24" y1="33.02" x2="15.24" y2="38.1" width="0.1524" layer="91"/>
 <wire x1="15.24" y1="38.1" x2="22.86" y2="38.1" width="0.1524" layer="91"/>
 <junction x="22.86" y="38.1"/>
+<pinref part="C4" gate="G$1" pin="1"/>
 </segment>
 <segment>
 <wire x1="119.38" y1="149.86" x2="119.38" y2="152.4" width="0.1524" layer="91"/>
@@ -9947,6 +9946,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <pinref part="C8" gate="G$1" pin="1"/>
 <pinref part="P+16" gate="G$1" pin="3.3V"/>
+<wire x1="132.08" y1="68.58" x2="132.08" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="C9" gate="G$1" pin="1"/>
@@ -9959,7 +9959,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="78.74" y1="121.92" x2="81.28" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="C13" gate="G$1" pin="1"/>
+<pinref part="C7" gate="G$1" pin="1"/>
 <pinref part="P+21" gate="G$1" pin="3.3V"/>
 <pinref part="U7" gate="G$1" pin="OE"/>
 <wire x1="210.82" y1="109.22" x2="213.36" y2="109.22" width="0.1524" layer="91"/>
@@ -10178,7 +10178,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <pinref part="U1" gate="G$1" pin="2(CMD)"/>
 <label x="83.82" y="38.1" size="1.778" layer="95"/>
-<wire x1="83.82" y1="38.1" x2="96.52" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="38.1" x2="101.6" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 </segment>
 <segment>
