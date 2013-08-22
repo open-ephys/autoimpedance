@@ -237,6 +237,11 @@ We've spent an enormous amount of time creating and checking these footprints an
 <vertex x="0.4186" y="-1.0105"/>
 </polygon>
 </package>
+<package name="CREATIVE_COMMONS">
+<text x="-20.32" y="5.08" size="1.778" layer="27">Released under the Creative Commons Attribution Share-Alike 3.0 License</text>
+<text x="0" y="2.54" size="1.778" layer="27">http://creativecommons.org/licenses/by-sa/3.0</text>
+<text x="11.43" y="0" size="1.778" layer="27">Designed by:</text>
+</package>
 </packages>
 <symbols>
 <symbol name="DGND">
@@ -3810,6 +3815,44 @@ We've spent an enormous amount of time creating and checking these footprints an
 <vertex x="0.6834" y="-1.65"/>
 </polygon>
 </symbol>
+<symbol name="LETTER_L">
+<wire x1="0" y1="185.42" x2="248.92" y2="185.42" width="0.4064" layer="94"/>
+<wire x1="248.92" y1="185.42" x2="248.92" y2="0" width="0.4064" layer="94"/>
+<wire x1="0" y1="185.42" x2="0" y2="0" width="0.4064" layer="94"/>
+<wire x1="0" y1="0" x2="248.92" y2="0" width="0.4064" layer="94"/>
+</symbol>
+<symbol name="DOCFIELD">
+<wire x1="0" y1="0" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="87.63" y2="15.24" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="0" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="71.12" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0" y1="5.08" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="101.6" y1="15.24" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="71.12" y2="0" width="0.254" layer="94"/>
+<wire x1="71.12" y1="5.08" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="71.12" y1="0" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="87.63" y2="5.08" width="0.254" layer="94"/>
+<wire x1="87.63" y1="15.24" x2="0" y2="15.24" width="0.254" layer="94"/>
+<wire x1="87.63" y1="5.08" x2="101.6" y2="5.08" width="0.254" layer="94"/>
+<wire x1="101.6" y1="5.08" x2="101.6" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="15.24" x2="0" y2="22.86" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="35.56" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="101.6" y2="22.86" width="0.254" layer="94"/>
+<wire x1="0" y1="22.86" x2="0" y2="35.56" width="0.254" layer="94"/>
+<wire x1="101.6" y1="22.86" x2="101.6" y2="15.24" width="0.254" layer="94"/>
+<text x="1.27" y="1.27" size="2.54" layer="94" font="vector">Date:</text>
+<text x="12.7" y="1.27" size="2.54" layer="94" font="vector">&gt;LAST_DATE_TIME</text>
+<text x="72.39" y="1.27" size="2.54" layer="94" font="vector">Sheet:</text>
+<text x="86.36" y="1.27" size="2.54" layer="94" font="vector">&gt;SHEET</text>
+<text x="88.9" y="11.43" size="2.54" layer="94" font="vector">REV:</text>
+<text x="1.524" y="17.78" size="2.54" layer="94" font="vector">TITLE:</text>
+<text x="15.494" y="17.78" size="2.7432" layer="94" font="vector">&gt;DRAWING_NAME</text>
+<text x="2.54" y="31.75" size="1.9304" layer="94">Released under the Creative Commons</text>
+<text x="2.54" y="27.94" size="1.9304" layer="94">Attribution Share-Alike 3.0 License</text>
+<text x="2.54" y="24.13" size="1.9304" layer="94">http://creativecommons.org/licenses/by-sa/3.0</text>
+<text x="1.27" y="11.43" size="2.54" layer="94">Design by:</text>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="GND" prefix="GND">
@@ -3868,6 +3911,21 @@ We've spent an enormous amount of time creating and checking these footprints an
 </technologies>
 </device>
 <device name="L" package="OSHW-LOGO-L">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="FRAME-LETTER" prefix="FRAME">
+<description>&lt;b&gt;Schematic Frame&lt;/b&gt;&lt;p&gt;
+Standard 8.5x11 US Letter frame</description>
+<gates>
+<gate name="G$1" symbol="LETTER_L" x="0" y="0"/>
+<gate name="G$2" symbol="DOCFIELD" x="147.32" y="0" addlevel="must"/>
+</gates>
+<devices>
+<device name="" package="CREATIVE_COMMONS">
 <technologies>
 <technology name=""/>
 </technologies>
@@ -4035,22 +4093,6 @@ We've spent an enormous amount of time creating and checking these footprints an
 <text x="0" y="-2" size="0.4064" layer="27" rot="R180">&gt;VALUE</text>
 <rectangle x1="-2.2" y1="-1.6" x2="-1.1" y2="1.6" layer="51"/>
 <rectangle x1="1.1" y1="-1.6" x2="2.2" y2="1.6" layer="51"/>
-</package>
-<package name="0603-CAP">
-<wire x1="-1.473" y1="0.983" x2="1.473" y2="0.983" width="0.0508" layer="39"/>
-<wire x1="1.473" y1="0.983" x2="1.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="1.473" y1="-0.983" x2="-1.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="-1.473" y1="-0.983" x2="-1.473" y2="0.983" width="0.0508" layer="39"/>
-<wire x1="-0.356" y1="0.432" x2="0.356" y2="0.432" width="0.1016" layer="51"/>
-<wire x1="-0.356" y1="-0.419" x2="0.356" y2="-0.419" width="0.1016" layer="51"/>
-<wire x1="0" y1="0.0305" x2="0" y2="-0.0305" width="0.5588" layer="21"/>
-<smd name="1" x="-0.85" y="0" dx="1.1" dy="1" layer="1"/>
-<smd name="2" x="0.85" y="0" dx="1.1" dy="1" layer="1"/>
-<text x="-0.889" y="0.762" size="0.4064" layer="25" font="vector">&gt;NAME</text>
-<text x="-1.016" y="-1.143" size="0.4064" layer="27" font="vector">&gt;VALUE</text>
-<rectangle x1="-0.8382" y1="-0.4699" x2="-0.3381" y2="0.4801" layer="51"/>
-<rectangle x1="0.3302" y1="-0.4699" x2="0.8303" y2="0.4801" layer="51"/>
-<rectangle x1="-0.1999" y1="-0.3" x2="0.1999" y2="0.3" layer="35"/>
 </package>
 <package name="0402-CAP">
 <description>&lt;b&gt;CAPACITOR&lt;/b&gt;&lt;p&gt;
@@ -4236,8 +4278,8 @@ chip</description>
 <wire x1="-1.473" y1="-0.483" x2="-1.473" y2="0.483" width="0.0508" layer="39"/>
 <smd name="1" x="-0.65" y="0" dx="0.7" dy="0.9" layer="1"/>
 <smd name="2" x="0.65" y="0" dx="0.7" dy="0.9" layer="1"/>
-<text x="-0.889" y="0.6985" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-1.0795" y="-1.143" size="0.4064" layer="27">&gt;VALUE</text>
+<text x="-0.889" y="0.6985" size="0.4064" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.0795" y="-1.143" size="0.4064" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-0.554" y1="-0.3048" x2="-0.254" y2="0.2951" layer="51"/>
 <rectangle x1="0.2588" y1="-0.3048" x2="0.5588" y2="0.2951" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.3" x2="0.1999" y2="0.3" layer="35"/>
@@ -4611,6 +4653,93 @@ chip</description>
 <smd name="P$1" x="-1.9" y="0" dx="0.9" dy="1.3" layer="1"/>
 <smd name="P$2" x="1.9" y="0" dx="0.9" dy="1.3" layer="1"/>
 </package>
+<package name="CAP-PTH-SMALLEZ">
+<description>This is the "EZ" version of the .1" spaced ceramic thru-hole cap.&lt;br&gt;
+It has reduced top mask to make it harder to put the component on the wrong side of the board.</description>
+<wire x1="1.27" y1="0.635" x2="1.27" y2="-0.635" width="0.2032" layer="21"/>
+<wire x1="-1.27" y1="1.27" x2="3.81" y2="1.27" width="0.2032" layer="21"/>
+<wire x1="3.81" y1="1.27" x2="3.81" y2="-1.27" width="0.2032" layer="21"/>
+<wire x1="3.81" y1="-1.27" x2="-1.27" y2="-1.27" width="0.2032" layer="21"/>
+<wire x1="-1.27" y1="-1.27" x2="-1.27" y2="1.27" width="0.2032" layer="21"/>
+<pad name="1" x="0" y="0" drill="0.7" diameter="1.651" stop="no"/>
+<pad name="2" x="2.54" y="0" drill="0.7" diameter="1.651" stop="no"/>
+<text x="-1.27" y="1.905" size="0.6096" layer="25">&gt;Name</text>
+<text x="-1.27" y="-2.54" size="0.6096" layer="27">&gt;Value</text>
+<circle x="0" y="0" radius="0.898025" width="0" layer="30"/>
+<circle x="2.54" y="0" radius="0.915809375" width="0" layer="30"/>
+<circle x="0" y="0" radius="0.40160625" width="0" layer="29"/>
+<circle x="2.54" y="0" radius="0.40160625" width="0" layer="29"/>
+</package>
+<package name="AXIAL-0.3EZ">
+<description>This is the "EZ" version of the standard .3" spaced resistor package.&lt;br&gt;
+It has a reduced top mask to make it harder to install upside-down.</description>
+<wire x1="-2.54" y1="0.762" x2="2.54" y2="0.762" width="0.2032" layer="21"/>
+<wire x1="2.54" y1="0.762" x2="2.54" y2="0" width="0.2032" layer="21"/>
+<wire x1="2.54" y1="0" x2="2.54" y2="-0.762" width="0.2032" layer="21"/>
+<wire x1="2.54" y1="-0.762" x2="-2.54" y2="-0.762" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="-0.762" x2="-2.54" y2="0" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="0" x2="-2.54" y2="0.762" width="0.2032" layer="21"/>
+<wire x1="2.54" y1="0" x2="2.794" y2="0" width="0.2032" layer="21"/>
+<wire x1="-2.54" y1="0" x2="-2.794" y2="0" width="0.2032" layer="21"/>
+<pad name="P$1" x="-3.81" y="0" drill="0.9" diameter="1.8796" stop="no"/>
+<pad name="P$2" x="3.81" y="0" drill="0.9" diameter="1.8796" stop="no"/>
+<text x="-2.54" y="1.27" size="0.4064" layer="25" font="vector">&gt;Name</text>
+<text x="-2.032" y="-0.381" size="1.016" layer="21" font="vector" ratio="15">&gt;Value</text>
+<circle x="-3.81" y="0" radius="0.508" width="0" layer="29"/>
+<circle x="3.81" y="0" radius="0.523634375" width="0" layer="29"/>
+<circle x="-3.81" y="0" radius="1.02390625" width="0" layer="30"/>
+<circle x="3.81" y="0" radius="1.04726875" width="0" layer="30"/>
+</package>
+<package name="DR1030">
+<description>For Coiltronics/Cooper DR1030 series inductors</description>
+<wire x1="5.15" y1="5.25" x2="5.15" y2="-5.25" width="0.127" layer="21"/>
+<wire x1="-5.15" y1="-5.25" x2="-5.15" y2="5.25" width="0.127" layer="21"/>
+<smd name="2" x="0" y="-4.45" dx="3.3" dy="1.6" layer="1"/>
+<smd name="1" x="0" y="4.45" dx="3.3" dy="1.6" layer="1"/>
+<wire x1="5.15" y1="-5.25" x2="2" y2="-5.25" width="0.127" layer="21"/>
+<wire x1="-5.15" y1="-5.25" x2="-2" y2="-5.25" width="0.127" layer="21"/>
+<wire x1="-5.15" y1="5.25" x2="-2" y2="5.25" width="0.127" layer="21"/>
+<wire x1="5.15" y1="5.25" x2="2" y2="5.25" width="0.127" layer="21"/>
+<text x="-3.81" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
+<text x="-3.81" y="-1.27" size="0.4064" layer="27">&gt;VALUE</text>
+</package>
+<package name="RLB0912">
+<circle x="0" y="0" radius="4.445" width="0.2032" layer="21"/>
+<pad name="2" x="-2.5019" y="0" drill="0.8128" diameter="1.651"/>
+<text x="-1.905" y="-3.048" size="0.8128" layer="27">&gt;Value</text>
+<text x="-0.762" y="2.921" size="0.4064" layer="25">&gt;Name</text>
+<pad name="1" x="2.5019" y="0" drill="0.8128" diameter="1.651"/>
+</package>
+<package name="SRN6045">
+<smd name="1" x="-2.175" y="-0.175" dx="6" dy="2.5" layer="1" rot="R90"/>
+<smd name="2" x="2.125" y="-0.175" dx="6" dy="2.5" layer="1" rot="R90"/>
+<wire x1="-2.175" y1="-3.175" x2="-3.175" y2="-2.175" width="0.127" layer="51"/>
+<wire x1="-3.175" y1="-2.175" x2="-3.175" y2="1.825" width="0.127" layer="51"/>
+<wire x1="-3.175" y1="1.825" x2="-2.175" y2="2.825" width="0.127" layer="51"/>
+<wire x1="-2.175" y1="2.825" x2="2.125" y2="2.825" width="0.127" layer="51"/>
+<wire x1="2.125" y1="2.825" x2="3.125" y2="1.825" width="0.127" layer="51"/>
+<wire x1="3.125" y1="1.825" x2="3.125" y2="-2.175" width="0.127" layer="51"/>
+<wire x1="3.125" y1="-2.175" x2="2.125" y2="-3.175" width="0.127" layer="51"/>
+<wire x1="2.125" y1="-3.175" x2="-2.175" y2="-3.175" width="0.127" layer="51"/>
+<text x="-4.175" y="3.825" size="1.27" layer="25">&gt;NAME</text>
+<text x="-4.175" y="-5.175" size="1.27" layer="27">&gt;VALUE</text>
+</package>
+<package name="0603-CAP">
+<wire x1="-1.473" y1="0.983" x2="1.473" y2="0.983" width="0.0508" layer="39"/>
+<wire x1="1.473" y1="0.983" x2="1.473" y2="-0.983" width="0.0508" layer="39"/>
+<wire x1="1.473" y1="-0.983" x2="-1.473" y2="-0.983" width="0.0508" layer="39"/>
+<wire x1="-1.473" y1="-0.983" x2="-1.473" y2="0.983" width="0.0508" layer="39"/>
+<wire x1="-0.356" y1="0.432" x2="0.356" y2="0.432" width="0.1016" layer="51"/>
+<wire x1="-0.356" y1="-0.419" x2="0.356" y2="-0.419" width="0.1016" layer="51"/>
+<wire x1="0" y1="0.0305" x2="0" y2="-0.0305" width="0.5588" layer="21"/>
+<smd name="1" x="-0.85" y="0" dx="1.1" dy="1" layer="1"/>
+<smd name="2" x="0.85" y="0" dx="1.1" dy="1" layer="1"/>
+<text x="-0.889" y="0.762" size="0.4064" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.016" y="-1.143" size="0.4064" layer="27" font="vector" ratio="10">&gt;VALUE</text>
+<rectangle x1="-0.8382" y1="-0.4699" x2="-0.3381" y2="0.4801" layer="51"/>
+<rectangle x1="0.3302" y1="-0.4699" x2="0.8303" y2="0.4801" layer="51"/>
+<rectangle x1="-0.1999" y1="-0.3" x2="0.1999" y2="0.3" layer="35"/>
+</package>
 </packages>
 <symbols>
 <symbol name="CAP">
@@ -4778,6 +4907,15 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <technology name=""/>
 </technologies>
 </device>
+<device name="EZ" package="CAP-PTH-SMALLEZ">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
 </devices>
 </deviceset>
 <deviceset name="RESISTOR" prefix="R" uservalue="yes">
@@ -4904,11 +5042,21 @@ Basic schematic elements and footprints for 0603, 1206, and PTH resistors.</desc
 <technology name=""/>
 </technologies>
 </device>
+<device name="EZ" package="AXIAL-0.3EZ">
+<connects>
+<connect gate="G$1" pin="1" pad="P$1"/>
+<connect gate="G$1" pin="2" pad="P$2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
 </devices>
 </deviceset>
 <deviceset name="INDUCTOR" prefix="L" uservalue="yes">
-<description>&lt;b&gt;Inductors&lt;/b&gt;
-Basic Inductor/Choke - 0603 and 1206. Footprints are not proven and vary greatly between part numbers.</description>
+<description>&lt;b&gt;Inductors&lt;/b&gt;&lt;p&gt;
+Basic Inductor/Choke - 0603 and 1206. Footprints are not proven and vary greatly between part numbers.&lt;br&gt;
+SRN6045- 33uH, 20% 1.4A</description>
 <gates>
 <gate name="G$1" symbol="INDUCTOR" x="0" y="0"/>
 </gates>
@@ -5075,6 +5223,15 @@ Basic Inductor/Choke - 0603 and 1206. Footprints are not proven and vary greatly
 <technology name=""/>
 </technologies>
 </device>
+<device name="DR1030" package="DR1030">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
 <device name="VLF4012A" package="VLF4012A">
 <connects>
 <connect gate="G$1" pin="1" pad="P$1"/>
@@ -5082,6 +5239,36 @@ Basic Inductor/Choke - 0603 and 1206. Footprints are not proven and vary greatly
 </connects>
 <technologies>
 <technology name=""/>
+</technologies>
+</device>
+<device name="AXIAL-0.6" package="AXIAL-0.6">
+<connects>
+<connect gate="G$1" pin="1" pad="P$1"/>
+<connect gate="G$1" pin="2" pad="P$2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="RLB0912" package="RLB0912">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="BOURNS_SRN6045" package="SRN6045">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="PROD_ID" value="NDUC-11627"/>
+<attribute name="VALUE" value="33uH"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -7519,8 +7706,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <smd name="3" x="0.324" y="-2.263" dx="0.4" dy="1" layer="1"/>
 <smd name="2" x="-0.326" y="-2.263" dx="0.4" dy="1" layer="1"/>
 <smd name="1" x="-0.976" y="-2.263" dx="0.4" dy="1" layer="1"/>
-<text x="-2.032" y="-2.54" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<text x="3.302" y="-2.54" size="1.27" layer="27" ratio="10" rot="R90">&gt;VALUE</text>
+<text x="2.54" y="-0.508" size="1.016" layer="25" font="vector" ratio="10" rot="R90" align="center">&gt;NAME</text>
 <rectangle x1="-1.0975" y1="1.65" x2="-0.8537" y2="2.5057" layer="51"/>
 <rectangle x1="-0.4475" y1="1.65" x2="-0.2037" y2="2.5057" layer="51"/>
 <rectangle x1="0.2025" y1="1.65" x2="0.4463" y2="2.5057" layer="51"/>
@@ -7554,8 +7740,7 @@ Source: 8x ADG1408_1409.pdf</description>
 <smd name="14" x="2.875" y="0.975" dx="0.9" dy="0.35" layer="1" rot="R180"/>
 <smd name="15" x="2.875" y="1.625" dx="0.9" dy="0.35" layer="1" rot="R180"/>
 <smd name="16" x="2.875" y="2.275" dx="0.9" dy="0.35" layer="1" rot="R180"/>
-<text x="-3.175" y="3.175" size="1.27" layer="25">&gt;NAME</text>
-<text x="-3.175" y="-4.445" size="1.27" layer="27">&gt;VALUE</text>
+<text x="-0.127" y="0.127" size="1.016" layer="25" font="vector" rot="R90" align="center">&gt;NAME</text>
 <rectangle x1="-3.2" y1="2.125" x2="-2.25" y2="2.425" layer="51"/>
 <rectangle x1="-3.2" y1="1.475" x2="-2.25" y2="1.775" layer="51"/>
 <rectangle x1="-3.2" y1="0.825" x2="-2.25" y2="1.125" layer="51"/>
@@ -9101,8 +9286,7 @@ Source: 8x ADG1408_1409.pdf</description>
 <smd name="12" x="3.575" y="-3.656" dx="0.348" dy="1.397" layer="1"/>
 <smd name="13" x="3.575" y="3.656" dx="0.348" dy="1.397" layer="1" rot="R180"/>
 <smd name="14" x="2.925" y="3.656" dx="0.348" dy="1.397" layer="1" rot="R180"/>
-<text x="-3.81" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-3.81" y="0" size="0.4064" layer="27">&gt;VALUE</text>
+<text x="5.588" y="0" size="1.016" layer="25" font="vector" rot="R270" align="center">&gt;NAME</text>
 </package>
 <package name="SSOP16">
 <description>&lt;b&gt;Description:&lt;b/&gt; This footprint is untested! Used with the BU4551B.</description>
@@ -9131,8 +9315,7 @@ Source: 8x ADG1408_1409.pdf</description>
 <wire x1="2.867" y1="-1.924" x2="-2.867" y2="-1.924" width="0.2032" layer="21"/>
 <wire x1="-2.867" y1="-1.924" x2="-2.867" y2="1.924" width="0.2032" layer="21"/>
 <circle x="-2.105" y="-1.062" radius="0.254" width="0.2032" layer="21"/>
-<text x="-1.397" y="0.381" size="0.6096" layer="27">&gt;Value</text>
-<text x="-1.397" y="-0.762" size="0.6096" layer="25">&gt;Name</text>
+<text x="-3.937" y="-0.254" size="1.016" layer="25" font="vector" rot="R90" align="center">&gt;NAME</text>
 </package>
 </packages>
 <symbols>
@@ -9389,12 +9572,12 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </class>
 </classes>
 <parts>
-<part name="U1" library="SparkFun-RF" deviceset="ELECTRIC_IMP" device=""/>
+<part name="SD" library="SparkFun-RF" deviceset="ELECTRIC_IMP" device=""/>
 <part name="P+2" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND5" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="R1" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="100k"/>
 <part name="P+3" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
-<part name="U3" library="SparkFun-DigitalIC" deviceset="ATSHA204" device="-TSU"/>
+<part name="ID" library="SparkFun-DigitalIC" deviceset="ATSHA204" device="-TSU"/>
 <part name="P+4" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND6" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="C2" library="SparkFun-Passives" deviceset="CAP" device="0805" value="22uF"/>
@@ -9402,24 +9585,24 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="GND1" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND2" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="U$1" library="SparkFun-Aesthetics" deviceset="VIN" device=""/>
-<part name="U2" library="SparkFun-PowerIC" deviceset="TPS62172" device=""/>
+<part name="CONV" library="SparkFun-PowerIC" deviceset="TPS62172" device=""/>
 <part name="GND3" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="P+1" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND4" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="C1" library="SparkFun-Passives" deviceset="CAP" device="1210" value="10uF"/>
-<part name="X1" library="SparkFun-Connectors" deviceset="USB" device="SMD"/>
+<part name="USB" library="SparkFun-Connectors" deviceset="USB" device="SMD"/>
 <part name="GND9" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND11" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="Q1" library="SparkFun-DiscreteSemi" deviceset="MOSFET-PCHANNEL" device="SMD" value="DMG2307L-7"/>
 <part name="R3" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="100k"/>
 <part name="GND10" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="JP3" library="SparkFun-Connectors" deviceset="M02" device="SMD"/>
+<part name="JP1" library="SparkFun-Connectors" deviceset="M02" device="SMD"/>
 <part name="U$5" library="SparkFun-Aesthetics" deviceset="OSHW-LOGO" device="S"/>
 <part name="JP8" library="SparkFun" deviceset="FIDUCIAL" device="UFIDUCIAL"/>
-<part name="S1" library="RHD2000" deviceset="OMNETICS_A79025" device=""/>
-<part name="U$3" library="autoimpedance" deviceset="AD5933" device=""/>
-<part name="U$4" library="autoimpedance" deviceset="AD5245" device=""/>
-<part name="U4" library="SparkFun-PowerIC" deviceset="MCP73831" device=""/>
+<part name="OMNETICS" library="RHD2000" deviceset="OMNETICS_A79025" device=""/>
+<part name="IC1" library="autoimpedance" deviceset="AD5933" device=""/>
+<part name="IC3" library="autoimpedance" deviceset="AD5245" device=""/>
+<part name="CHARGE" library="SparkFun-PowerIC" deviceset="MCP73831" device=""/>
 <part name="C3" library="SparkFun-Passives" deviceset="CAP" device="1210" value="4.7uF"/>
 <part name="GND12" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="R4" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="330"/>
@@ -9427,7 +9610,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="R5" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="2k"/>
 <part name="GND13" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND14" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="U$6" library="josh" deviceset="LM234" device=""/>
+<part name="IC2" library="josh" deviceset="LM234" device=""/>
 <part name="R6" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="4.7k"/>
 <part name="R7" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="4.7k"/>
 <part name="P+6" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
@@ -9451,8 +9634,8 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="C8" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="GND23" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="P+16" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
-<part name="U7" library="open-ephys" deviceset="LTC6904" device="LTC6904"/>
-<part name="U8" library="open-ephys" deviceset="MM74HC595" device="MM74HC595"/>
+<part name="CLK" library="open-ephys" deviceset="LTC6904" device="LTC6904"/>
+<part name="SR" library="open-ephys" deviceset="MM74HC595" device="MM74HC595"/>
 <part name="U$7" library="open-ephys" deviceset="OPEN_EPHYS_LOGO" device=""/>
 <part name="C9" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="GND24" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
@@ -9470,9 +9653,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="R10" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="10k"/>
 <part name="GND29" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND30" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="U5" library="open-ephys" deviceset="CD74HC4067-SSOP" device="CD74HC4067"/>
-<part name="U6" library="open-ephys" deviceset="CD74HC4067-SSOP" device="CD74HC4067"/>
-<part name="U$8" library="open-ephys" deviceset="BU4053BC" device=""/>
+<part name="MUX16A" library="open-ephys" deviceset="CD74HC4067-SSOP" device="CD74HC4067"/>
+<part name="MUX16B" library="open-ephys" deviceset="CD74HC4067-SSOP" device="CD74HC4067"/>
+<part name="MUX3X2" library="open-ephys" deviceset="BU4053BC" device=""/>
 <part name="GND27" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="P+20" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="P+22" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
@@ -9483,6 +9666,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="GND19" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="P+14" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="C4" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
+<part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-LETTER" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -9494,12 +9678,12 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <text x="150.622" y="6.35" size="3.048" layer="94">Electric Imp (based on their April design)</text>
 </plain>
 <instances>
-<instance part="U1" gate="G$1" x="71.12" y="30.48" rot="MR0"/>
+<instance part="SD" gate="G$1" x="71.12" y="30.48" rot="MR0"/>
 <instance part="P+2" gate="G$1" x="55.88" y="45.72" rot="MR0"/>
 <instance part="GND5" gate="1" x="55.88" y="12.7" rot="MR0"/>
 <instance part="R1" gate="G$1" x="50.8" y="38.1" rot="MR90"/>
 <instance part="P+3" gate="G$1" x="50.8" y="45.72" rot="MR0"/>
-<instance part="U3" gate="G$1" x="35.56" y="30.48" rot="MR0"/>
+<instance part="ID" gate="G$1" x="35.56" y="30.48" rot="MR0"/>
 <instance part="P+4" gate="G$1" x="22.86" y="45.72" rot="MR0"/>
 <instance part="GND6" gate="1" x="22.86" y="17.78" rot="MR0"/>
 <instance part="C2" gate="G$1" x="124.46" y="144.78"/>
@@ -9510,24 +9694,24 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="GND1" gate="1" x="71.12" y="137.16"/>
 <instance part="GND2" gate="1" x="60.96" y="137.16"/>
 <instance part="U$1" gate="G$1" x="60.96" y="157.48"/>
-<instance part="U2" gate="G$1" x="86.36" y="147.32"/>
+<instance part="CONV" gate="G$1" x="86.36" y="147.32"/>
 <instance part="GND3" gate="1" x="101.6" y="137.16"/>
 <instance part="P+1" gate="G$1" x="124.46" y="157.48"/>
 <instance part="GND4" gate="1" x="124.46" y="137.16"/>
 <instance part="C1" gate="G$1" x="60.96" y="144.78"/>
-<instance part="X1" gate="G$1" x="12.7" y="172.72" rot="MR0"/>
+<instance part="USB" gate="G$1" x="12.7" y="172.72" rot="MR0"/>
 <instance part="GND9" gate="1" x="17.78" y="167.64"/>
 <instance part="GND11" gate="1" x="22.86" y="109.22" rot="MR0"/>
 <instance part="Q1" gate="G$1" x="33.02" y="142.24" rot="R180"/>
 <instance part="R3" gate="G$1" x="43.18" y="134.62" rot="R90"/>
 <instance part="GND10" gate="1" x="43.18" y="124.46"/>
-<instance part="JP3" gate="G$1" x="10.16" y="119.38"/>
+<instance part="JP1" gate="G$1" x="10.16" y="119.38"/>
 <instance part="U$5" gate="G$1" x="132.08" y="10.16"/>
 <instance part="JP8" gate="G$1" x="243.84" y="33.02"/>
-<instance part="S1" gate="A" x="121.92" y="106.68" rot="R270"/>
-<instance part="U$3" gate="G$1" x="167.64" y="157.48"/>
-<instance part="U$4" gate="G$1" x="220.98" y="162.56"/>
-<instance part="U4" gate="G$1" x="58.42" y="172.72"/>
+<instance part="OMNETICS" gate="A" x="121.92" y="106.68" rot="R270"/>
+<instance part="IC1" gate="G$1" x="167.64" y="157.48"/>
+<instance part="IC3" gate="G$1" x="220.98" y="162.56"/>
+<instance part="CHARGE" gate="G$1" x="58.42" y="172.72"/>
 <instance part="C3" gate="G$1" x="22.86" y="167.64"/>
 <instance part="GND12" gate="1" x="22.86" y="157.48"/>
 <instance part="R4" gate="G$1" x="33.02" y="165.1" rot="R90"/>
@@ -9535,7 +9719,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="R5" gate="G$1" x="76.2" y="167.64" rot="R90"/>
 <instance part="GND13" gate="1" x="71.12" y="162.56"/>
 <instance part="GND14" gate="1" x="76.2" y="160.02"/>
-<instance part="U$6" gate="G$1" x="213.36" y="127"/>
+<instance part="IC2" gate="G$1" x="213.36" y="127"/>
 <instance part="R6" gate="G$1" x="91.44" y="45.72" rot="MR90"/>
 <instance part="R7" gate="G$1" x="101.6" y="43.18" rot="MR90"/>
 <instance part="P+6" gate="G$1" x="91.44" y="50.8" rot="MR0"/>
@@ -9559,8 +9743,8 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="C8" gate="G$1" x="132.08" y="63.5"/>
 <instance part="GND23" gate="1" x="132.08" y="55.88"/>
 <instance part="P+16" gate="G$1" x="132.08" y="71.12"/>
-<instance part="U7" gate="G$1" x="200.66" y="106.68"/>
-<instance part="U8" gate="G$1" x="162.56" y="68.58"/>
+<instance part="CLK" gate="G$1" x="200.66" y="106.68"/>
+<instance part="SR" gate="G$1" x="162.56" y="68.58"/>
 <instance part="U$7" gate="G$1" x="119.38" y="20.32"/>
 <instance part="C9" gate="G$1" x="7.62" y="83.82"/>
 <instance part="GND24" gate="1" x="7.62" y="76.2"/>
@@ -9578,9 +9762,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="R10" gate="G$1" x="134.62" y="142.24" rot="R270"/>
 <instance part="GND29" gate="1" x="134.62" y="134.62"/>
 <instance part="GND30" gate="1" x="180.34" y="99.06"/>
-<instance part="U5" gate="G$1" x="83.82" y="93.98"/>
-<instance part="U6" gate="G$1" x="152.4" y="116.84" rot="R180"/>
-<instance part="U$8" gate="G$1" x="40.64" y="83.82"/>
+<instance part="MUX16A" gate="G$1" x="83.82" y="93.98"/>
+<instance part="MUX16B" gate="G$1" x="152.4" y="116.84" rot="R180"/>
+<instance part="MUX3X2" gate="G$1" x="40.64" y="83.82"/>
 <instance part="GND27" gate="1" x="22.86" y="66.04"/>
 <instance part="P+20" gate="G$1" x="17.78" y="78.74"/>
 <instance part="P+22" gate="G$1" x="58.42" y="96.52"/>
@@ -9591,27 +9775,29 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="GND19" gate="1" x="180.34" y="124.46"/>
 <instance part="P+14" gate="G$1" x="139.7" y="99.06" rot="R180"/>
 <instance part="C4" gate="G$1" x="15.24" y="27.94"/>
+<instance part="FRAME1" gate="G$1" x="0" y="0"/>
+<instance part="FRAME1" gate="G$2" x="147.32" y="0"/>
 </instances>
 <busses>
 </busses>
 <nets>
 <net name="GND" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="GND"/>
+<pinref part="SD" gate="G$1" pin="GND"/>
 <pinref part="GND5" gate="1" pin="GND"/>
 <wire x1="58.42" y1="25.4" x2="55.88" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="25.4" x2="55.88" y2="22.86" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="S1"/>
+<pinref part="SD" gate="G$1" pin="S1"/>
 <wire x1="55.88" y1="22.86" x2="55.88" y2="20.32" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="20.32" x2="55.88" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="58.42" y1="22.86" x2="55.88" y2="22.86" width="0.1524" layer="91"/>
 <junction x="55.88" y="22.86"/>
-<pinref part="U1" gate="G$1" pin="S2"/>
+<pinref part="SD" gate="G$1" pin="S2"/>
 <wire x1="58.42" y1="20.32" x2="55.88" y2="20.32" width="0.1524" layer="91"/>
 <junction x="55.88" y="20.32"/>
 </segment>
 <segment>
-<pinref part="U3" gate="G$1" pin="GND"/>
+<pinref part="ID" gate="G$1" pin="GND"/>
 <pinref part="GND6" gate="1" pin="GND"/>
 <wire x1="27.94" y1="27.94" x2="22.86" y2="27.94" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="27.94" x2="22.86" y2="22.86" width="0.1524" layer="91"/>
@@ -9631,9 +9817,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="73.66" y1="147.32" x2="71.12" y2="147.32" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="147.32" x2="71.12" y2="144.78" width="0.1524" layer="91"/>
 <junction x="71.12" y="144.78"/>
-<pinref part="U2" gate="G$1" pin="AGND"/>
-<pinref part="U2" gate="G$1" pin="PGND"/>
-<pinref part="U2" gate="G$1" pin="PAD"/>
+<pinref part="CONV" gate="G$1" pin="AGND"/>
+<pinref part="CONV" gate="G$1" pin="PGND"/>
+<pinref part="CONV" gate="G$1" pin="PAD"/>
 </segment>
 <segment>
 <pinref part="GND2" gate="1" pin="GND"/>
@@ -9643,7 +9829,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <pinref part="GND3" gate="1" pin="GND"/>
 <wire x1="101.6" y1="144.78" x2="101.6" y2="139.7" width="0.1524" layer="91"/>
-<pinref part="U2" gate="G$1" pin="FB"/>
+<pinref part="CONV" gate="G$1" pin="FB"/>
 <wire x1="101.6" y1="144.78" x2="99.06" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 <segment>
@@ -9652,14 +9838,14 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="124.46" y1="139.7" x2="124.46" y2="142.24" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="X1" gate="G$1" pin="GND"/>
+<pinref part="USB" gate="G$1" pin="GND"/>
 <pinref part="GND9" gate="1" pin="GND"/>
 <wire x1="15.24" y1="172.72" x2="17.78" y2="172.72" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="172.72" x2="17.78" y2="170.18" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND11" gate="1" pin="GND"/>
-<pinref part="JP3" gate="G$1" pin="1"/>
+<pinref part="JP1" gate="G$1" pin="1"/>
 <wire x1="22.86" y1="119.38" x2="22.86" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="119.38" x2="22.86" y2="119.38" width="0.1524" layer="91"/>
 </segment>
@@ -9674,7 +9860,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="22.86" y1="165.1" x2="22.86" y2="160.02" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="U4" gate="G$1" pin="VSS"/>
+<pinref part="CHARGE" gate="G$1" pin="VSS"/>
 <wire x1="68.58" y1="170.18" x2="71.12" y2="170.18" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="170.18" x2="71.12" y2="165.1" width="0.1524" layer="91"/>
 <pinref part="GND13" gate="1" pin="GND"/>
@@ -9684,21 +9870,21 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="GND14" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="U$3" gate="G$1" pin="AGND2"/>
+<pinref part="IC1" gate="G$1" pin="AGND2"/>
 <wire x1="182.88" y1="162.56" x2="193.04" y2="162.56" width="0.1524" layer="91"/>
 <wire x1="193.04" y1="162.56" x2="193.04" y2="160.02" width="0.1524" layer="91"/>
-<pinref part="U$3" gate="G$1" pin="DGND"/>
+<pinref part="IC1" gate="G$1" pin="DGND"/>
 <wire x1="193.04" y1="160.02" x2="193.04" y2="157.48" width="0.1524" layer="91"/>
 <wire x1="193.04" y1="157.48" x2="193.04" y2="154.94" width="0.1524" layer="91"/>
 <wire x1="182.88" y1="157.48" x2="193.04" y2="157.48" width="0.1524" layer="91"/>
 <junction x="193.04" y="157.48"/>
-<pinref part="U$3" gate="G$1" pin="AGND1"/>
+<pinref part="IC1" gate="G$1" pin="AGND1"/>
 <wire x1="182.88" y1="160.02" x2="193.04" y2="160.02" width="0.1524" layer="91"/>
 <junction x="193.04" y="160.02"/>
 <pinref part="GND15" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="U$4" gate="G$1" pin="GND"/>
+<pinref part="IC3" gate="G$1" pin="GND"/>
 <wire x1="208.28" y1="162.56" x2="200.66" y2="162.56" width="0.1524" layer="91"/>
 <pinref part="GND16" gate="1" pin="GND"/>
 </segment>
@@ -9713,12 +9899,12 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <wire x1="152.4" y1="58.42" x2="152.4" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="GND8" gate="1" pin="GND"/>
-<pinref part="U8" gate="G$1" pin="GND"/>
+<pinref part="SR" gate="G$1" pin="GND"/>
 </segment>
 <segment>
 <wire x1="172.72" y1="68.58" x2="180.34" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="GND20" gate="1" pin="GND"/>
-<pinref part="U8" gate="G$1" pin="!G"/>
+<pinref part="SR" gate="G$1" pin="!G"/>
 </segment>
 <segment>
 <pinref part="C8" gate="G$1" pin="2"/>
@@ -9747,7 +9933,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <pinref part="R10" gate="G$1" pin="2"/>
 <pinref part="GND29" gate="1" pin="GND"/>
-<pinref part="U6" gate="G$1" pin="!E"/>
+<pinref part="MUX16B" gate="G$1" pin="!E"/>
 <wire x1="142.24" y1="127" x2="137.16" y2="127" width="0.1524" layer="91"/>
 <wire x1="137.16" y1="127" x2="137.16" y2="132.08" width="0.1524" layer="91"/>
 <wire x1="137.16" y1="132.08" x2="129.54" y2="132.08" width="0.1524" layer="91"/>
@@ -9756,19 +9942,19 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <junction x="134.62" y="137.16"/>
 </segment>
 <segment>
-<pinref part="U7" gate="G$1" pin="ADR"/>
+<pinref part="CLK" gate="G$1" pin="ADR"/>
 <wire x1="190.5" y1="104.14" x2="180.34" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="180.34" y1="104.14" x2="180.34" y2="101.6" width="0.1524" layer="91"/>
-<pinref part="U7" gate="G$1" pin="GND"/>
+<pinref part="CLK" gate="G$1" pin="GND"/>
 <wire x1="190.5" y1="111.76" x2="180.34" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="180.34" y1="111.76" x2="180.34" y2="104.14" width="0.1524" layer="91"/>
 <junction x="180.34" y="104.14"/>
 <pinref part="GND30" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="INHIBIT"/>
+<pinref part="MUX3X2" gate="G$1" pin="INHIBIT"/>
 <wire x1="30.48" y1="78.74" x2="22.86" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="U$8" gate="G$1" pin="VSS"/>
+<pinref part="MUX3X2" gate="G$1" pin="VSS"/>
 <wire x1="30.48" y1="73.66" x2="22.86" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="73.66" x2="22.86" y2="68.58" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="78.74" x2="22.86" y2="73.66" width="0.1524" layer="91"/>
@@ -9776,24 +9962,24 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="GND27" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="Z1"/>
+<pinref part="MUX3X2" gate="G$1" pin="Z1"/>
 <wire x1="30.48" y1="86.36" x2="22.86" y2="86.36" width="0.1524" layer="91"/>
 <label x="22.86" y="86.36" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="!E"/>
+<pinref part="MUX16A" gate="G$1" pin="!E"/>
 <wire x1="93.98" y1="83.82" x2="101.6" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="83.82" x2="101.6" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="GND31" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="GND"/>
+<pinref part="MUX16A" gate="G$1" pin="GND"/>
 <wire x1="73.66" y1="78.74" x2="71.12" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="78.74" x2="71.12" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="GND32" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="GND"/>
+<pinref part="MUX16B" gate="G$1" pin="GND"/>
 <wire x1="162.56" y1="132.08" x2="180.34" y2="132.08" width="0.1524" layer="91"/>
 <wire x1="180.34" y1="132.08" x2="180.34" y2="127" width="0.1524" layer="91"/>
 <pinref part="GND19" gate="1" pin="GND"/>
@@ -9801,7 +9987,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="3.3V" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="VDD"/>
+<pinref part="SD" gate="G$1" pin="VDD"/>
 <pinref part="P+2" gate="G$1" pin="3.3V"/>
 <wire x1="58.42" y1="40.64" x2="55.88" y2="40.64" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="40.64" x2="55.88" y2="45.72" width="0.1524" layer="91"/>
@@ -9812,7 +9998,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="50.8" y1="45.72" x2="50.8" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="U3" gate="G$1" pin="VCC"/>
+<pinref part="ID" gate="G$1" pin="VCC"/>
 <pinref part="P+4" gate="G$1" pin="3.3V"/>
 <wire x1="27.94" y1="33.02" x2="22.86" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="33.02" x2="22.86" y2="38.1" width="0.1524" layer="91"/>
@@ -9833,7 +10019,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="C2" gate="G$1" pin="1"/>
 <wire x1="124.46" y1="149.86" x2="124.46" y2="152.4" width="0.1524" layer="91"/>
 <junction x="124.46" y="152.4"/>
-<pinref part="U2" gate="G$1" pin="VOS"/>
+<pinref part="CONV" gate="G$1" pin="VOS"/>
 <wire x1="99.06" y1="149.86" x2="119.38" y2="149.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
@@ -9845,21 +10031,21 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="P+7" gate="G$1" pin="3.3V"/>
 </segment>
 <segment>
-<pinref part="U$3" gate="G$1" pin="AVDD2"/>
+<pinref part="IC1" gate="G$1" pin="AVDD2"/>
 <wire x1="182.88" y1="152.4" x2="187.96" y2="152.4" width="0.1524" layer="91"/>
 <wire x1="187.96" y1="152.4" x2="187.96" y2="149.86" width="0.1524" layer="91"/>
-<pinref part="U$3" gate="G$1" pin="AVDD1"/>
+<pinref part="IC1" gate="G$1" pin="AVDD1"/>
 <wire x1="187.96" y1="149.86" x2="187.96" y2="147.32" width="0.1524" layer="91"/>
 <wire x1="187.96" y1="147.32" x2="187.96" y2="144.78" width="0.1524" layer="91"/>
 <wire x1="182.88" y1="149.86" x2="187.96" y2="149.86" width="0.1524" layer="91"/>
 <junction x="187.96" y="149.86"/>
-<pinref part="U$3" gate="G$1" pin="DVDD"/>
+<pinref part="IC1" gate="G$1" pin="DVDD"/>
 <wire x1="182.88" y1="147.32" x2="187.96" y2="147.32" width="0.1524" layer="91"/>
 <junction x="187.96" y="147.32"/>
 <pinref part="P+8" gate="G$1" pin="3.3V"/>
 </segment>
 <segment>
-<pinref part="U$4" gate="G$1" pin="VDD"/>
+<pinref part="IC3" gate="G$1" pin="VDD"/>
 <wire x1="208.28" y1="165.1" x2="205.74" y2="165.1" width="0.1524" layer="91"/>
 <pinref part="P+9" gate="G$1" pin="3.3V"/>
 </segment>
@@ -9872,7 +10058,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="P+11" gate="G$1" pin="3.3V"/>
 </segment>
 <segment>
-<pinref part="U$4" gate="G$1" pin="AD0"/>
+<pinref part="IC3" gate="G$1" pin="AD0"/>
 <wire x1="233.68" y1="162.56" x2="238.76" y2="162.56" width="0.1524" layer="91"/>
 <pinref part="P+12" gate="G$1" pin="3.3V"/>
 </segment>
@@ -9900,29 +10086,29 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <pinref part="C7" gate="G$1" pin="1"/>
 <pinref part="P+21" gate="G$1" pin="3.3V"/>
-<pinref part="U7" gate="G$1" pin="OE"/>
+<pinref part="CLK" gate="G$1" pin="OE"/>
 <wire x1="210.82" y1="109.22" x2="213.36" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="213.36" y1="109.22" x2="213.36" y2="111.76" width="0.1524" layer="91"/>
-<pinref part="U7" gate="G$1" pin="V+"/>
+<pinref part="CLK" gate="G$1" pin="V+"/>
 <wire x1="213.36" y1="111.76" x2="210.82" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="213.36" y1="111.76" x2="226.06" y2="111.76" width="0.1524" layer="91"/>
 <junction x="213.36" y="111.76"/>
 <junction x="226.06" y="111.76"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="VEE"/>
+<pinref part="MUX3X2" gate="G$1" pin="VEE"/>
 <wire x1="30.48" y1="76.2" x2="17.78" y2="76.2" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="76.2" x2="17.78" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="P+20" gate="G$1" pin="3.3V"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="VDD"/>
+<pinref part="MUX3X2" gate="G$1" pin="VDD"/>
 <wire x1="50.8" y1="91.44" x2="58.42" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="58.42" y1="91.44" x2="58.42" y2="96.52" width="0.1524" layer="91"/>
 <pinref part="P+22" gate="G$1" pin="3.3V"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="VCC"/>
+<pinref part="MUX16A" gate="G$1" pin="VCC"/>
 <wire x1="93.98" y1="106.68" x2="101.6" y2="106.68" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="106.68" x2="101.6" y2="111.76" width="0.1524" layer="91"/>
 <pinref part="P+23" gate="G$1" pin="3.3V"/>
@@ -9931,8 +10117,8 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="172.72" y1="76.2" x2="187.96" y2="76.2" width="0.1524" layer="91"/>
 <wire x1="187.96" y1="76.2" x2="187.96" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="187.96" y1="60.96" x2="172.72" y2="60.96" width="0.1524" layer="91"/>
-<pinref part="U8" gate="G$1" pin="!SCLR"/>
-<pinref part="U8" gate="G$1" pin="VCC"/>
+<pinref part="SR" gate="G$1" pin="!SCLR"/>
+<pinref part="SR" gate="G$1" pin="VCC"/>
 <pinref part="P+5" gate="G$1" pin="3.3V"/>
 <junction x="187.96" y="76.2"/>
 </segment>
@@ -9942,7 +10128,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="172.72" y1="116.84" x2="172.72" y2="114.3" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="VCC"/>
+<pinref part="MUX16B" gate="G$1" pin="VCC"/>
 <wire x1="142.24" y1="104.14" x2="139.7" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="104.14" x2="139.7" y2="99.06" width="0.1524" layer="91"/>
 <pinref part="P+14" gate="G$1" pin="3.3V"/>
@@ -9950,13 +10136,13 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="ID" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="ID"/>
+<pinref part="SD" gate="G$1" pin="ID"/>
 <wire x1="58.42" y1="30.48" x2="50.8" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="R1" gate="G$1" pin="1"/>
 <wire x1="50.8" y1="30.48" x2="50.8" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="50.8" y1="30.48" x2="45.72" y2="30.48" width="0.1524" layer="91"/>
 <junction x="50.8" y="30.48"/>
-<pinref part="U3" gate="G$1" pin="SDA"/>
+<pinref part="ID" gate="G$1" pin="SDA"/>
 </segment>
 </net>
 <net name="VIN" class="0">
@@ -9970,8 +10156,8 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="73.66" y1="149.86" x2="71.12" y2="149.86" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="149.86" x2="71.12" y2="152.4" width="0.1524" layer="91"/>
 <junction x="71.12" y="152.4"/>
-<pinref part="U2" gate="G$1" pin="VIN"/>
-<pinref part="U2" gate="G$1" pin="EN"/>
+<pinref part="CONV" gate="G$1" pin="VIN"/>
+<pinref part="CONV" gate="G$1" pin="EN"/>
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="33.02" y1="152.4" x2="60.96" y2="152.4" width="0.1524" layer="91"/>
 <label x="33.02" y="152.4" size="1.778" layer="95"/>
@@ -9981,14 +10167,14 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="PIN9" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="9(DAT2)"/>
+<pinref part="SD" gate="G$1" pin="9(DAT2)"/>
 <wire x1="83.82" y1="27.94" x2="88.9" y2="27.94" width="0.1524" layer="91"/>
 <label x="83.82" y="27.94" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CD" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="CD"/>
+<pinref part="SD" gate="G$1" pin="CD"/>
 <wire x1="83.82" y1="22.86" x2="88.9" y2="22.86" width="0.1524" layer="91"/>
 <label x="83.82" y="22.86" size="1.778" layer="95"/>
 <pinref part="R9" gate="G$1" pin="2"/>
@@ -9996,7 +10182,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="U2" gate="G$1" pin="SW"/>
+<pinref part="CONV" gate="G$1" pin="SW"/>
 <pinref part="L1" gate="G$1" pin="1"/>
 <wire x1="99.06" y1="152.4" x2="101.6" y2="152.4" width="0.1524" layer="91"/>
 </segment>
@@ -10004,12 +10190,12 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <net name="VUSB" class="0">
 <segment>
 <label x="22.86" y="175.26" size="1.778" layer="95"/>
-<pinref part="U4" gate="G$1" pin="VIN"/>
+<pinref part="CHARGE" gate="G$1" pin="VIN"/>
 <wire x1="27.94" y1="175.26" x2="48.26" y2="175.26" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="175.26" x2="27.94" y2="160.02" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="160.02" x2="33.02" y2="160.02" width="0.1524" layer="91"/>
 <pinref part="R4" gate="G$1" pin="1"/>
-<pinref part="X1" gate="G$1" pin="VBUS"/>
+<pinref part="USB" gate="G$1" pin="VBUS"/>
 <wire x1="15.24" y1="175.26" x2="22.86" y2="175.26" width="0.1524" layer="91"/>
 <junction x="27.94" y="175.26"/>
 <pinref part="C3" gate="G$1" pin="1"/>
@@ -10029,7 +10215,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <net name="VBAT" class="0">
 <segment>
 <pinref part="Q1" gate="G$1" pin="D"/>
-<pinref part="JP3" gate="G$1" pin="2"/>
+<pinref part="JP1" gate="G$1" pin="2"/>
 <wire x1="20.32" y1="134.62" x2="33.02" y2="134.62" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="134.62" x2="33.02" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="121.92" x2="20.32" y2="121.92" width="0.1524" layer="91"/>
@@ -10037,34 +10223,34 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <label x="22.86" y="134.62" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U4" gate="G$1" pin="VBAT"/>
+<pinref part="CHARGE" gate="G$1" pin="VBAT"/>
 <wire x1="68.58" y1="175.26" x2="78.74" y2="175.26" width="0.1524" layer="91"/>
 <label x="73.66" y="175.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="EIB_GND" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T1"/>
+<pinref part="OMNETICS" gate="A" pin="T1"/>
 <wire x1="114.3" y1="127" x2="109.22" y2="127" width="0.1524" layer="91"/>
 <label x="101.6" y="127" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="S1" gate="A" pin="B1"/>
+<pinref part="OMNETICS" gate="A" pin="B1"/>
 <wire x1="129.54" y1="127" x2="134.62" y2="127" width="0.1524" layer="91"/>
 <label x="132.08" y="127" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="S1" gate="A" pin="B18"/>
+<pinref part="OMNETICS" gate="A" pin="B18"/>
 <wire x1="129.54" y1="83.82" x2="137.16" y2="83.82" width="0.1524" layer="91"/>
 <label x="132.08" y="83.82" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="S1" gate="A" pin="T18"/>
+<pinref part="OMNETICS" gate="A" pin="T18"/>
 <wire x1="114.3" y1="83.82" x2="104.14" y2="83.82" width="0.1524" layer="91"/>
 <label x="104.14" y="83.82" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="Z"/>
+<pinref part="MUX3X2" gate="G$1" pin="Z"/>
 <wire x1="30.48" y1="83.82" x2="22.86" y2="83.82" width="0.1524" layer="91"/>
 <label x="22.86" y="83.82" size="1.778" layer="95"/>
 </segment>
@@ -10078,67 +10264,67 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="N$9" class="0">
 <segment>
-<pinref part="U4" gate="G$1" pin="STAT"/>
+<pinref part="CHARGE" gate="G$1" pin="STAT"/>
 <wire x1="45.72" y1="170.18" x2="48.26" y2="170.18" width="0.1524" layer="91"/>
 <pinref part="D1" gate="G$1" pin="C"/>
 </segment>
 </net>
 <net name="N$6" class="0">
 <segment>
-<pinref part="U4" gate="G$1" pin="PROG"/>
+<pinref part="CHARGE" gate="G$1" pin="PROG"/>
 <wire x1="68.58" y1="172.72" x2="76.2" y2="172.72" width="0.1524" layer="91"/>
 <pinref part="R5" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="SCL" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="1(DAT3)"/>
+<pinref part="SD" gate="G$1" pin="1(DAT3)"/>
 <label x="83.82" y="40.64" size="1.778" layer="95"/>
 <wire x1="83.82" y1="40.64" x2="91.44" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="R6" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<pinref part="U$3" gate="G$1" pin="SCL"/>
+<pinref part="IC1" gate="G$1" pin="SCL"/>
 <wire x1="182.88" y1="170.18" x2="193.04" y2="170.18" width="0.1524" layer="91"/>
 <label x="185.42" y="170.18" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$4" gate="G$1" pin="SCL"/>
+<pinref part="IC3" gate="G$1" pin="SCL"/>
 <wire x1="208.28" y1="160.02" x2="200.66" y2="160.02" width="0.1524" layer="91"/>
 <label x="200.66" y="160.02" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U7" gate="G$1" pin="SCK"/>
+<pinref part="CLK" gate="G$1" pin="SCK"/>
 <wire x1="190.5" y1="106.68" x2="182.88" y2="106.68" width="0.1524" layer="91"/>
 <label x="182.88" y="106.68" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SDA" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="2(CMD)"/>
+<pinref part="SD" gate="G$1" pin="2(CMD)"/>
 <label x="83.82" y="38.1" size="1.778" layer="95"/>
 <wire x1="83.82" y1="38.1" x2="101.6" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<pinref part="U$3" gate="G$1" pin="SDA"/>
+<pinref part="IC1" gate="G$1" pin="SDA"/>
 <wire x1="182.88" y1="167.64" x2="193.04" y2="167.64" width="0.1524" layer="91"/>
 <label x="185.42" y="167.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$4" gate="G$1" pin="SDA"/>
+<pinref part="IC3" gate="G$1" pin="SDA"/>
 <wire x1="233.68" y1="160.02" x2="238.76" y2="160.02" width="0.1524" layer="91"/>
 <label x="233.68" y="160.02" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U7" gate="G$1" pin="SDI"/>
+<pinref part="CLK" gate="G$1" pin="SDI"/>
 <wire x1="190.5" y1="109.22" x2="182.88" y2="109.22" width="0.1524" layer="91"/>
 <label x="182.88" y="109.22" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="TEST_IN" class="0">
 <segment>
-<pinref part="U$3" gate="G$1" pin="VIN"/>
+<pinref part="IC1" gate="G$1" pin="VIN"/>
 <wire x1="152.4" y1="154.94" x2="139.7" y2="154.94" width="0.1524" layer="91"/>
 <label x="142.24" y="154.94" size="1.778" layer="95"/>
 <pinref part="R8" gate="G$1" pin="2"/>
@@ -10147,26 +10333,26 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <junction x="139.7" y="154.94"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="Z0"/>
+<pinref part="MUX3X2" gate="G$1" pin="Z0"/>
 <wire x1="30.48" y1="81.28" x2="22.86" y2="81.28" width="0.1524" layer="91"/>
 <label x="22.86" y="81.28" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="TEST_OUT" class="0">
 <segment>
-<pinref part="U$3" gate="G$1" pin="VOUT"/>
+<pinref part="IC1" gate="G$1" pin="VOUT"/>
 <wire x1="152.4" y1="152.4" x2="142.24" y2="152.4" width="0.1524" layer="91"/>
 <label x="142.24" y="152.4" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="Y0"/>
+<pinref part="MUX3X2" gate="G$1" pin="Y0"/>
 <wire x1="30.48" y1="88.9" x2="22.86" y2="88.9" width="0.1524" layer="91"/>
 <label x="20.32" y="88.9" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CLOCK" class="0">
 <segment>
-<pinref part="U$3" gate="G$1" pin="MCLK"/>
+<pinref part="IC1" gate="G$1" pin="MCLK"/>
 <wire x1="152.4" y1="147.32" x2="147.32" y2="147.32" width="0.1524" layer="91"/>
 <label x="142.24" y="147.32" size="1.778" layer="95"/>
 <wire x1="147.32" y1="147.32" x2="142.24" y2="147.32" width="0.1524" layer="91"/>
@@ -10182,41 +10368,41 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="LM234EN" class="0">
 <segment>
-<pinref part="U$6" gate="G$1" pin="V+"/>
+<pinref part="IC2" gate="G$1" pin="V+"/>
 <wire x1="213.36" y1="144.78" x2="205.74" y2="144.78" width="0.1524" layer="91"/>
 <label x="203.2" y="144.78" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="60.96" x2="147.32" y2="60.96" width="0.1524" layer="91"/>
 <label x="144.78" y="60.96" size="1.778" layer="95"/>
-<pinref part="U8" gate="G$1" pin="QH"/>
+<pinref part="SR" gate="G$1" pin="QH"/>
 </segment>
 </net>
 <net name="W" class="0">
 <segment>
-<pinref part="U$4" gate="G$1" pin="W"/>
+<pinref part="IC3" gate="G$1" pin="W"/>
 <wire x1="208.28" y1="167.64" x2="205.74" y2="167.64" width="0.1524" layer="91"/>
 <label x="203.2" y="167.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$6" gate="G$1" pin="R"/>
+<pinref part="IC2" gate="G$1" pin="R"/>
 <wire x1="213.36" y1="142.24" x2="205.74" y2="142.24" width="0.1524" layer="91"/>
 <label x="205.74" y="142.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CURRENT_SOURCE" class="0">
 <segment>
-<pinref part="U$4" gate="G$1" pin="A"/>
+<pinref part="IC3" gate="G$1" pin="A"/>
 <wire x1="233.68" y1="167.64" x2="238.76" y2="167.64" width="0.1524" layer="91"/>
 <label x="233.68" y="167.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$6" gate="G$1" pin="V-2"/>
+<pinref part="IC2" gate="G$1" pin="V-2"/>
 <wire x1="213.36" y1="137.16" x2="205.74" y2="137.16" width="0.1524" layer="91"/>
 <label x="205.74" y="137.16" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U$8" gate="G$1" pin="Y1"/>
+<pinref part="MUX3X2" gate="G$1" pin="Y1"/>
 <wire x1="30.48" y1="91.44" x2="22.86" y2="91.44" width="0.1524" layer="91"/>
 <label x="12.7" y="91.44" size="1.778" layer="95"/>
 </segment>
@@ -10225,7 +10411,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <pinref part="R8" gate="G$1" pin="1"/>
 <wire x1="149.86" y1="160.02" x2="149.86" y2="157.48" width="0.1524" layer="91"/>
-<pinref part="U$3" gate="G$1" pin="RFB"/>
+<pinref part="IC1" gate="G$1" pin="RFB"/>
 <wire x1="149.86" y1="157.48" x2="152.4" y2="157.48" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -10233,10 +10419,10 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <wire x1="172.72" y1="66.04" x2="180.34" y2="66.04" width="0.1524" layer="91"/>
 <label x="177.8" y="66.04" size="1.778" layer="95" rot="R180"/>
-<pinref part="U8" gate="G$1" pin="RCK"/>
+<pinref part="SR" gate="G$1" pin="RCK"/>
 </segment>
 <segment>
-<pinref part="U1" gate="G$1" pin="8(DAT1)"/>
+<pinref part="SD" gate="G$1" pin="8(DAT1)"/>
 <wire x1="83.82" y1="30.48" x2="88.9" y2="30.48" width="0.1524" layer="91"/>
 <label x="83.82" y="30.48" size="1.778" layer="95"/>
 </segment>
@@ -10245,10 +10431,10 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <wire x1="172.72" y1="63.5" x2="180.34" y2="63.5" width="0.1524" layer="91"/>
 <label x="177.8" y="63.5" size="1.778" layer="95" rot="R180"/>
-<pinref part="U8" gate="G$1" pin="SCK"/>
+<pinref part="SR" gate="G$1" pin="SCK"/>
 </segment>
 <segment>
-<pinref part="U1" gate="G$1" pin="5(CLK)"/>
+<pinref part="SD" gate="G$1" pin="5(CLK)"/>
 <wire x1="83.82" y1="35.56" x2="88.9" y2="35.56" width="0.1524" layer="91"/>
 <label x="83.82" y="35.56" size="1.778" layer="95"/>
 </segment>
@@ -10257,17 +10443,17 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <wire x1="172.72" y1="71.12" x2="180.34" y2="71.12" width="0.1524" layer="91"/>
 <label x="177.8" y="71.12" size="1.778" layer="95" rot="R180"/>
-<pinref part="U8" gate="G$1" pin="SER"/>
+<pinref part="SR" gate="G$1" pin="SER"/>
 </segment>
 <segment>
-<pinref part="U1" gate="G$1" pin="7(DAT0)"/>
+<pinref part="SD" gate="G$1" pin="7(DAT0)"/>
 <wire x1="83.82" y1="33.02" x2="88.9" y2="33.02" width="0.1524" layer="91"/>
 <label x="83.82" y="33.02" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$25" class="0">
 <segment>
-<pinref part="U7" gate="G$1" pin="CLK"/>
+<pinref part="CLK" gate="G$1" pin="CLK"/>
 <wire x1="210.82" y1="106.68" x2="215.9" y2="106.68" width="0.1524" layer="91"/>
 <wire x1="215.9" y1="106.68" x2="215.9" y2="119.38" width="0.1524" layer="91"/>
 <pinref part="R2" gate="G$1" pin="1"/>
@@ -10276,48 +10462,48 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="MUX2_C" class="0">
 <segment>
-<pinref part="U$8" gate="G$1" pin="C"/>
+<pinref part="MUX3X2" gate="G$1" pin="C"/>
 <wire x1="50.8" y1="73.66" x2="58.42" y2="73.66" width="0.1524" layer="91"/>
 <label x="53.34" y="73.66" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="63.5" x2="147.32" y2="63.5" width="0.1524" layer="91"/>
 <label x="142.24" y="63.5" size="1.778" layer="95"/>
-<pinref part="U8" gate="G$1" pin="QG"/>
+<pinref part="SR" gate="G$1" pin="QG"/>
 </segment>
 </net>
 <net name="MUX2_B" class="0">
 <segment>
-<pinref part="U$8" gate="G$1" pin="B"/>
+<pinref part="MUX3X2" gate="G$1" pin="B"/>
 <wire x1="50.8" y1="76.2" x2="58.42" y2="76.2" width="0.1524" layer="91"/>
 <label x="53.34" y="76.2" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="66.04" x2="147.32" y2="66.04" width="0.1524" layer="91"/>
 <label x="142.24" y="66.04" size="1.778" layer="95"/>
-<pinref part="U8" gate="G$1" pin="QF"/>
+<pinref part="SR" gate="G$1" pin="QF"/>
 </segment>
 </net>
 <net name="MUX2_A" class="0">
 <segment>
-<pinref part="U$8" gate="G$1" pin="A"/>
+<pinref part="MUX3X2" gate="G$1" pin="A"/>
 <wire x1="50.8" y1="78.74" x2="58.42" y2="78.74" width="0.1524" layer="91"/>
 <label x="53.34" y="78.74" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="68.58" x2="147.32" y2="68.58" width="0.1524" layer="91"/>
 <label x="142.24" y="68.58" size="1.778" layer="95"/>
-<pinref part="U8" gate="G$1" pin="QE"/>
+<pinref part="SR" gate="G$1" pin="QE"/>
 </segment>
 </net>
 <net name="MUX2OUT_0" class="0">
 <segment>
-<pinref part="U$8" gate="G$1" pin="X0"/>
+<pinref part="MUX3X2" gate="G$1" pin="X0"/>
 <wire x1="50.8" y1="81.28" x2="66.04" y2="81.28" width="0.1524" layer="91"/>
 <label x="53.34" y="81.28" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="CIO"/>
+<pinref part="MUX16B" gate="G$1" pin="CIO"/>
 <wire x1="162.56" y1="104.14" x2="165.1" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="165.1" y1="104.14" x2="165.1" y2="99.06" width="0.1524" layer="91"/>
 <label x="157.48" y="96.52" size="1.778" layer="95"/>
@@ -10325,467 +10511,467 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="MUX2OUT_1" class="0">
 <segment>
-<pinref part="U$8" gate="G$1" pin="X1"/>
+<pinref part="MUX3X2" gate="G$1" pin="X1"/>
 <label x="53.34" y="83.82" size="1.778" layer="95"/>
 <wire x1="50.8" y1="83.82" x2="66.04" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="83.82" x2="66.04" y2="106.68" width="0.1524" layer="91"/>
-<pinref part="U5" gate="G$1" pin="CIO"/>
+<pinref part="MUX16A" gate="G$1" pin="CIO"/>
 <wire x1="66.04" y1="106.68" x2="73.66" y2="106.68" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$39" class="0">
 <segment>
-<pinref part="U$8" gate="G$1" pin="X"/>
+<pinref part="MUX3X2" gate="G$1" pin="X"/>
 <wire x1="50.8" y1="86.36" x2="53.34" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="53.34" y1="86.36" x2="53.34" y2="88.9" width="0.1524" layer="91"/>
-<pinref part="U$8" gate="G$1" pin="Y"/>
+<pinref part="MUX3X2" gate="G$1" pin="Y"/>
 <wire x1="50.8" y1="88.9" x2="53.34" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="T9" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T9"/>
+<pinref part="OMNETICS" gate="A" pin="T9"/>
 <wire x1="114.3" y1="106.68" x2="109.22" y2="106.68" width="0.1524" layer="91"/>
 <label x="109.22" y="106.68" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I0"/>
+<pinref part="MUX16B" gate="G$1" pin="I0"/>
 <wire x1="162.56" y1="124.46" x2="167.64" y2="124.46" width="0.1524" layer="91"/>
 <label x="165.1" y="124.46" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T8" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T8"/>
+<pinref part="OMNETICS" gate="A" pin="T8"/>
 <wire x1="114.3" y1="109.22" x2="109.22" y2="109.22" width="0.1524" layer="91"/>
 <label x="109.22" y="109.22" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I1"/>
+<pinref part="MUX16B" gate="G$1" pin="I1"/>
 <wire x1="162.56" y1="121.92" x2="167.64" y2="121.92" width="0.1524" layer="91"/>
 <label x="165.1" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T7" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T7"/>
+<pinref part="OMNETICS" gate="A" pin="T7"/>
 <wire x1="114.3" y1="111.76" x2="109.22" y2="111.76" width="0.1524" layer="91"/>
 <label x="109.22" y="111.76" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I2"/>
+<pinref part="MUX16B" gate="G$1" pin="I2"/>
 <wire x1="162.56" y1="119.38" x2="167.64" y2="119.38" width="0.1524" layer="91"/>
 <label x="165.1" y="119.38" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T6" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T6"/>
+<pinref part="OMNETICS" gate="A" pin="T6"/>
 <wire x1="114.3" y1="114.3" x2="109.22" y2="114.3" width="0.1524" layer="91"/>
 <label x="109.22" y="114.3" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I3"/>
+<pinref part="MUX16B" gate="G$1" pin="I3"/>
 <wire x1="162.56" y1="116.84" x2="167.64" y2="116.84" width="0.1524" layer="91"/>
 <label x="165.1" y="116.84" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T5" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T5"/>
+<pinref part="OMNETICS" gate="A" pin="T5"/>
 <wire x1="114.3" y1="116.84" x2="109.22" y2="116.84" width="0.1524" layer="91"/>
 <label x="109.22" y="116.84" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I4"/>
+<pinref part="MUX16B" gate="G$1" pin="I4"/>
 <wire x1="162.56" y1="114.3" x2="167.64" y2="114.3" width="0.1524" layer="91"/>
 <label x="165.1" y="114.3" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T4" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T4"/>
+<pinref part="OMNETICS" gate="A" pin="T4"/>
 <wire x1="114.3" y1="119.38" x2="109.22" y2="119.38" width="0.1524" layer="91"/>
 <label x="109.22" y="119.38" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I5"/>
+<pinref part="MUX16B" gate="G$1" pin="I5"/>
 <wire x1="162.56" y1="111.76" x2="167.64" y2="111.76" width="0.1524" layer="91"/>
 <label x="165.1" y="111.76" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T3" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T3"/>
+<pinref part="OMNETICS" gate="A" pin="T3"/>
 <wire x1="114.3" y1="121.92" x2="109.22" y2="121.92" width="0.1524" layer="91"/>
 <label x="109.22" y="121.92" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I6"/>
+<pinref part="MUX16B" gate="G$1" pin="I6"/>
 <wire x1="162.56" y1="109.22" x2="167.64" y2="109.22" width="0.1524" layer="91"/>
 <label x="165.1" y="109.22" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T2" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T2"/>
+<pinref part="OMNETICS" gate="A" pin="T2"/>
 <wire x1="114.3" y1="124.46" x2="109.22" y2="124.46" width="0.1524" layer="91"/>
 <label x="109.22" y="124.46" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I7"/>
+<pinref part="MUX16B" gate="G$1" pin="I7"/>
 <wire x1="162.56" y1="106.68" x2="167.64" y2="106.68" width="0.1524" layer="91"/>
 <label x="165.1" y="106.68" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="MUX16_0" class="0">
 <segment>
-<pinref part="U5" gate="G$1" pin="S0"/>
+<pinref part="MUX16A" gate="G$1" pin="S0"/>
 <wire x1="73.66" y1="83.82" x2="68.58" y2="83.82" width="0.1524" layer="91"/>
 <label x="68.58" y="83.82" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="172.72" y1="73.66" x2="180.34" y2="73.66" width="0.1524" layer="91"/>
 <label x="182.88" y="73.66" size="1.778" layer="95" rot="R180"/>
-<pinref part="U8" gate="G$1" pin="QA"/>
+<pinref part="SR" gate="G$1" pin="QA"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="S0"/>
+<pinref part="MUX16B" gate="G$1" pin="S0"/>
 <wire x1="162.56" y1="127" x2="167.64" y2="127" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="MUX16_1" class="0">
 <segment>
-<pinref part="U5" gate="G$1" pin="S1"/>
+<pinref part="MUX16A" gate="G$1" pin="S1"/>
 <wire x1="73.66" y1="81.28" x2="68.58" y2="81.28" width="0.1524" layer="91"/>
 <label x="68.58" y="81.28" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="76.2" x2="147.32" y2="76.2" width="0.1524" layer="91"/>
 <label x="142.24" y="76.2" size="1.778" layer="95"/>
-<pinref part="U8" gate="G$1" pin="QB"/>
+<pinref part="SR" gate="G$1" pin="QB"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="S1"/>
+<pinref part="MUX16B" gate="G$1" pin="S1"/>
 <wire x1="162.56" y1="129.54" x2="167.64" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="MUX16_2" class="0">
 <segment>
-<pinref part="U5" gate="G$1" pin="S2"/>
+<pinref part="MUX16A" gate="G$1" pin="S2"/>
 <wire x1="93.98" y1="81.28" x2="96.52" y2="81.28" width="0.1524" layer="91"/>
 <label x="93.98" y="81.28" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="73.66" x2="147.32" y2="73.66" width="0.1524" layer="91"/>
 <label x="142.24" y="73.66" size="1.778" layer="95"/>
-<pinref part="U8" gate="G$1" pin="QC"/>
+<pinref part="SR" gate="G$1" pin="QC"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="S2"/>
+<pinref part="MUX16B" gate="G$1" pin="S2"/>
 <wire x1="142.24" y1="129.54" x2="139.7" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="MUX16_3" class="0">
 <segment>
-<pinref part="U5" gate="G$1" pin="S3"/>
+<pinref part="MUX16A" gate="G$1" pin="S3"/>
 <wire x1="93.98" y1="78.74" x2="96.52" y2="78.74" width="0.1524" layer="91"/>
 <label x="93.98" y="78.74" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="71.12" x2="147.32" y2="71.12" width="0.1524" layer="91"/>
 <label x="142.24" y="71.12" size="1.778" layer="95"/>
-<pinref part="U8" gate="G$1" pin="QD"/>
+<pinref part="SR" gate="G$1" pin="QD"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="S3"/>
+<pinref part="MUX16B" gate="G$1" pin="S3"/>
 <wire x1="142.24" y1="132.08" x2="139.7" y2="132.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="B10" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B10"/>
+<pinref part="OMNETICS" gate="A" pin="B10"/>
 <wire x1="129.54" y1="104.14" x2="134.62" y2="104.14" width="0.1524" layer="91"/>
 <label x="132.08" y="104.14" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I0"/>
+<pinref part="MUX16A" gate="G$1" pin="I0"/>
 <wire x1="73.66" y1="86.36" x2="68.58" y2="86.36" width="0.1524" layer="91"/>
 <label x="68.58" y="86.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B11" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B11"/>
+<pinref part="OMNETICS" gate="A" pin="B11"/>
 <wire x1="129.54" y1="101.6" x2="134.62" y2="101.6" width="0.1524" layer="91"/>
 <label x="132.08" y="101.6" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I1"/>
+<pinref part="MUX16A" gate="G$1" pin="I1"/>
 <wire x1="73.66" y1="88.9" x2="68.58" y2="88.9" width="0.1524" layer="91"/>
 <label x="68.58" y="88.9" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B12" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B12"/>
+<pinref part="OMNETICS" gate="A" pin="B12"/>
 <wire x1="129.54" y1="99.06" x2="134.62" y2="99.06" width="0.1524" layer="91"/>
 <label x="132.08" y="99.06" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I2"/>
+<pinref part="MUX16A" gate="G$1" pin="I2"/>
 <wire x1="73.66" y1="91.44" x2="68.58" y2="91.44" width="0.1524" layer="91"/>
 <label x="68.58" y="91.44" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B13" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B13"/>
+<pinref part="OMNETICS" gate="A" pin="B13"/>
 <wire x1="129.54" y1="96.52" x2="134.62" y2="96.52" width="0.1524" layer="91"/>
 <label x="132.08" y="96.52" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I3"/>
+<pinref part="MUX16A" gate="G$1" pin="I3"/>
 <wire x1="73.66" y1="93.98" x2="68.58" y2="93.98" width="0.1524" layer="91"/>
 <label x="68.58" y="93.98" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B14" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B14"/>
+<pinref part="OMNETICS" gate="A" pin="B14"/>
 <wire x1="129.54" y1="93.98" x2="134.62" y2="93.98" width="0.1524" layer="91"/>
 <label x="132.08" y="93.98" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I4"/>
+<pinref part="MUX16A" gate="G$1" pin="I4"/>
 <wire x1="73.66" y1="96.52" x2="68.58" y2="96.52" width="0.1524" layer="91"/>
 <label x="68.58" y="96.52" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B15" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B15"/>
+<pinref part="OMNETICS" gate="A" pin="B15"/>
 <wire x1="129.54" y1="91.44" x2="134.62" y2="91.44" width="0.1524" layer="91"/>
 <label x="132.08" y="91.44" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I5"/>
+<pinref part="MUX16A" gate="G$1" pin="I5"/>
 <wire x1="73.66" y1="99.06" x2="68.58" y2="99.06" width="0.1524" layer="91"/>
 <label x="68.58" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B16" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B16"/>
+<pinref part="OMNETICS" gate="A" pin="B16"/>
 <wire x1="129.54" y1="88.9" x2="134.62" y2="88.9" width="0.1524" layer="91"/>
 <label x="132.08" y="88.9" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I6"/>
+<pinref part="MUX16A" gate="G$1" pin="I6"/>
 <wire x1="73.66" y1="101.6" x2="68.58" y2="101.6" width="0.1524" layer="91"/>
 <label x="68.58" y="101.6" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B17" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B17"/>
+<pinref part="OMNETICS" gate="A" pin="B17"/>
 <wire x1="129.54" y1="86.36" x2="134.62" y2="86.36" width="0.1524" layer="91"/>
 <label x="132.08" y="86.36" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I7"/>
+<pinref part="MUX16A" gate="G$1" pin="I7"/>
 <wire x1="73.66" y1="104.14" x2="68.58" y2="104.14" width="0.1524" layer="91"/>
 <label x="68.58" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T10" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T10"/>
+<pinref part="OMNETICS" gate="A" pin="T10"/>
 <wire x1="114.3" y1="104.14" x2="109.22" y2="104.14" width="0.1524" layer="91"/>
 <label x="109.22" y="104.14" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I15"/>
+<pinref part="MUX16A" gate="G$1" pin="I15"/>
 <wire x1="93.98" y1="86.36" x2="99.06" y2="86.36" width="0.1524" layer="91"/>
 <label x="96.52" y="86.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T11" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T11"/>
+<pinref part="OMNETICS" gate="A" pin="T11"/>
 <wire x1="114.3" y1="101.6" x2="109.22" y2="101.6" width="0.1524" layer="91"/>
 <label x="109.22" y="101.6" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I14"/>
+<pinref part="MUX16A" gate="G$1" pin="I14"/>
 <wire x1="93.98" y1="88.9" x2="99.06" y2="88.9" width="0.1524" layer="91"/>
 <label x="96.52" y="88.9" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T12" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T12"/>
+<pinref part="OMNETICS" gate="A" pin="T12"/>
 <wire x1="114.3" y1="99.06" x2="109.22" y2="99.06" width="0.1524" layer="91"/>
 <label x="109.22" y="99.06" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I13"/>
+<pinref part="MUX16A" gate="G$1" pin="I13"/>
 <wire x1="93.98" y1="91.44" x2="99.06" y2="91.44" width="0.1524" layer="91"/>
 <label x="96.52" y="91.44" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T13" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T13"/>
+<pinref part="OMNETICS" gate="A" pin="T13"/>
 <wire x1="114.3" y1="96.52" x2="109.22" y2="96.52" width="0.1524" layer="91"/>
 <label x="109.22" y="96.52" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I12"/>
+<pinref part="MUX16A" gate="G$1" pin="I12"/>
 <wire x1="93.98" y1="93.98" x2="99.06" y2="93.98" width="0.1524" layer="91"/>
 <label x="96.52" y="93.98" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T14" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T14"/>
+<pinref part="OMNETICS" gate="A" pin="T14"/>
 <wire x1="114.3" y1="93.98" x2="109.22" y2="93.98" width="0.1524" layer="91"/>
 <label x="109.22" y="93.98" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I11"/>
+<pinref part="MUX16A" gate="G$1" pin="I11"/>
 <wire x1="93.98" y1="96.52" x2="99.06" y2="96.52" width="0.1524" layer="91"/>
 <label x="96.52" y="96.52" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T15" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T15"/>
+<pinref part="OMNETICS" gate="A" pin="T15"/>
 <wire x1="114.3" y1="91.44" x2="109.22" y2="91.44" width="0.1524" layer="91"/>
 <label x="109.22" y="91.44" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I10"/>
+<pinref part="MUX16A" gate="G$1" pin="I10"/>
 <wire x1="93.98" y1="99.06" x2="99.06" y2="99.06" width="0.1524" layer="91"/>
 <label x="96.52" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T16" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T16"/>
+<pinref part="OMNETICS" gate="A" pin="T16"/>
 <wire x1="114.3" y1="88.9" x2="109.22" y2="88.9" width="0.1524" layer="91"/>
 <label x="109.22" y="88.9" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I9"/>
+<pinref part="MUX16A" gate="G$1" pin="I9"/>
 <wire x1="93.98" y1="101.6" x2="99.06" y2="101.6" width="0.1524" layer="91"/>
 <label x="96.52" y="101.6" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="T17" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="T17"/>
+<pinref part="OMNETICS" gate="A" pin="T17"/>
 <wire x1="114.3" y1="86.36" x2="109.22" y2="86.36" width="0.1524" layer="91"/>
 <label x="109.22" y="86.36" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U5" gate="G$1" pin="I8"/>
+<pinref part="MUX16A" gate="G$1" pin="I8"/>
 <wire x1="93.98" y1="104.14" x2="99.06" y2="104.14" width="0.1524" layer="91"/>
 <label x="96.52" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B9" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B9"/>
+<pinref part="OMNETICS" gate="A" pin="B9"/>
 <wire x1="129.54" y1="106.68" x2="134.62" y2="106.68" width="0.1524" layer="91"/>
 <label x="132.08" y="106.68" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I15"/>
+<pinref part="MUX16B" gate="G$1" pin="I15"/>
 <wire x1="142.24" y1="124.46" x2="137.16" y2="124.46" width="0.1524" layer="91"/>
 <label x="137.16" y="124.46" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B8" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B8"/>
+<pinref part="OMNETICS" gate="A" pin="B8"/>
 <wire x1="129.54" y1="109.22" x2="134.62" y2="109.22" width="0.1524" layer="91"/>
 <label x="132.08" y="109.22" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I14"/>
+<pinref part="MUX16B" gate="G$1" pin="I14"/>
 <wire x1="142.24" y1="121.92" x2="137.16" y2="121.92" width="0.1524" layer="91"/>
 <label x="137.16" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B7" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B7"/>
+<pinref part="OMNETICS" gate="A" pin="B7"/>
 <wire x1="129.54" y1="111.76" x2="134.62" y2="111.76" width="0.1524" layer="91"/>
 <label x="132.08" y="111.76" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I13"/>
+<pinref part="MUX16B" gate="G$1" pin="I13"/>
 <wire x1="142.24" y1="119.38" x2="137.16" y2="119.38" width="0.1524" layer="91"/>
 <label x="137.16" y="119.38" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B6" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B6"/>
+<pinref part="OMNETICS" gate="A" pin="B6"/>
 <wire x1="129.54" y1="114.3" x2="134.62" y2="114.3" width="0.1524" layer="91"/>
 <label x="132.08" y="114.3" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I12"/>
+<pinref part="MUX16B" gate="G$1" pin="I12"/>
 <wire x1="142.24" y1="116.84" x2="137.16" y2="116.84" width="0.1524" layer="91"/>
 <label x="137.16" y="116.84" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B5" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B5"/>
+<pinref part="OMNETICS" gate="A" pin="B5"/>
 <wire x1="129.54" y1="116.84" x2="134.62" y2="116.84" width="0.1524" layer="91"/>
 <label x="132.08" y="116.84" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I11"/>
+<pinref part="MUX16B" gate="G$1" pin="I11"/>
 <wire x1="142.24" y1="114.3" x2="137.16" y2="114.3" width="0.1524" layer="91"/>
 <label x="137.16" y="114.3" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B4" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B4"/>
+<pinref part="OMNETICS" gate="A" pin="B4"/>
 <wire x1="129.54" y1="119.38" x2="134.62" y2="119.38" width="0.1524" layer="91"/>
 <label x="132.08" y="119.38" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I10"/>
+<pinref part="MUX16B" gate="G$1" pin="I10"/>
 <wire x1="142.24" y1="111.76" x2="137.16" y2="111.76" width="0.1524" layer="91"/>
 <label x="137.16" y="111.76" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B3" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B3"/>
+<pinref part="OMNETICS" gate="A" pin="B3"/>
 <wire x1="129.54" y1="121.92" x2="134.62" y2="121.92" width="0.1524" layer="91"/>
 <label x="132.08" y="121.92" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I9"/>
+<pinref part="MUX16B" gate="G$1" pin="I9"/>
 <wire x1="142.24" y1="109.22" x2="137.16" y2="109.22" width="0.1524" layer="91"/>
 <label x="137.16" y="109.22" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="B2" class="0">
 <segment>
-<pinref part="S1" gate="A" pin="B2"/>
+<pinref part="OMNETICS" gate="A" pin="B2"/>
 <wire x1="129.54" y1="124.46" x2="134.62" y2="124.46" width="0.1524" layer="91"/>
 <label x="132.08" y="124.46" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="U6" gate="G$1" pin="I8"/>
+<pinref part="MUX16B" gate="G$1" pin="I8"/>
 <wire x1="142.24" y1="106.68" x2="137.16" y2="106.68" width="0.1524" layer="91"/>
 <label x="137.16" y="106.68" size="1.778" layer="95"/>
 </segment>
