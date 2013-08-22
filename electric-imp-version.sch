@@ -7243,76 +7243,6 @@ LILYPAD- DIO-09910&lt;br&gt;</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="josh">
-<packages>
-<package name="LM234">
-<wire x1="-2.667" y1="2.286" x2="-3.175" y2="2.286" width="0.127" layer="21"/>
-<wire x1="-3.175" y1="2.286" x2="-3.175" y2="-2.032" width="0.127" layer="21"/>
-<wire x1="-3.175" y1="-2.032" x2="-2.667" y2="-2.032" width="0.127" layer="21"/>
-<wire x1="2.667" y1="2.286" x2="3.175" y2="2.286" width="0.127" layer="21"/>
-<wire x1="3.175" y1="2.286" x2="3.175" y2="-2.032" width="0.127" layer="21"/>
-<wire x1="3.175" y1="-2.032" x2="2.667" y2="-2.032" width="0.127" layer="21"/>
-<wire x1="-1.27" y1="-0.9525" x2="-1.27" y2="-4.1275" width="0.127" layer="21"/>
-<wire x1="-1.27" y1="-4.1275" x2="1.27" y2="-4.1275" width="0.127" layer="21"/>
-<wire x1="1.27" y1="-4.1275" x2="1.27" y2="-0.9525" width="0.127" layer="21"/>
-<wire x1="1.27" y1="-0.9525" x2="-1.27" y2="-0.9525" width="0.127" layer="21"/>
-<wire x1="-1.27" y1="4.1275" x2="-1.27" y2="0.9525" width="0.127" layer="21"/>
-<wire x1="-1.27" y1="0.9525" x2="1.27" y2="0.9525" width="0.127" layer="21"/>
-<wire x1="1.27" y1="0.9525" x2="1.27" y2="4.1275" width="0.127" layer="21"/>
-<wire x1="1.27" y1="4.1275" x2="-1.27" y2="4.1275" width="0.127" layer="21"/>
-<circle x="-2.159" y="-0.254" radius="0.5679" width="0.127" layer="21"/>
-<smd name="1" x="-1.905" y="-2.54" dx="0.508" dy="2.286" layer="1"/>
-<smd name="2" x="-0.635" y="-2.54" dx="0.508" dy="2.286" layer="1"/>
-<smd name="4" x="1.905" y="-2.54" dx="0.508" dy="2.286" layer="1"/>
-<smd name="3" x="0.635" y="-2.54" dx="0.508" dy="2.286" layer="1"/>
-<smd name="5" x="1.905" y="2.54" dx="0.508" dy="2.286" layer="1"/>
-<smd name="6" x="0.635" y="2.54" dx="0.508" dy="2.286" layer="1"/>
-<smd name="7" x="-0.635" y="2.54" dx="0.508" dy="2.286" layer="1"/>
-<smd name="8" x="-1.905" y="2.54" dx="0.508" dy="2.286" layer="1"/>
-<text x="-2.2225" y="-4.7625" size="0.8128" layer="21" font="vector">R</text>
-<text x="1.5875" y="-4.7625" size="0.8128" layer="21" font="vector">V+</text>
-<text x="-0.9525" y="-0.3175" size="0.8128" layer="21" font="vector">LM234</text>
-</package>
-</packages>
-<symbols>
-<symbol name="LM234">
-<wire x1="5.08" y1="20.32" x2="5.08" y2="2.54" width="0.254" layer="94"/>
-<wire x1="5.08" y1="2.54" x2="12.7" y2="2.54" width="0.254" layer="94"/>
-<wire x1="12.7" y1="2.54" x2="12.7" y2="20.32" width="0.254" layer="94"/>
-<wire x1="12.7" y1="20.32" x2="5.08" y2="20.32" width="0.254" layer="94"/>
-<text x="5.08" y="0" size="1.27" layer="94">&gt;NAME</text>
-<text x="5.08" y="-2.54" size="1.27" layer="94">&gt;VALUE</text>
-<pin name="V+" x="0" y="17.78" length="middle"/>
-<pin name="R" x="0" y="15.24" length="middle"/>
-<pin name="V-1" x="0" y="12.7" length="middle"/>
-<pin name="V-2" x="0" y="10.16" length="middle"/>
-<pin name="V-3" x="0" y="7.62" length="middle"/>
-<pin name="V-4" x="0" y="5.08" length="middle"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="LM234">
-<gates>
-<gate name="G$1" symbol="LM234" x="-10.16" y="-7.62"/>
-</gates>
-<devices>
-<device name="" package="LM234">
-<connects>
-<connect gate="G$1" pin="R" pad="1"/>
-<connect gate="G$1" pin="V+" pad="4"/>
-<connect gate="G$1" pin="V-1" pad="2"/>
-<connect gate="G$1" pin="V-2" pad="3"/>
-<connect gate="G$1" pin="V-3" pad="6"/>
-<connect gate="G$1" pin="V-4" pad="7"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="SparkFun-Capacitors">
 <description>&lt;h3&gt;SparkFun Electronics' preferred foot prints&lt;/h3&gt;
 In this library you'll find resistors, capacitors, inductors, test points, jumper pads, etc.&lt;br&gt;&lt;br&gt;
@@ -9562,6 +9492,71 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </deviceset>
 </devicesets>
 </library>
+<library name="josh">
+<packages>
+<package name="LM234">
+<wire x1="-2.667" y1="2.286" x2="-3.175" y2="2.286" width="0.127" layer="21"/>
+<wire x1="-3.175" y1="2.286" x2="-3.175" y2="-2.032" width="0.127" layer="21"/>
+<wire x1="-3.175" y1="-2.032" x2="-2.667" y2="-2.032" width="0.127" layer="21"/>
+<wire x1="2.667" y1="2.286" x2="3.175" y2="2.286" width="0.127" layer="21"/>
+<wire x1="3.175" y1="2.286" x2="3.175" y2="-2.032" width="0.127" layer="21"/>
+<wire x1="3.175" y1="-2.032" x2="2.667" y2="-2.032" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="-0.9525" x2="-1.27" y2="-4.1275" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="-4.1275" x2="1.27" y2="-4.1275" width="0.127" layer="21"/>
+<wire x1="1.27" y1="-4.1275" x2="1.27" y2="-0.9525" width="0.127" layer="21"/>
+<wire x1="1.27" y1="-0.9525" x2="-1.27" y2="-0.9525" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="4.1275" x2="-1.27" y2="0.9525" width="0.127" layer="21"/>
+<wire x1="-1.27" y1="0.9525" x2="1.27" y2="0.9525" width="0.127" layer="21"/>
+<wire x1="1.27" y1="0.9525" x2="1.27" y2="4.1275" width="0.127" layer="21"/>
+<wire x1="1.27" y1="4.1275" x2="-1.27" y2="4.1275" width="0.127" layer="21"/>
+<circle x="-2.159" y="-0.254" radius="0.5679" width="0.127" layer="21"/>
+<smd name="1" x="-1.905" y="-2.54" dx="0.508" dy="2.286" layer="1"/>
+<smd name="2" x="-0.635" y="-2.54" dx="0.508" dy="2.286" layer="1"/>
+<smd name="4" x="1.905" y="-2.54" dx="0.508" dy="2.286" layer="1"/>
+<smd name="3" x="0.635" y="-2.54" dx="0.508" dy="2.286" layer="1"/>
+<smd name="5" x="1.905" y="2.54" dx="0.508" dy="2.286" layer="1"/>
+<smd name="6" x="0.635" y="2.54" dx="0.508" dy="2.286" layer="1"/>
+<smd name="7" x="-0.635" y="2.54" dx="0.508" dy="2.286" layer="1"/>
+<smd name="8" x="-1.905" y="2.54" dx="0.508" dy="2.286" layer="1"/>
+<text x="-2.2225" y="-4.7625" size="0.8128" layer="21" font="vector">R</text>
+<text x="1.5875" y="-4.7625" size="0.8128" layer="21" font="vector">V+</text>
+<text x="-0.9525" y="-0.3175" size="0.8128" layer="21" font="vector">LM234</text>
+<text x="0.3175" y="4.3815" size="0.8128" layer="21" font="vector">V-</text>
+</package>
+</packages>
+<symbols>
+<symbol name="LM234">
+<wire x1="5.08" y1="20.32" x2="5.08" y2="10.16" width="0.254" layer="94"/>
+<wire x1="5.08" y1="10.16" x2="12.7" y2="10.16" width="0.254" layer="94"/>
+<wire x1="12.7" y1="10.16" x2="12.7" y2="20.32" width="0.254" layer="94"/>
+<wire x1="12.7" y1="20.32" x2="5.08" y2="20.32" width="0.254" layer="94"/>
+<text x="5.08" y="7.62" size="1.27" layer="95">&gt;NAME</text>
+<text x="5.08" y="5.08" size="1.27" layer="96">&gt;VALUE</text>
+<pin name="V+" x="0" y="17.78" length="middle"/>
+<pin name="ADJ" x="0" y="15.24" length="middle"/>
+<pin name="V–" x="0" y="12.7" length="middle"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="LM234">
+<gates>
+<gate name="G$1" symbol="LM234" x="-10.16" y="-7.62"/>
+</gates>
+<devices>
+<device name="" package="LM234">
+<connects>
+<connect gate="G$1" pin="ADJ" pad="1"/>
+<connect gate="G$1" pin="V+" pad="4"/>
+<connect gate="G$1" pin="V–" pad="6"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -9610,7 +9605,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="R5" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="2k"/>
 <part name="GND13" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND14" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="IC2" library="josh" deviceset="LM234" device=""/>
 <part name="R6" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="4.7k"/>
 <part name="R7" library="SparkFun-Passives" deviceset="RESISTOR" device="0402-RES" value="4.7k"/>
 <part name="P+6" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
@@ -9667,6 +9661,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="P+14" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="C4" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-LETTER" device=""/>
+<part name="U$2" library="josh" deviceset="LM234" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -9719,7 +9714,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="R5" gate="G$1" x="76.2" y="167.64" rot="R90"/>
 <instance part="GND13" gate="1" x="71.12" y="162.56"/>
 <instance part="GND14" gate="1" x="76.2" y="160.02"/>
-<instance part="IC2" gate="G$1" x="213.36" y="127"/>
 <instance part="R6" gate="G$1" x="91.44" y="45.72" rot="MR90"/>
 <instance part="R7" gate="G$1" x="101.6" y="43.18" rot="MR90"/>
 <instance part="P+6" gate="G$1" x="91.44" y="50.8" rot="MR0"/>
@@ -9777,6 +9771,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="C4" gate="G$1" x="15.24" y="27.94"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0"/>
+<instance part="U$2" gate="G$1" x="215.9" y="116.84"/>
 </instances>
 <busses>
 </busses>
@@ -10368,9 +10363,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="LM234EN" class="0">
 <segment>
-<pinref part="IC2" gate="G$1" pin="V+"/>
-<wire x1="213.36" y1="144.78" x2="205.74" y2="144.78" width="0.1524" layer="91"/>
-<label x="203.2" y="144.78" size="1.778" layer="95"/>
+<wire x1="215.9" y1="134.62" x2="205.74" y2="134.62" width="0.1524" layer="91"/>
+<label x="200.66" y="134.62" size="1.778" layer="95"/>
+<pinref part="U$2" gate="G$1" pin="V+"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="60.96" x2="147.32" y2="60.96" width="0.1524" layer="91"/>
@@ -10385,9 +10380,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <label x="203.2" y="167.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="R"/>
-<wire x1="213.36" y1="142.24" x2="205.74" y2="142.24" width="0.1524" layer="91"/>
-<label x="205.74" y="142.24" size="1.778" layer="95"/>
+<wire x1="215.9" y1="132.08" x2="203.2" y2="132.08" width="0.1524" layer="91"/>
+<label x="205.74" y="132.08" size="1.778" layer="95"/>
+<pinref part="U$2" gate="G$1" pin="ADJ"/>
 </segment>
 </net>
 <net name="CURRENT_SOURCE" class="0">
@@ -10397,9 +10392,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <label x="233.68" y="167.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC2" gate="G$1" pin="V-2"/>
-<wire x1="213.36" y1="137.16" x2="205.74" y2="137.16" width="0.1524" layer="91"/>
-<label x="205.74" y="137.16" size="1.778" layer="95"/>
+<wire x1="215.9" y1="129.54" x2="195.58" y2="129.54" width="0.1524" layer="91"/>
+<label x="195.58" y="127" size="1.778" layer="95"/>
+<pinref part="U$2" gate="G$1" pin="V–"/>
 </segment>
 <segment>
 <pinref part="MUX3X2" gate="G$1" pin="Y1"/>
