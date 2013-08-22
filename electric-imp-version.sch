@@ -9661,7 +9661,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="P+14" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="C4" library="SparkFun-Capacitors" deviceset="CAP" device="0603-CAP" value="0.1uF"/>
 <part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-LETTER" device=""/>
-<part name="U$2" library="josh" deviceset="LM234" device=""/>
+<part name="IC2" library="josh" deviceset="LM234" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -9771,7 +9771,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="C4" gate="G$1" x="15.24" y="27.94"/>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0"/>
-<instance part="U$2" gate="G$1" x="215.9" y="116.84"/>
+<instance part="IC2" gate="G$1" x="215.9" y="116.84"/>
 </instances>
 <busses>
 </busses>
@@ -10365,7 +10365,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <wire x1="215.9" y1="134.62" x2="205.74" y2="134.62" width="0.1524" layer="91"/>
 <label x="200.66" y="134.62" size="1.778" layer="95"/>
-<pinref part="U$2" gate="G$1" pin="V+"/>
+<pinref part="IC2" gate="G$1" pin="V+"/>
 </segment>
 <segment>
 <wire x1="152.4" y1="60.96" x2="147.32" y2="60.96" width="0.1524" layer="91"/>
@@ -10382,7 +10382,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <wire x1="215.9" y1="132.08" x2="203.2" y2="132.08" width="0.1524" layer="91"/>
 <label x="205.74" y="132.08" size="1.778" layer="95"/>
-<pinref part="U$2" gate="G$1" pin="ADJ"/>
+<pinref part="IC2" gate="G$1" pin="ADJ"/>
 </segment>
 </net>
 <net name="CURRENT_SOURCE" class="0">
@@ -10394,7 +10394,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <wire x1="215.9" y1="129.54" x2="195.58" y2="129.54" width="0.1524" layer="91"/>
 <label x="195.58" y="127" size="1.778" layer="95"/>
-<pinref part="U$2" gate="G$1" pin="V–"/>
+<pinref part="IC2" gate="G$1" pin="V–"/>
 </segment>
 <segment>
 <pinref part="MUX3X2" gate="G$1" pin="Y1"/>
