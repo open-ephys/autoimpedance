@@ -9590,7 +9590,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <part name="MUX16B" library="open-ephys" deviceset="CD74HC4067-SSOP" device="CD74HC4067"/>
 <part name="MUX3X2" library="open-ephys" deviceset="BU4053BC" device=""/>
 <part name="GND27" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="P+20" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="P+22" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND31" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND32" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
@@ -9697,7 +9696,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="MUX16B" gate="G$1" x="152.4" y="116.84" rot="R180"/>
 <instance part="MUX3X2" gate="G$1" x="40.64" y="83.82"/>
 <instance part="GND27" gate="1" x="22.86" y="66.04"/>
-<instance part="P+20" gate="G$1" x="17.78" y="78.74"/>
 <instance part="P+22" gate="G$1" x="58.42" y="96.52"/>
 <instance part="GND31" gate="1" x="101.6" y="78.74"/>
 <instance part="GND32" gate="1" x="71.12" y="73.66"/>
@@ -9889,9 +9887,13 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="MUX3X2" gate="G$1" pin="VSS"/>
 <wire x1="30.48" y1="73.66" x2="22.86" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="73.66" x2="22.86" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="22.86" y1="78.74" x2="22.86" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="78.74" x2="22.86" y2="76.2" width="0.1524" layer="91"/>
 <junction x="22.86" y="73.66"/>
 <pinref part="GND27" gate="1" pin="GND"/>
+<pinref part="MUX3X2" gate="G$1" pin="VEE"/>
+<wire x1="22.86" y1="76.2" x2="22.86" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="76.2" x2="22.86" y2="76.2" width="0.1524" layer="91"/>
+<junction x="22.86" y="76.2"/>
 </segment>
 <segment>
 <pinref part="MUX3X2" gate="G$1" pin="Z1"/>
@@ -10026,12 +10028,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="213.36" y1="111.76" x2="226.06" y2="111.76" width="0.1524" layer="91"/>
 <junction x="213.36" y="111.76"/>
 <junction x="226.06" y="111.76"/>
-</segment>
-<segment>
-<pinref part="MUX3X2" gate="G$1" pin="VEE"/>
-<wire x1="30.48" y1="76.2" x2="17.78" y2="76.2" width="0.1524" layer="91"/>
-<wire x1="17.78" y1="76.2" x2="17.78" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="P+20" gate="G$1" pin="3.3V"/>
 </segment>
 <segment>
 <pinref part="MUX3X2" gate="G$1" pin="VDD"/>
