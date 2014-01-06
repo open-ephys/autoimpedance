@@ -9650,10 +9650,10 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="R5" gate="G$1" x="76.2" y="167.64" rot="R90"/>
 <instance part="GND13" gate="1" x="71.12" y="162.56"/>
 <instance part="GND14" gate="1" x="76.2" y="160.02"/>
-<instance part="R6" gate="G$1" x="91.44" y="45.72" rot="MR90"/>
-<instance part="R7" gate="G$1" x="101.6" y="43.18" rot="MR90"/>
-<instance part="P+6" gate="G$1" x="91.44" y="50.8" rot="MR0"/>
-<instance part="P+7" gate="G$1" x="101.6" y="48.26" rot="MR0"/>
+<instance part="R6" gate="G$1" x="93.98" y="35.56" rot="MR90"/>
+<instance part="R7" gate="G$1" x="99.06" y="33.02" rot="MR90"/>
+<instance part="P+6" gate="G$1" x="93.98" y="43.18" rot="MR0"/>
+<instance part="P+7" gate="G$1" x="99.06" y="40.64" rot="MR0"/>
 <instance part="P+8" gate="G$1" x="187.96" y="144.78" rot="R180"/>
 <instance part="GND15" gate="1" x="193.04" y="152.4"/>
 <instance part="GND16" gate="1" x="198.12" y="162.56" rot="R270"/>
@@ -9667,7 +9667,7 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <instance part="R8" gate="G$1" x="144.78" y="160.02" rot="R180"/>
 <instance part="P+12" gate="G$1" x="238.76" y="162.56" rot="R270"/>
 <instance part="R9" gate="G$1" x="93.98" y="22.86" rot="MR0"/>
-<instance part="P+13" gate="G$1" x="101.6" y="25.4" rot="MR0"/>
+<instance part="P+13" gate="G$1" x="104.14" y="22.86" rot="MR90"/>
 <instance part="GND8" gate="1" x="152.4" y="53.34" rot="MR0"/>
 <instance part="GND20" gate="1" x="182.88" y="68.58" rot="MR270"/>
 <instance part="C8" gate="G$1" x="132.08" y="63.5"/>
@@ -9959,10 +9959,12 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <segment>
 <pinref part="R6" gate="G$1" pin="2"/>
 <pinref part="P+6" gate="G$1" pin="3.3V"/>
+<wire x1="93.98" y1="40.64" x2="93.98" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R7" gate="G$1" pin="2"/>
 <pinref part="P+7" gate="G$1" pin="3.3V"/>
+<wire x1="99.06" y1="38.1" x2="99.06" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="AVDD2"/>
@@ -9998,9 +10000,8 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </segment>
 <segment>
 <pinref part="R9" gate="G$1" pin="1"/>
-<wire x1="99.06" y1="22.86" x2="101.6" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="P+13" gate="G$1" pin="3.3V"/>
-<wire x1="101.6" y1="22.86" x2="101.6" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="22.86" x2="104.14" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="C8" gate="G$1" pin="1"/>
@@ -10091,13 +10092,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <label x="33.02" y="152.4" size="1.778" layer="95"/>
 <pinref part="Q1" gate="G$1" pin="S"/>
 <wire x1="33.02" y1="147.32" x2="33.02" y2="152.4" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="PIN9" class="0">
-<segment>
-<pinref part="SD" gate="G$1" pin="9(DAT2)"/>
-<wire x1="83.82" y1="27.94" x2="88.9" y2="27.94" width="0.1524" layer="91"/>
-<label x="83.82" y="27.94" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CD" class="0">
@@ -10206,12 +10200,6 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 </net>
 <net name="SCL" class="0">
 <segment>
-<pinref part="SD" gate="G$1" pin="1(DAT3)"/>
-<label x="83.82" y="40.64" size="1.778" layer="95"/>
-<wire x1="83.82" y1="40.64" x2="91.44" y2="40.64" width="0.1524" layer="91"/>
-<pinref part="R6" gate="G$1" pin="1"/>
-</segment>
-<segment>
 <pinref part="IC1" gate="G$1" pin="SCL"/>
 <wire x1="182.88" y1="170.18" x2="193.04" y2="170.18" width="0.1524" layer="91"/>
 <label x="185.42" y="170.18" size="1.778" layer="95"/>
@@ -10226,14 +10214,14 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <wire x1="190.5" y1="106.68" x2="182.88" y2="106.68" width="0.1524" layer="91"/>
 <label x="182.88" y="106.68" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="SD" gate="G$1" pin="8(DAT1)"/>
+<pinref part="R6" gate="G$1" pin="1"/>
+<wire x1="83.82" y1="30.48" x2="93.98" y2="30.48" width="0.1524" layer="91"/>
+<label x="83.82" y="30.48" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SDA" class="0">
-<segment>
-<pinref part="SD" gate="G$1" pin="2(CMD)"/>
-<label x="83.82" y="38.1" size="1.778" layer="95"/>
-<wire x1="83.82" y1="38.1" x2="101.6" y2="38.1" width="0.1524" layer="91"/>
-<pinref part="R7" gate="G$1" pin="1"/>
-</segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="SDA"/>
 <wire x1="182.88" y1="167.64" x2="193.04" y2="167.64" width="0.1524" layer="91"/>
@@ -10248,6 +10236,12 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="CLK" gate="G$1" pin="SDI"/>
 <wire x1="190.5" y1="109.22" x2="182.88" y2="109.22" width="0.1524" layer="91"/>
 <label x="182.88" y="109.22" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="SD" gate="G$1" pin="9(DAT2)"/>
+<pinref part="R7" gate="G$1" pin="1"/>
+<wire x1="83.82" y1="27.94" x2="99.06" y2="27.94" width="0.1524" layer="91"/>
+<label x="83.82" y="27.94" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="TEST_IN" class="0">
@@ -10350,9 +10344,9 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="SR" gate="G$1" pin="RCK"/>
 </segment>
 <segment>
-<pinref part="SD" gate="G$1" pin="8(DAT1)"/>
-<wire x1="83.82" y1="30.48" x2="88.9" y2="30.48" width="0.1524" layer="91"/>
-<label x="83.82" y="30.48" size="1.778" layer="95"/>
+<pinref part="SD" gate="G$1" pin="2(CMD)"/>
+<wire x1="83.82" y1="38.1" x2="88.9" y2="38.1" width="0.1524" layer="91"/>
+<label x="83.82" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SCK" class="0">
@@ -10902,6 +10896,13 @@ href='http://www.fairchildsemi.com/ds/MM/MM74HC595.pdf'&gt;http://www.fairchilds
 <pinref part="MUX16B" gate="G$1" pin="I8"/>
 <wire x1="142.24" y1="106.68" x2="137.16" y2="106.68" width="0.1524" layer="91"/>
 <label x="137.16" y="106.68" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="PIN1" class="0">
+<segment>
+<pinref part="SD" gate="G$1" pin="1(DAT3)"/>
+<wire x1="83.82" y1="40.64" x2="88.9" y2="40.64" width="0.1524" layer="91"/>
+<label x="83.82" y="40.64" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
