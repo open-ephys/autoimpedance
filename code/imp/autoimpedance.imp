@@ -1,0 +1,123 @@
+/*
+
+    Autoimpedance driver for the electric imp
+    
+    USAGE:
+
+*/
+
+class ZSensor {
+
+    // i2c object
+    _i2c  = null;
+    
+    static ADDRESS  = 0x0D;
+    //local numSteps = null;
+    //local startHz = null;
+    //local incHz = null;
+
+    // Construct the  Object
+    constructor(i2c) {
+        _i2c  = i2c;
+    }
+    
+    function getZ() {
+        return -1;
+    }
+    
+    //function setStartHz(fHz){
+        //startHz = fHz;
+    //}
+    
+    //function setIncHz(fHz){
+        //incHz = fHz;
+    //}
+    
+   // function setNumSteps(N){
+        //numSteps = N;
+    //}
+}
+
+class Pot {
+
+    // i2c objects
+    _i2c  = null;
+    
+    static ADDRESS  = 0x2D;
+
+    // Construct the Object
+    constructor(i2c) {
+        _i2c  = i2c;
+    }
+    
+    function setR() {
+        return -1;
+    }
+    
+    
+}
+
+class Wiggler {
+
+    // i2c object
+    _i2c  = null;
+    
+    // Shift 7-bit address to 8-bit address required by the imp
+    static ADDRESS  = 0x17 << 1;
+    
+    // Current frequency setting
+    freqHz = null;
+    
+    // Construct the Object
+    constructor(i2c) {
+        _i2c  = i2c;
+    }
+    
+
+    function setHz(fHz) {
+        /*
+        Inputs:
+            fHz: String specifying oscillator frequency, e.g. "50kHz"
+        
+        Returns:
+            i2c.write result
+        */
+        
+         // Lookup table for setting the oscillator frequency
+        local HZ_LOOKUP = 
+        {
+            f50MHz   =   "\xFA\x36",    //OCT=15, DAC = 653
+            f10MHz   =   "\xD4\xC6",    //OCT=13, DAC = 305
+            f5MHz    =   "\xC4\xC6",    //OCT=12, DAC = 305
+            f1MHz    =   "\x9E\xFE",    //OCT=09, DAC = 959
+            f500kHz  =   "\x8E\xFE",    //OCT=08, DAC = 959
+            f100kHz  =   "\x66\x86",    //OCT=06, DAC = 686
+            f50kHz   =   "\x56\x86",    //OCT=05, DAC = 686
+            f10kHz   =   "\x33\x46",    //OCT=03, DAC = 346
+            f5kHz    =   "\x23\x46",    //OCT=02, DAC = 346
+            f1kHz    =   "\x00\x00"     //OCT=00, DAC = 000
+        }
+        
+        // Configure the clock frequency
+        local i2c_result = _i2c.write(ADDRESS, HZ_LOOKUP["f" + fHz]); 
+        imp.sleep(0.05); 
+
+        // Return i2c result
+        return i2c_result;   
+        
+    }
+}
+
+
+// Configure i2c bus
+hardware.i2c89.configure(CLOCK_SPEED_400_KHZ);
+
+// Assign globals
+pot <- Pot(hardware.i2c89);
+wiggler <- Wiggler(hardware.i2c89);
+zsensor <- ZSensor(hardware.i2c89);
+
+// Test script
+server.log("Autoimpedance is running...")
+local result = wiggler.setHz("10kHz"); 
+server.log(result);

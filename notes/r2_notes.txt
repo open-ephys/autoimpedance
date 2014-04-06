@@ -1,0 +1,18 @@
+Potential autoimpedance circuit improvements
+
+1. There should be some extra, auxiliary MUX paths tied to various onboard dummy loads (e.g. 10k, 100k, 1M) for gain-factor calibration verification and internal phase measurements (see pgs. 17-19 of AD5933 datasheet).
+
+2. There should be more test points on the circuit (power rails and I2C bus).
+
+3. There should be more information on the silkscreen layers - i.e. component values. 
+
+4. Silk screen font must be larger because print resolution is too course for current size.
+
+5. Do we need a DC blocking cap at the test_out pin of the AD5933 to prevent the DC bias (table 5 of AD5933 datasheet) on test signal from electroplating during the impedance test?
+
+6. What p2p excitation voltage should we be using?
+
+7. Why is the external oscillator required?
+
+	EDIT: Because the dynamic range with onboard oscillator is 1kHz to 100 kHz, and it is not really accurate in the low end where we need it.
+
