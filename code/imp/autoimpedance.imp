@@ -43,18 +43,37 @@ class Pot {
     // i2c objects
     _i2c  = null;
     
-    static ADDRESS  = 0x2D;
+    // Shift 7-bit address to 8-bit address required by the imp
+    static ADDRESS  = 0x2D << 1;
+    
+    // Resitances of wiper swtich and A --> B terminals
+    static Rw = 50;
+    static Rab = 100e3;
 
     // Construct the Object
     constructor(i2c) {
         _i2c  = i2c;
     }
     
-    function setR() {
-        return -1;
+    function setR(R) {
+        
+        if (R > Rab) {
+            return -1;
+        }
+        else {
+            
+            // Get data register value
+            local D = 256 + 256*(2*Rw - R)/Rab;
+            
+            // Configure the resistance from A -> W terminals
+            local i2c_result = _i2c.write(ADDRESS, "\00" + D.tochar());
+            imp.sleep(0.01); 
+            
+            // Return i2c result
+            return i2c_result;   
+            
+        }
     }
-    
-    
 }
 
 class Wiggler {
@@ -100,7 +119,7 @@ class Wiggler {
         
         // Configure the clock frequency
         local i2c_result = _i2c.write(ADDRESS, HZ_LOOKUP["f" + fHz]); 
-        imp.sleep(0.05); 
+        imp.sleep(0.01); 
 
         // Return i2c result
         return i2c_result;   
@@ -108,9 +127,13 @@ class Wiggler {
     }
 }
 
+class Mux {
+    
+}
+
 
 // Configure i2c bus
-hardware.i2c89.configure(CLOCK_SPEED_400_KHZ);
+hardware.i2c89.configure(CLOCK_SPEED_100_KHZ);
 
 // Assign globals
 pot <- Pot(hardware.i2c89);
@@ -119,5 +142,16 @@ zsensor <- ZSensor(hardware.i2c89);
 
 // Test script
 server.log("Autoimpedance is running...")
+
+
 local result = wiggler.setHz("10kHz"); 
-server.log(result);
+if (result == 0) {
+    
+    server.log("LTC6904 clock frequency set.");
+}
+
+
+local result = pot.setR(20e3); 
+if (result == 0) {
+    server.log("AD5245 resistance set.");
+}
