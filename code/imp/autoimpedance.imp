@@ -46,7 +46,7 @@ class Pot {
     // Shift 7-bit address to 8-bit address required by the imp
     static ADDRESS  = 0x2D << 1;
     
-    // Resitances of wiper swtich and A --> B terminals
+    // Resistances of wiper switch and A --> B terminals
     static Rw = 50;
     static Rab = 100e3;
 
@@ -56,6 +56,15 @@ class Pot {
     }
     
     function setR(R) {
+	    /*
+		Sets the A --> W resistance
+		
+        Inputs:
+            R: Resistance value, in ohms, less than 100k
+        
+        Returns:
+            i2c.write result
+        */
         
         if (R > Rab) {
             return -1;
@@ -95,6 +104,8 @@ class Wiggler {
 
     function setHz(fHz) {
         /*
+		Sets the clock frequency
+		
         Inputs:
             fHz: String specifying oscillator frequency, e.g. "50kHz"
         
