@@ -128,38 +128,42 @@ class Clock {
 		Sets the clock frequency
 		
         Inputs:
-            fHz: String specifying oscillator frequency, e.g. "50kHz"
+            fHz: integer specifying oscillator frequency, e.g. 50e3 for 50 kHz
         
         Returns:
             i2c.write result
         */
         
-         // Lookup table for setting the oscillator frequency
-        local HZ_LOOKUP = 
-        {
-            f50MHz   =   [15, 653],   	//OCT=15, DAC = 653
-            f10MHz   =   [13, 305],     //OCT=13, DAC = 305
-            f5MHz    =   [12, 305],     //OCT=12, DAC = 305
-            f1MHz    =   [09, 959],     //OCT=09, DAC = 959
-            f500kHz  =   [08, 959],     //OCT=08, DAC = 959
-            f100kHz  =   [06, 686],     //OCT=06, DAC = 686
-            f50kHz   =   [05, 686],     //OCT=05, DAC = 686
-            f10kHz   =   [03, 346],     //OCT=03, DAC = 346
-            f5kHz    =   [02, 346],     //OCT=02, DAC = 346
-            f1kHz    =   [00, 000]      //OCT=00, DAC = 000
-        }
-        
-        // Configure the clock frequency
-        local code = HZ_LOOKUP["f" + fHz];
-        local data = code[0] << 12 | code[1] << 2 | POW;
-        local i2c_result = _i2c.write(ADDRESS, (data >> 8).tochar() + data.tochar()); 
-		
-		// Log the true clock frequency
-		freqHz = math.pow(2,code[0].tofloat())*(2078/(2-code[1].tofloat()/1024));
 
-        // Return i2c result
-        return i2c_result;   
+        if (fHz <= 1e3 || fHz > 68e6) {
+            return -1;
+        }
+        else {
+            
+            // Calculate the OCT and DAC register values
+            local oct = math.floor(3.322*math.log10(fHz/1039.0),0).tointeger();
+            local dac = round(2048.0-(2078.0*math.pow(2,10.0 + oct))/fHz,0).tointeger();
         
+            // Configure the clock frequency
+            local D = oct << 12 | dac << 2 | POW;
+            local i2c_result = _i2c.write(ADDRESS, (D >> 8).tochar() + D.tochar()); 
+		
+		    // Log the true clock frequency
+		    freqHz = math.pow(2,oct.tofloat())*(2078.0/(2-dac.tofloat()/1024.0));
+
+            // Return i2c result
+            return i2c_result;  
+        }
+  
+    }
+    
+    function round(val, decimalPoints) {
+        local f = math.pow(10, decimalPoints) * 1.0;
+        local newVal = val * f;
+        newVal = math.floor(newVal + 0.5)
+        newVal = (newVal * 1.0) / f;
+ 
+        return newVal;
     }
 }
 
@@ -180,7 +184,7 @@ zsensor <- ZSensor(hardware.i2c89,clock);
 server.log("Autoimpedance is running...")
 
 
-local result = clock.setHz("1MHz"); 
+local result = clock.setHz(10e3); 
 if (result == 0) {
     
     server.log("LTC6904 clock frequency set to " + clock.freqHz + " Hz.");
