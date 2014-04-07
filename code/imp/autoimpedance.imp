@@ -10,19 +10,33 @@ class ZSensor {
 
     // i2c object
     _i2c  = null;
+	_clock = null;
     
-    static ADDRESS  = 0x0D;
-    //local numSteps = null;
-    //local startHz = null;
-    //local incHz = null;
+    static ADDRESS = 0x0D;
+    numSteps = [null];
+    startHz = [null];
+    incHz = [null];
 
     // Construct the  Object
-    constructor(i2c) {
+    constructor(i2c, clock) {
         _i2c  = i2c;
+		_clock = clock;
     }
     
     function getZ() {
         return -1;
+    }
+    
+    function getFreqCode(fHz) {
+        
+        local value = (fHz / (clock.freqHz / 4)) * 2^27;
+		local code = [null];
+ 
+        code[0] = (value & 0xFF0000) >> 0x10;
+        code[1] = (value & 0x00FF00) >> 0x08;
+        code[2] = (value & 0x0000FF);
+        
+		return code;
     }
     
     //function setStartHz(fHz){
@@ -40,15 +54,18 @@ class ZSensor {
 
 class Pot {
 
-    // i2c objects
+    // i2c object
     _i2c  = null;
     
     // Shift 7-bit address to 8-bit address required by the imp
-    static ADDRESS  = 0x2D << 1;
+    static ADDRESS = 0x2D << 1;
     
     // Resistances of wiper switch and A --> B terminals
-    static Rw = 50;
-    static Rab = 100e3;
+    static Rw   = 50;
+    static Rab  = 100e3;
+    
+    // True A --> W resistance
+    Raw = null;
 
     // Construct the Object
     constructor(i2c) {
@@ -72,11 +89,13 @@ class Pot {
         else {
             
             // Get data register value
-            local D = 256 + 256*(2*Rw - R)/Rab;
+            local D = 256.0 + 256.0*(2.0*Rw - R)/Rab;
             
             // Configure the resistance from A -> W terminals
             local i2c_result = _i2c.write(ADDRESS, "\00" + D.tochar());
-            imp.sleep(0.01); 
+            
+            // Log the true clock  A -> W resistance
+            Raw = Rab*(256.0 - math.floor(D))/256.0 + 2*Rw;
             
             // Return i2c result
             return i2c_result;   
@@ -85,13 +104,16 @@ class Pot {
     }
 }
 
-class Wiggler {
+class Clock {
 
     // i2c object
     _i2c  = null;
     
     // Shift 7-bit address to 8-bit address required by the imp
     static ADDRESS  = 0x17 << 1;
+    
+    // Output configuration; 2 = CLK only
+    static POW = 2; 
     
     // Current frequency setting
     freqHz = null;
@@ -101,7 +123,6 @@ class Wiggler {
         _i2c  = i2c;
     }
     
-
     function setHz(fHz) {
         /*
 		Sets the clock frequency
@@ -116,21 +137,25 @@ class Wiggler {
          // Lookup table for setting the oscillator frequency
         local HZ_LOOKUP = 
         {
-            f50MHz   =   "\xFA\x36",    //OCT=15, DAC = 653
-            f10MHz   =   "\xD4\xC6",    //OCT=13, DAC = 305
-            f5MHz    =   "\xC4\xC6",    //OCT=12, DAC = 305
-            f1MHz    =   "\x9E\xFE",    //OCT=09, DAC = 959
-            f500kHz  =   "\x8E\xFE",    //OCT=08, DAC = 959
-            f100kHz  =   "\x66\x86",    //OCT=06, DAC = 686
-            f50kHz   =   "\x56\x86",    //OCT=05, DAC = 686
-            f10kHz   =   "\x33\x46",    //OCT=03, DAC = 346
-            f5kHz    =   "\x23\x46",    //OCT=02, DAC = 346
-            f1kHz    =   "\x00\x00"     //OCT=00, DAC = 000
+            f50MHz   =   [15, 653],   	//OCT=15, DAC = 653
+            f10MHz   =   [13, 305],     //OCT=13, DAC = 305
+            f5MHz    =   [12, 305],     //OCT=12, DAC = 305
+            f1MHz    =   [09, 959],     //OCT=09, DAC = 959
+            f500kHz  =   [08, 959],     //OCT=08, DAC = 959
+            f100kHz  =   [06, 686],     //OCT=06, DAC = 686
+            f50kHz   =   [05, 686],     //OCT=05, DAC = 686
+            f10kHz   =   [03, 346],     //OCT=03, DAC = 346
+            f5kHz    =   [02, 346],     //OCT=02, DAC = 346
+            f1kHz    =   [00, 000]      //OCT=00, DAC = 000
         }
         
         // Configure the clock frequency
-        local i2c_result = _i2c.write(ADDRESS, HZ_LOOKUP["f" + fHz]); 
-        imp.sleep(0.01); 
+        local code = HZ_LOOKUP["f" + fHz];
+        local data = code[0] << 12 | code[1] << 2 | POW;
+        local i2c_result = _i2c.write(ADDRESS, (data >> 8).tochar() + data.tochar()); 
+		
+		// Log the true clock frequency
+		freqHz = math.pow(2,code[0].tofloat())*(2078/(2-code[1].tofloat()/1024));
 
         // Return i2c result
         return i2c_result;   
@@ -148,21 +173,21 @@ hardware.i2c89.configure(CLOCK_SPEED_100_KHZ);
 
 // Assign globals
 pot <- Pot(hardware.i2c89);
-wiggler <- Wiggler(hardware.i2c89);
-zsensor <- ZSensor(hardware.i2c89);
+clock <- Clock(hardware.i2c89);
+zsensor <- ZSensor(hardware.i2c89,clock);
 
 // Test script
 server.log("Autoimpedance is running...")
 
 
-local result = wiggler.setHz("10kHz"); 
+local result = clock.setHz("1MHz"); 
 if (result == 0) {
     
-    server.log("LTC6904 clock frequency set.");
+    server.log("LTC6904 clock frequency set to " + clock.freqHz + " Hz.");
 }
 
 
 local result = pot.setR(20e3); 
 if (result == 0) {
-    server.log("AD5245 resistance set.");
+    server.log("AD5245 resistance set to " + pot.Raw + " Ohms.");
 }

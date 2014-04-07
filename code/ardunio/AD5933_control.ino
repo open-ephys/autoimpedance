@@ -1,197 +1,184 @@
+/*
 
-// message sequence:
-// to set the memory address:
-// 1. slave address
-// 2. pointer command
-// 3. register address to point to
-
-// to write data (address already set):
-// 1. slave address
-// 2. block write
-// 3. number bytes write
-// 4. byte 0, byte 1, byte 2, etc.
-
-// to read data (address is already set):
-// 1. slave address with read bit high
-// 2. register data is returned
-
-// to read a block of data (address is already set):
-// 1. slave address
-// 2. block read
-// 3. number of bytes
-// 4. slave address (read bit high)
-// 5. byte 0, byte 1, byte 2, etc.
-
-
-// control register map (D10 to D9)
-// ranges = {2.0 V p-p, 200 mV p-p, 400 mV p-p, 1.0 V p-p}
-const int OUTPUT_VOLTAGE[4] = {
-  B00, B01, B10, B11};
-
-// control register map (D11, D8 to D0)
-// D11 = no operation
-// D8 = PGA gain (0 = x5, 1 = x1) // amplifies the response signal into the ADC
-// D7 = reserved, set to 0
-// D6 = reserved, set to 0
-// D5 = reserved, set to 0
-// D4 = reset // interrupts a frequency sweep
-// D3 = external system clock, set to 1; internal system clock, set to 0
-// D2 = reserved, set to 0
-// D1 = reserved, set to 0
-// D0 = reserved, set to 0
-
-// number of increments register
-// 0x88: D15 to D9 -- don't care
-// 0x89: D8 -- number of increments bit 1
-// 0x89: D7 to D0 -- number of increments bits 2 through 9; 9-bit integer number stored in binary format
-
-// number of settling times
-// 0x8A: D15 to D11 -- don't care
-// 0x8A: D10 to D9 -- 2-bit decode
-//        0 0 = default
-//        0 1 = # of cycles x 2
-//        1 0 = reserved
-//        1 1 = # of cycles x 4
-// 0x8A: D8 -- MSB number of settling times
-// 0x8B: D7 to D0 -- number of settling times; 9-bit integer number stored in binary format
-
-// status register
-
-
-int checkStatus() {
-  return (getByte(STATUS_REGISTER[0]) & 7);
-}
-
-boolean measureTemperature() {
-  
-   setControlRegister(MEASURE_TEMP);
-
-  delay(10); // wait for 10 ms
-
-  if (checkStatus() &1 == validTemperatureMeasurement) {
-
-    // temperature is available
-    int temperatureData = getByte(TEMPERATURE_DATA_REGISTER[0]) << 8;
-    temperatureData |= getByte(TEMPERATURE_DATA_REGISTER[1]);
-    temperatureData &= 0x3FFF; // remove first two bits
+    Autoimpedance driver for the electric imp
     
-    if (temperatureData & 0x2000 == 1) { // negative temperature
-      
-      temperatureData -= 0x4000;
+    USAGE:
+
+*/
+
+class ZSensor {
+
+    // i2c object
+    _i2c  = null;
+	_clock = null;
+    
+    static ADDRESS = 0x0D;
+    local numSteps = [null];
+    local startHz = [null];
+    local incHz = [null];
+
+    // Construct the  Object
+    constructor(i2c, clock) {
+        _i2c  = i2c;
+		_clock = clock;
     }
     
-    temperatureData /= 32;
+    function getZ() {
+        return -1;
+    }
     
-    Serial.print("Current temperature is ");
-    Serial.print(temperatureData); 
-    Serial.println(" degrees Celsius.");
+    local function getFreqCode(fHz) {
+        
+        local value = (fHz / (clock.freqHz / 4)) * 2^27;
+		local code = [null];
+ 
+        code[0] = (value & 0xFF0000) >> 0x10;
+        code[1] = (value & 0x00FF00) >> 0x08;
+        code[2] = (value & 0x0000FF);
+        
+		return code;
+    }
     
-    setControlRegister(POWER_DOWN);
+    //function setStartHz(fHz){
+        //startHz = fHz;
+    //}
     
-    return true;
-
-  } else {
-    return false;
-  }
+    //function setIncHz(fHz){
+        //incHz = fHz;
+    //}
+    
+   // function setNumSteps(N){
+        //numSteps = N;
+    //}
 }
 
-// start frequency and frequency increment formula:
-byte frequencyCode(float freqInHz, int byteNum) 
-{
-  long value = long((freqInHz / (CLOCK_SPEED / 4)) * pow(2,27));
+class Pot {
 
-  byte code[3];
+    // i2c object
+    _i2c  = null;
+    
+    // Shift 7-bit address to 8-bit address required by the imp
+    static ADDRESS = 0x2D << 1;
+    
+    // Resistances of wiper switch and A --> B terminals
+    static Rw   = 50;
+    static Rab  = 100e3;
 
-  code[0] = (value & 0xFF0000) >> 0x10;
-  code[1] = (value & 0x00FF00) >> 0x08;
-  code[2] = (value & 0x0000FF);
-
-  return code[byteNum];
+    // Construct the Object
+    constructor(i2c) {
+        _i2c  = i2c;
+    }
+    
+    function setR(R) {
+	    /*
+		Sets the A --> W resistance
+		
+        Inputs:
+            R: Resistance value, in ohms, less than 100k
+        
+        Returns:
+            i2c.write result
+        */
+        
+        if (R > Rab) {
+            return -1;
+        }
+        else {
+            
+            // Get data register value
+            local D = 256 + 256*(2*Rw - R)/Rab;
+            
+            // Configure the resistance from A -> W terminals
+            local i2c_result = _i2c.write(ADDRESS, "\00" + D.tochar());
+            imp.sleep(0.01); 
+            
+            // Return i2c result
+            return i2c_result;   
+            
+        }
+    }
 }
 
-boolean setStartFrequency(float freqInHz) 
-{
+class Clock {
 
-  Serial.print("Setting start frequency of AD5233 to ");
-  Serial.print(freqInHz);
-  Serial.println(" Hz.");
+    // i2c object
+    _i2c  = null;
+    
+    // Shift 7-bit address to 8-bit address required by the imp
+    static ADDRESS  = 0x17 << 1;
+    
+    // Current frequency setting
+    freqHz = null;
+    
+    // Construct the Object
+    constructor(i2c) {
+        _i2c  = i2c;
+    }
+    
+    function setHz(fHz) {
+        /*
+		Sets the clock frequency
+		
+        Inputs:
+            fHz: String specifying oscillator frequency, e.g. "50kHz"
+        
+        Returns:
+            i2c.write result
+        */
+        
+         // Lookup table for setting the oscillator frequency
+        local HZ_LOOKUP = 
+        {
+            f50MHz   =   ["\xFA\x36", 15, 653],   	//OCT=15, DAC = 653
+            f10MHz   =   ["\xD4\xC6", 15, 653],     //OCT=13, DAC = 305
+            f5MHz    =   ["\xC4\xC6", 15, 653],     //OCT=12, DAC = 305
+            f1MHz    =   ["\x9E\xFE", 15, 653],     //OCT=09, DAC = 959
+            f500kHz  =   ["\x8E\xFE", 15, 653],     //OCT=08, DAC = 959
+            f100kHz  =   ["\x66\x86", 15, 653],     //OCT=06, DAC = 686
+            f50kHz   =   ["\x56\x86", 15, 653],     //OCT=05, DAC = 686
+            f10kHz   =   ["\x33\x46", 15, 653],     //OCT=03, DAC = 346
+            f5kHz    =   ["\x23\x46", 15, 653],     //OCT=02, DAC = 346
+            f1kHz    =   ["\x00\x00", 15, 653]      //OCT=00, DAC = 000
+        }
+        
+        // Configure the clock frequency
+        local i2c_result = _i2c.write(ADDRESS, HZ_LOOKUP["f" + fHz][1]); 
+        imp.sleep(0.01); 
+		
+		// Note the true clock frequency
+		
 
-  boolean statusValue;
+        // Return i2c result
+        return i2c_result;   
+        
+    }
+}
 
-  for (int n = 0; n < 3; n++) {
-    statusValue = setByte(START_FREQUENCY_REGISTER[n], frequencyCode(freqInHz,n));
-  }
-
-  return statusValue;
-
+class Mux {
+    
 }
 
 
-boolean setFrequencyIncrement(float freqInHz) 
-{
+// Configure i2c bus
+hardware.i2c89.configure(CLOCK_SPEED_100_KHZ);
 
-  Serial.print("Setting frequency increment of AD5233 to ");
-  Serial.print(freqInHz);
-  Serial.println(" Hz.");
+// Assign globals
+pot <- Pot(hardware.i2c89);
+clock <- Clock(hardware.i2c89);
+zsensor <- ZSensor(hardware.i2c89,clock);
 
-  boolean statusValue;
+// Test script
+server.log("Autoimpedance is running...")
 
-  for (int n = 0; n < 3; n++) {
-    statusValue = setByte(FREQ_INCREMENT_REGISTER[n], frequencyCode(freqInHz,n));
-  }
 
-  return statusValue;
-
+local result = wiggler.setHz("10kHz"); 
+if (result == 0) {
+    
+    server.log("LTC6904 clock frequency set.");
 }
 
 
-boolean setNumberOfIncrements(int n) 
-{
-
-  Serial.print("Setting number of increments of AD5233 to ");
-  Serial.print(n);
-  Serial.println(".");
-
-  boolean i2cStatus; 
-
-  int numIncrements = min(n,511);
-  
-  i2cStatus = setByte(NUM_INCREMENTS_REGISTER[0], numIncrements >> 8);
-  i2cStatus = setByte(NUM_INCREMENTS_REGISTER[1], numIncrements & 255);
-
-  return i2cStatus;
+local result = pot.setR(20e3); 
+if (result == 0) {
+    server.log("AD5245 resistance set.");
 }
-
-
-boolean setNumberOfSettlingTimes(int n) 
-{
-
-  Serial.print("Setting number of settling times of AD5233 to ");
-  Serial.print(n);
-  Serial.println(".");
-
-  int decode;
-  int numSettlingTimes = min(n, 2047);
-
-  if (n > 1023) {
-    decode = 3;
-    numSettlingTimes /= 4;
-  } 
-  else if (n > 511) {
-    decode = 1;
-    numSettlingTimes /= 2;
-  } 
-  else {
-    decode = 0;
-    numSettlingTimes = n;
-  } 
-
-  boolean i2cStatus; 
-  
-  i2cStatus = setByte(NUM_SETTLING_CYCLES_REGISTER[0], (numSettlingTimes >> 8) + (decode << 1));
-  i2cStatus = setByte(NUM_SETTLING_CYCLES_REGISTER[0], numSettlingTimes & 255);
-  
-  return i2cStatus;
-
-}
-
