@@ -80,7 +80,7 @@ class Pot {
             R: Resistance value, in ohms, less than 100k
         
         Returns:
-            i2c.write result
+            i2c.write error code
         */
         
         if (R > Rab) {
@@ -131,10 +131,9 @@ class Clock {
             fHz: integer specifying oscillator frequency, e.g. 50e3 for 50 kHz
         
         Returns:
-            i2c.write result
+            i2c.write error code
         */
         
-
         if (fHz <= 1e3 || fHz > 68e6) {
             return -1;
         }
@@ -167,8 +166,89 @@ class Clock {
     }
 }
 
-class Mux {
+class ShiftReg {
     
+    // Serial, RClock, and SClock pins
+    ser = null;
+    rck = null; 
+    sck = null; 
+    
+    // Output register
+    out = [0,0,0,0,0,0,0,0];
+    
+    // Construct the Object
+    constructor() {
+        
+        hardware.pin2.configure(DIGITAL_OUT);
+        hardware.pin5.configure(DIGITAL_OUT);
+        hardware.pin7.configure(DIGITAL_OUT);
+        
+        rck = hardware.pin2;
+        sck = hardware.pin5;
+        ser = hardware.pin7;
+        
+        // Bring RClock and SClock HIGH to start
+        rck.write(1);
+        sck.write(1);
+        
+        // Zero the output pins
+        Clear();
+
+    }
+    
+    function Clear() {
+        /*
+		Clears the 8-bit output state of the 74HC95 register
+		
+        Inputs:
+            N/A
+        
+        Returns:
+            N/A
+        */
+        
+        Write(0);
+    }
+    
+    function Write(Byte) {
+        /*
+		Sets the 8-bit output state of the 74HC95 register
+		
+        Inputs:
+            Byte: byte specifying parallel port state, e.g. 170 = 10101010
+        
+        Returns:
+            Error code
+        */
+        
+        if (Byte > 255) {
+            
+            // Value too large
+            return -1;
+        }
+        else {
+            for (local idx = 0; idx < out.len(); idx += 1) {
+                out[idx] = Byte >> idx & 1;
+            }
+            
+            rck.write(0);
+            
+            for (local idx = out.len() - 1; idx >= 0; idx -= 1) {
+                
+                sck.write(0);
+                ser.write(out[idx]);
+                sck.write(1);
+
+            }
+            
+            rck.write(1);
+            
+            // Success
+            return 0;
+        }   
+            
+    }
+
 }
 
 
@@ -179,6 +259,7 @@ hardware.i2c89.configure(CLOCK_SPEED_100_KHZ);
 pot <- Pot(hardware.i2c89);
 clock <- Clock(hardware.i2c89);
 zsensor <- ZSensor(hardware.i2c89,clock);
+sr <- ShiftReg();
 
 // Test script
 server.log("Autoimpedance is running...")
@@ -195,3 +276,5 @@ local result = pot.setR(20e3);
 if (result == 0) {
     server.log("AD5245 resistance set to " + pot.Raw + " Ohms.");
 }
+
+sr.Write(170);
