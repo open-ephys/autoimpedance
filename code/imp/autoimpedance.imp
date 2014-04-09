@@ -174,7 +174,12 @@ class ShiftReg {
     sck = null; 
     
     // Output register
-    out = [0,0,0,0,0,0,0,0];
+    out = 0
+    // Register bit meanings
+    // b0-3:    MUX16 address
+    // b4:      0:  MUX16A      1: MUX16B
+    // b5-6     00: Ztest       11: Plate mode
+    // b7       0:  Plate off   1: Plate on
     
     // Construct the Object
     constructor() {
@@ -192,11 +197,11 @@ class ShiftReg {
         sck.write(1);
         
         // Zero the output pins
-        Clear();
+        clear();
 
     }
     
-    function Clear() {
+    function clear() {
         /*
 		Clears the 8-bit output state of the 74HC95 register
 		
@@ -207,12 +212,12 @@ class ShiftReg {
             N/A
         */
         
-        Write(0);
+        setByte(0);
     }
     
-    function Write(Byte) {
+    function setByte(byte) {
         /*
-		Sets the 8-bit output state of the 74HC95 register
+		Sets the 8-bit state resiter of the 74HC95
 		
         Inputs:
             Byte: byte specifying parallel port state, e.g. 170 = 10101010
@@ -221,34 +226,163 @@ class ShiftReg {
             Error code
         */
         
-        if (Byte > 255) {
+        if (byte > 255) {
             
             // Value too large
             return -1;
         }
         else {
-            for (local idx = 0; idx < out.len(); idx += 1) {
-                out[idx] = Byte >> idx & 1;
-            }
             
-            rck.write(0);
-            
-            for (local idx = out.len() - 1; idx >= 0; idx -= 1) {
-                
-                sck.write(0);
-                ser.write(out[idx]);
-                sck.write(1);
-
-            }
-            
-            rck.write(1);
+            out = byte;
             
             // Success
             return 0;
         }   
             
     }
+    
+    function setBit(idx, val) {
+        /*
+		Sets a single specified bit within the 8-bit state register of the 74HC95
+		
+        Inputs:
+            idx: position of bit to apply val; 0 though 7
+            val: value of position idx; 0 or 1
+            
+        Returns:
+            Error code
+        */
+        
+        if (idx > 7 || idx < 0) {
+            
+            // idx too large or negative
+            return -1;
+        }
+        else {
+            
+            if (val > 1 || val < 0) {
+                
+                // Val must be 0 or 1
+                return -1;
+            }
+            else {
+                
+                // Set single bit
+                out = (out & ~(1 << idx)) | val << idx;
 
+                // Success
+                return 0;
+            }
+
+
+        } 
+        
+    }
+    
+    function update() {
+        /*
+		Updates the output pins of the 74HC95 based upon the value of this.out
+		
+        Inputs:
+            N/A
+        
+        Returns:
+            N/A
+        */
+        
+        rck.write(0);
+            
+        for (local idx = 7; idx >= 0; idx -= 1) {
+            
+            sck.write(0);
+            ser.write(out >> idx & 1);
+            sck.write(1);
+        }
+        
+        rck.write(1);
+    }
+
+}
+
+class Mux {
+    
+    // Shift register object
+    _sr  = null;
+    
+    // Construct the Object
+    constructor(sr) {
+        _sr  = sr;
+    }
+    
+    function setMode(mode) {
+        /*
+		Sets the mode of the autoimpedance board. Available modes are impedance
+		testing and plating modes.
+		
+        Inputs:
+            mode:   "ztest" to select impedance testing mode
+                    "plate" to select plating mode
+            
+        Returns:
+            Error code
+        */
+
+        switch (mode) {
+            case "ztest":
+                _sr.setBit(5, 0);
+                _sr.setBit(6, 0);
+                _sr.update();
+                break;
+            
+            case "plate":
+                _sr.setBit(5, 1);
+                _sr.setBit(6, 1);
+                _sr.update();
+                break;
+                
+            default:
+                sq_throwerror(mode,"invalid mode.");
+                return -1;
+        }
+    }
+    
+    function setChannel(chan) {
+        /*
+		Selects the channel to be measured or plated.
+		
+        Inputs:
+            chan: Channel number; 0-31
+            
+        Returns:
+            Error code
+        */
+        
+        if (chan >= 32 || chan < 0) {
+            
+            // Channel number is too high or negative
+            return -1;   
+        }
+        else {
+            
+            // Set the MUX16 address
+            _sr.out = (_sr.out & ~0x0F) | chan
+            
+            // Select which MUX16 to use
+            if (chan <= 15) {
+                _sr.setBit(4, 0) // MUX16b
+            }
+            else {
+                _sr.setBit(4, 1) // MUX16a
+            }
+            
+            server.log(_sr.out);
+            
+            _sr.update();
+            
+            // Success
+            return 0;
+        }
+    }
 }
 
 
@@ -260,6 +394,7 @@ pot <- Pot(hardware.i2c89);
 clock <- Clock(hardware.i2c89);
 zsensor <- ZSensor(hardware.i2c89,clock);
 sr <- ShiftReg();
+mux <- Mux(sr);
 
 // Test script
 server.log("Autoimpedance is running...")
@@ -267,14 +402,15 @@ server.log("Autoimpedance is running...")
 
 local result = clock.setHz(10e3); 
 if (result == 0) {
-    
     server.log("LTC6904 clock frequency set to " + clock.freqHz + " Hz.");
 }
 
 
 local result = pot.setR(20e3); 
 if (result == 0) {
-    server.log("AD5245 resistance set to " + pot.Raw + " Ohms.");
+    server.log("AD5245 A->W resistance set to " + pot.Raw + " Ohms.");
 }
 
-sr.Write(170);
+
+mux.setMode("ztest");
+mux.setChannel(5);
