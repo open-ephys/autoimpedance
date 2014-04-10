@@ -12,44 +12,267 @@ class ZSensor {
     _i2c  = null;
 	_clock = null;
     
-    static ADDRESS = 0x0D;
-    numSteps = [null];
-    startHz = [null];
-    incHz = [null];
-
+    // Shift 7-bit address to 8-bit address required by the imp
+    static ADDRESS = 0x0D << 1;
+    
+    // User changeable properties
+    numSteps = null;
+    startHz = null;
+    incHz = null;
+    nocyc = null;
+    voltage = null;
+    
+    // Internal variables
+    ctl = null; // 16-bit control register
+    cyc = null; // 16-bit no. cycles register
+    
+    // Results
+    tmp = null; // temperature
+    zR = null; // real impedance component
+    zI = null; // imaginary impedance components
+    ohm = null; // impedance magnitude
+    rad = null; // relative phase
+    
+    
     // Construct the  Object
     constructor(i2c, clock) {
         _i2c  = i2c;
 		_clock = clock;
+		
+		// Default sweep values
+		numSteps = 10;
+        startHz = 5e3;
+        incHz = 1e3;
+        nocyc = 1; 
+        
+        // Default voltage
+        voltage = 0.2;
+        
+        // Default ctl 
+        ctl = 0xA000; // power-down mode
+        cyc = 0x0001; // 1 cycle
+
     }
     
     function getZ() {
         return -1;
     }
     
-    function getFreqCode(fHz) {
+    function setSweepParameters() {
         
-        local value = (fHz / (clock.freqHz / 4)) * 2^27;
-		local code = [null];
- 
-        code[0] = (value & 0xFF0000) >> 0x10;
-        code[1] = (value & 0x00FF00) >> 0x08;
-        code[2] = (value & 0x0000FF);
+        // Start frequency
+        local D = getFreqCode(startHz);
+        _i2c.write(ADDRESS, 0x82 + (D >> 16).tochar()); 
+        _i2c.write(ADDRESS, 0x83 + (D >> 8).tochar()); 
+        _i2c.write(ADDRESS, 0x84 + D.tochar()); 
         
-		return code;
+        // Frequency increment
+        D = getFreqCode(incHz);
+        _i2c.write(ADDRESS, 0x85 + (D >> 16).tochar()); 
+        _i2c.write(ADDRESS, 0x86 + (D >> 8).tochar()); 
+        _i2c.write(ADDRESS, 0x87 + D.tochar()); 
+        
+        // Number of steps
+        D = numSteps;
+        _i2c.write(ADDRESS, 0x88 + (D >> 8).tochar()); 
+        result = _i2c.write(ADDRESS, 0x89 + D.tochar()); 
+        
+        return result;
     }
     
-    //function setStartHz(fHz){
-        //startHz = fHz;
-    //}
     
-    //function setIncHz(fHz){
-        //incHz = fHz;
-    //}
+    function standby() {
+        
+        // Standby command
+        D = (ctl & ~(0xF0)) | 0xB0;
+        result = _i2c.write(ADDRESS, 0x80 + D); 
+        
+        return result;
+    }
     
-   // function setNumSteps(N){
-        //numSteps = N;
-    //}
+    function startSweep() {
+        
+        // Start sweep command
+        D = (ctl & ~(0xF0)) | 0x20;
+        result = _i2c.write(ADDRESS, 0x80 + D); 
+        
+        return result;
+    }
+    
+    function incrementFreq() {
+        
+        // Increment frequency command
+        D = (ctl & ~(0xF0)) | 0x30;
+        result = _i2c.write(ADDRESS, 0x80 + D); 
+        
+        return result;
+    }
+    
+    function repeatFreq() {
+        
+        // Repeat frequency command
+        D = (ctl & ~(0xF0)) | 0x40;
+        result = _i2c.write(ADDRESS, 0x80 + D); 
+        
+        return result;
+    }
+    
+    function measureTemp() {
+        
+        // Measure temperature command
+        D = (ctl & ~(0xF0)) | 0x90;
+        result = _i2c.write(ADDRESS, 0x80 + D); 
+        
+        return result;
+    }
+    
+    function powerDown() {
+        
+        // Power-down command
+        D = (ctl & ~(0xF0)) | 0xA0;
+        result = _i2c.write(ADDRESS, 0x80 + D); 
+        
+        return result;
+    }
+
+    function getFreqCode(fHz) {
+        
+        // Covert to 24-bit code
+        local value = math.floor((fHz.tofloat() / (_clock.freqHz / 4.0)) * 2^27);
+
+		return (value & 0x00FFFFFF);
+    }
+    
+    function setStartHz(fHz){
+        
+        if (fHz < 0) {
+            return -1;
+        }
+        else {
+            
+            startHz = fHz;
+            
+            // Success
+            return 0;
+        }
+    }
+    
+    function setIncHz(fHz){
+        
+        if (fHz < 0) {
+            return -1;
+        }
+        else {
+            
+            incHz = fHz;
+            
+            // Success
+            return 0;
+        }
+    }
+    
+    function setNumSteps(n){
+        
+        if (n < 0 || f > 511) {
+            return -1;
+        }
+        else {
+            
+            numSteps = n;
+            
+            // Success
+            return 0;
+        }
+    }
+    
+    function setVoltage(v) {
+        
+        if (v > 0 && v < 0.4) {
+            
+            // 200 mV command
+            ctl = (ctl & ~(0x06)) | 1 << 1;
+            voltage = 0.2;
+        }
+        else if (v >= 0.4 && v < 1.0) {
+            
+            // 400 mV command
+            ctl = (ctl & ~(0x06)) | 2 << 1;
+            voltage = 0.4;
+        }
+        else if (v >= 1.0 && v < 2.0) {
+            
+            // 400 mV command
+            ctl = (ctl & ~(0x06)) | 3 << 2;
+            voltage = 1.0;
+        }
+        else if (v >= 2.0) {
+            
+            // 400 mV command
+            ctl = (ctl & ~(0x06)) | 0 << 2;
+            voltage = 2.0;
+        }
+        else {
+            
+            // Invalid voltage requested
+            return -1;
+        }
+        
+        // Set the voltage on the chip
+        _i2c.write(ADDRESS, 0x80 + (ctl >> 8).tochar());
+        result = _i2c.write(ADDRESS, 0x81 + ctl.tochar()); 
+        
+        if (result == 0) {
+            
+            // Success
+            voltage = 0.2;
+            return voltage;
+        }
+        else {
+            
+            // Return i2c error
+            return result;
+        }
+    }
+    
+    function setNumSettleCycles(n) {
+        
+        if (n > 0 && n < 511) {
+            
+            // Set number of cycles register to n
+            cyc = (cyc & ~(0x10)) | (n >> 8).tochar();
+            cyc = (cyc & ~(0x0F)) | n.tochar();
+            
+            // Set the number of cycles on the chip
+            _i2c.write(ADDRESS, 0x8A + (cyc >> 8).tochar());
+            result = _i2c.write(ADDRESS, 0x8B + cyc.tochar()); 
+            
+            return result;
+            
+        }
+        else {
+            
+            // Invalid number of cycles
+            return -1;
+        }
+    }
+    
+    function queryStatus() {
+        
+        result = _i2c.read(ADDRESS, 0x8F, 1)[0];
+    }
+    
+    function getZ() {
+        
+        // Read the impedance value registers
+        zR = (zR & ~(0xF0)) | _i2c.read(ADDRESS, 0x94, 1)[0] << 8;
+        zR = (zR & ~(0x0F)) | _i2c.read(ADDRESS, 0x95, 1)[0];
+        zI = (zR & ~(0xF0)) | _i2c.read(ADDRESS, 0x96, 1)[0] << 8;
+        zI = (zR & ~(0x0F)) | _i2c.read(ADDRESS, 0x97, 1)[0];
+        
+        // Convert to resistance and phase values
+        
+        
+    }
 }
 
 class Pot {
