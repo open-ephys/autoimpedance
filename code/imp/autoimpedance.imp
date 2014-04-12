@@ -19,8 +19,10 @@ class ZSensor {
     numSteps = null;
     startHz = null;
     incHz = null;
-    nocyc = null;
+    numCyc = null;
     voltage = null;
+    gain = null;
+    clkSrc = null;
     
     // Internal variables
     ctl = null; // 16-bit control register
@@ -29,7 +31,7 @@ class ZSensor {
     // Results
     tmp = null; // temperature
     zR = null; // real impedance component
-    zI = null; // imaginary impedance components
+    zI = null; // imaginary impedance component
     ohm = null; // impedance magnitude
     rad = null; // relative phase
     
@@ -43,105 +45,167 @@ class ZSensor {
 		numSteps = 10;
         startHz = 5e3;
         incHz = 1e3;
-        nocyc = 1; 
+        numCyc = 1; 
         
         // Default voltage
         voltage = 0.2;
         
+        // PGA Gain
+        gain = 1;
+        
         // Default ctl 
         ctl = 0xA000; // power-down mode
         cyc = 0x0001; // 1 cycle
+        
+        // Zero the measurements
+        tmp = 0;
+        zR = 0;
+        zI = 0;
+        ohm = 0;
+        rad = 0;
+        
+        // Set clock source to external
+        setClkSrc("external");
 
     }
-    
-    function getZ() {
-        return -1;
-    }
-    
-    function setSweepParameters() {
+
+    function setSweep() {
         
         // Start frequency
         local D = getFreqCode(startHz);
-        _i2c.write(ADDRESS, 0x82 + (D >> 16).tochar()); 
-        _i2c.write(ADDRESS, 0x83 + (D >> 8).tochar()); 
-        _i2c.write(ADDRESS, 0x84 + D.tochar()); 
+        _i2c.write(ADDRESS, "\x82" + (D >> 16).tochar()); 
+        _i2c.write(ADDRESS, "\x83" + (D >> 8).tochar()); 
+        _i2c.write(ADDRESS, "\x84" + D.tochar()); 
         
         // Frequency increment
         D = getFreqCode(incHz);
-        _i2c.write(ADDRESS, 0x85 + (D >> 16).tochar()); 
-        _i2c.write(ADDRESS, 0x86 + (D >> 8).tochar()); 
-        _i2c.write(ADDRESS, 0x87 + D.tochar()); 
+        _i2c.write(ADDRESS, "\x85" + (D >> 16).tochar()); 
+        _i2c.write(ADDRESS, "\x86" + (D >> 8).tochar()); 
+        _i2c.write(ADDRESS, "\x87" + D.tochar()); 
         
         // Number of steps
         D = numSteps;
-        _i2c.write(ADDRESS, 0x88 + (D >> 8).tochar()); 
-        result = _i2c.write(ADDRESS, 0x89 + D.tochar()); 
-        
-        return result;
+        _i2c.write(ADDRESS, "\0x88" + (D >> 8).tochar()); 
+        return _i2c.write(ADDRESS, "\0x89" + D.tochar()); 
     }
-    
     
     function standby() {
         
         // Standby command
-        D = (ctl & ~(0xF0)) | 0xB0;
-        result = _i2c.write(ADDRESS, 0x80 + D); 
+        ctl = (ctl & ~(0xF0 << 8)) | 0xB0 << 8;
+        return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar());
+    }
+    
+    function initStartFreq() {
         
-        return result;
+        // Intialize the test line using the start frequency
+        ctl = (ctl & ~(0xF0 << 8)) | 0x10 << 8;
+        return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar()); 
     }
     
     function startSweep() {
         
         // Start sweep command
-        D = (ctl & ~(0xF0)) | 0x20;
-        result = _i2c.write(ADDRESS, 0x80 + D); 
-        
-        return result;
+        ctl = (ctl & ~(0xF0 << 8)) | 0x20 << 8;
+        return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar()); 
     }
     
     function incrementFreq() {
         
         // Increment frequency command
-        D = (ctl & ~(0xF0)) | 0x30;
-        result = _i2c.write(ADDRESS, 0x80 + D); 
-        
-        return result;
+        ctl = (ctl & ~(0xF0 << 8)) | 0x30 << 8;
+        return _i2c.write(ADDRESS, "\x80" +(ctl >> 8).tochar()); 
     }
     
     function repeatFreq() {
         
         // Repeat frequency command
-        D = (ctl & ~(0xF0)) | 0x40;
-        result = _i2c.write(ADDRESS, 0x80 + D); 
-        
-        return result;
+        ctl = (ctl & ~(0xF0 << 8)) | 0x40 << 8;
+        return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar()); 
     }
     
     function measureTemp() {
         
         // Measure temperature command
-        D = (ctl & ~(0xF0)) | 0x90;
-        result = _i2c.write(ADDRESS, 0x80 + D); 
-        
-        return result;
+        ctl = (ctl & ~(0xF0 << 8)) | 0x90 << 8;
+        return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar()); 
     }
     
     function powerDown() {
         
         // Power-down command
-        D = (ctl & ~(0xF0)) | 0xA0;
-        result = _i2c.write(ADDRESS, 0x80 + D); 
-        
-        return result;
+        ctl = (ctl & ~(0xF0 << 8)) | 0xA0<< 8;
+        return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar()); 
     }
 
     function getFreqCode(fHz) {
         
         // Covert to 24-bit code
-        local value = math.floor((fHz.tofloat() / (_clock.freqHz / 4.0)) * 2^27);
-
-		return (value & 0x00FFFFFF);
+        if (clkSrc == "internal") {
+            local value = math.floor((fHz.tofloat() / 4.0e5) * math.pow(2,27));
+    		return (value.tointeger() & 0x00FFFFFF);
+        }
+        else if (clkSrc == "external") {
+            local value = math.floor((fHz.tofloat() / (_clock.freqHz / 4.0)) * math.pow(2,27));
+    		return (value.tointeger() & 0x00FFFFFF);
+        }
+        else {
+            
+            // Invalid clock source
+            return -1;
+        }
     }
+    
+    function setPGAGain(K) {
+    
+        if (K == 1) {
+            
+            // 1X gain
+            gain = K;
+            ctl = (ctl & ~(0x01 << 8)) | (1 << 8);
+        }
+        else if(K == 5) {
+            
+            // 5X gain
+            gain = K;
+            ctl = (ctl & ~(0x01 << 8)) | (0 << 8);
+        }
+        else {
+            return -1;
+        }
+        
+        return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar()); 
+    }
+    
+    function reset() {
+    
+        ctl = (ctl & ~(0x10)) | 0x10;
+        return _i2c.write(ADDRESS, "\x81" + ctl.tochar()); 
+    }
+    
+    function setClkSrc(src) {
+    
+        if (src == "internal") {
+           
+            ctl = (ctl & ~(0x08)) | 0x00; 
+        }
+        else if (src == "external") {
+            
+            ctl = (ctl & ~(0x08)) | 0x08;
+        }
+        else {
+            
+            // Invalid source
+            return -1;
+        }
+        
+        // Log the clock source
+        clkSrc = src;
+        
+        // Update the chip
+        return _i2c.write(ADDRESS, "\x81" + ctl.tochar()); 
+    }
+    
     
     function setStartHz(fHz){
         
@@ -173,7 +237,7 @@ class ZSensor {
     
     function setNumSteps(n){
         
-        if (n < 0 || f > 511) {
+        if (n < 0 || n > 511) {
             return -1;
         }
         else {
@@ -187,28 +251,29 @@ class ZSensor {
     
     function setVoltage(v) {
         
+        // Never set voltage _higher_ than requested by user
         if (v > 0 && v < 0.4) {
             
             // 200 mV command
-            ctl = (ctl & ~(0x06)) | 1 << 1;
+            ctl = (ctl & ~(0x06 << 8)) | 1 << 9;
             voltage = 0.2;
         }
         else if (v >= 0.4 && v < 1.0) {
             
             // 400 mV command
-            ctl = (ctl & ~(0x06)) | 2 << 1;
+            ctl = (ctl & ~(0x06 << 8)) | 2 << 9;
             voltage = 0.4;
         }
         else if (v >= 1.0 && v < 2.0) {
             
-            // 400 mV command
-            ctl = (ctl & ~(0x06)) | 3 << 2;
+            // 1 V command
+            ctl = (ctl & ~(0x06 << 8)) | 3 << 9;
             voltage = 1.0;
         }
-        else if (v >= 2.0) {
+        else if (v == 2.0) {
             
-            // 400 mV command
-            ctl = (ctl & ~(0x06)) | 0 << 2;
+            // 2 V command
+            ctl = (ctl & ~(0x06 << 8)) | 0 << 9;
             voltage = 2.0;
         }
         else {
@@ -218,36 +283,23 @@ class ZSensor {
         }
         
         // Set the voltage on the chip
-        _i2c.write(ADDRESS, 0x80 + (ctl >> 8).tochar());
-        result = _i2c.write(ADDRESS, 0x81 + ctl.tochar()); 
-        
-        if (result == 0) {
-            
-            // Success
-            voltage = 0.2;
-            return voltage;
-        }
-        else {
-            
-            // Return i2c error
-            return result;
-        }
+        return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar());
     }
     
     function setNumSettleCycles(n) {
         
-        if (n > 0 && n < 511) {
+        if (n > 0 && n <= 511) {
             
             // Set number of cycles register to n
-            cyc = (cyc & ~(0x10)) | (n >> 8).tochar();
-            cyc = (cyc & ~(0x0F)) | n.tochar();
+            cyc = (cyc & ~(0x01 << 8)) | (n >> 8);
+            cyc = (cyc & ~(0x0F)) | n;
+            
+            // Record the value
+            numCyc = n;
             
             // Set the number of cycles on the chip
-            _i2c.write(ADDRESS, 0x8A + (cyc >> 8).tochar());
-            result = _i2c.write(ADDRESS, 0x8B + cyc.tochar()); 
-            
-            return result;
-            
+            _i2c.write(ADDRESS, "\x8A" + (cyc >> 8).tochar());
+            return _i2c.write(ADDRESS, "\x8B" + cyc.tochar()); 
         }
         else {
             
@@ -257,17 +309,61 @@ class ZSensor {
     }
     
     function queryStatus() {
+        /*
+		Returns the current status register value
+		
+        Inputs:
+            which: string representing the register you would like to
+            know the status of. (available options; "temp","z","sweep")
         
-        result = _i2c.read(ADDRESS, 0x8F, 1)[0];
+        Returns:
+            Status register value:  0; not done
+                                    1; valid temp measurement
+                                    2; Valid real/imag data
+                                    3; Frequency sweep complete
+        */
+        
+        // switch (which) {
+        //     case "temp" :
+                
+        //         return
+        //         break;
+        // }
+        
+        if (setReadAddress(0x8F) == 0) {
+            local status = _i2c.read(ADDRESS,"",1)[0];
+            return status & 0x07;
+        }
+        else {
+            
+            // Could not set address pointer
+            return -1;
+        }
+    }
+    
+    function setReadAddress(address) {
+        
+        // Set the address pointer to a particular register address to prepare 
+        // for a one-shot read.
+        return _i2c.write(ADDRESS, "\xB0" + address.tochar());
     }
     
     function getZ() {
         
-        // Read the impedance value registers
-        zR = (zR & ~(0xF0)) | _i2c.read(ADDRESS, 0x94, 1)[0] << 8;
-        zR = (zR & ~(0x0F)) | _i2c.read(ADDRESS, 0x95, 1)[0];
-        zI = (zR & ~(0xF0)) | _i2c.read(ADDRESS, 0x96, 1)[0] << 8;
-        zI = (zR & ~(0x0F)) | _i2c.read(ADDRESS, 0x97, 1)[0];
+        // Set the read address and read the data in that address
+        
+        setReadAddress(0x94);
+        zR = (zR & ~(0xFF00)) | _i2c.read(ADDRESS, "", 1)[0] << 8;
+
+        setReadAddress(0x95);
+        zR = (zR & ~(0x00FF)) | _i2c.read(ADDRESS, "", 1)[0];
+            
+        setReadAddress(0x96);
+        zI = (zR & ~(0xFF00)) | _i2c.read(ADDRESS, "", 1)[0] << 8;
+            
+        setReadAddress(0x97);
+        zI = (zR & ~(0x00FF)) | _i2c.read(ADDRESS, "", 1)[0];
+        
         
         // Convert to resistance and phase values
         
@@ -314,15 +410,11 @@ class Pot {
             // Get data register value
             local D = 256.0 + 256.0*(2.0*Rw - R)/Rab;
             
-            // Configure the resistance from A -> W terminals
-            local i2c_result = _i2c.write(ADDRESS, "\00" + D.tochar());
-            
             // Log the true clock  A -> W resistance
             Raw = Rab*(256.0 - math.floor(D))/256.0 + 2*Rw;
             
-            // Return i2c result
-            return i2c_result;   
-            
+            // Configure the resistance from A -> W terminals
+            return _i2c.write(ADDRESS, "\00" + D.tochar());
         }
     }
 }
@@ -344,6 +436,9 @@ class Clock {
     // Construct the Object
     constructor(i2c) {
         _i2c  = i2c;
+        
+        // Default power up freq of LTC690x
+        freqHz =1.039e3;
     }
     
     function setHz(fHz) {
@@ -365,16 +460,13 @@ class Clock {
             // Calculate the OCT and DAC register values
             local oct = math.floor(3.322*math.log10(fHz/1039.0),0).tointeger();
             local dac = round(2048.0-(2078.0*math.pow(2,10.0 + oct))/fHz,0).tointeger();
+            
+		    // Log the true clock frequency
+		    freqHz = math.pow(2,oct.tofloat())*(2078.0/(2-dac.tofloat()/1024.0));
         
             // Configure the clock frequency
             local D = oct << 12 | dac << 2 | POW;
-            local i2c_result = _i2c.write(ADDRESS, (D >> 8).tochar() + D.tochar()); 
-		
-		    // Log the true clock frequency
-		    freqHz = math.pow(2,oct.tofloat())*(2078.0/(2-dac.tofloat()/1024.0));
-
-            // Return i2c result
-            return i2c_result;  
+            return _i2c.write(ADDRESS, (D >> 8).tochar() + D.tochar()); 
         }
   
     }
@@ -383,9 +475,7 @@ class Clock {
         local f = math.pow(10, decimalPoints) * 1.0;
         local newVal = val * f;
         newVal = math.floor(newVal + 0.5)
-        newVal = (newVal * 1.0) / f;
- 
-        return newVal;
+        return (newVal * 1.0) / f;
     }
 }
 
@@ -440,7 +530,7 @@ class ShiftReg {
     
     function setByte(byte) {
         /*
-		Sets the 8-bit state resiter of the 74HC95
+		Sets the 8-bit state register of the 74HC95
 		
         Inputs:
             Byte: byte specifying parallel port state, e.g. 170 = 10101010
@@ -567,6 +657,9 @@ class Mux {
                 sq_throwerror(mode,"invalid mode.");
                 return -1;
         }
+        
+        // Success
+        return 0;
     }
     
     function setChannel(chan) {
@@ -619,21 +712,53 @@ zsensor <- ZSensor(hardware.i2c89,clock);
 sr <- ShiftReg();
 mux <- Mux(sr);
 
-// Test script
+// // Test script
 server.log("Autoimpedance is running...")
 
 
-local result = clock.setHz(10e3); 
-if (result == 0) {
-    server.log("LTC6904 clock frequency set to " + clock.freqHz + " Hz.");
+server.log(clock.setHz(500e5)); 
+server.log(pot.setR(20e3)); 
+server.log(mux.setMode("ztest"));
+server.log(mux.setChannel(5));
+server.log(zsensor.powerDown());
+server.log(zsensor.standby());
+server.log(zsensor.reset());
+server.log(zsensor.setClkSrc("external"));
+server.log(zsensor.setVoltage(2.0));
+server.log(zsensor.setStartHz(500));
+server.log(zsensor.setIncHz(10));
+server.log(zsensor.setNumSteps(100));
+server.log(zsensor.setNumSettleCycles(10));
+server.log(zsensor.setPGAGain(1));
+server.log(zsensor.setSweep());
+server.log(zsensor.initStartFreq());
+server.log(zsensor.queryStatus());
+server.log(zsensor.startSweep());
+
+
+local status = zsensor.queryStatus();
+while ((status & 0x04) != 4) {
+
+
+    while ((status & 0x02) != 2) {
+         imp.sleep(0.1);
+          status = zsensor.queryStatus();
+    }
+    
+    // Valid real/image data
+    zsensor.getZ();
+    server.log(zsensor.zR);
+    server.log(zsensor.zI);
+    
+    
+    // Increment frequency
+    zsensor.incrementFreq();
+    status = zsensor.queryStatus();
+    
+    
 }
 
-
-local result = pot.setR(20e3); 
-if (result == 0) {
-    server.log("AD5245 A->W resistance set to " + pot.Raw + " Ohms.");
-}
+server.log(zsensor.powerDown());
 
 
-mux.setMode("ztest");
-mux.setChannel(5);
+

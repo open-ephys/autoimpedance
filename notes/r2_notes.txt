@@ -14,6 +14,8 @@ Potential autoimpedance circuit improvements
 
 5. Do we need a DC blocking cap at the test_out pin of the AD5933 to prevent the DC bias (table 5 of AD5933 datasheet) on test signal from electroplating during the impedance test?
 
+	> EDIT: The DC offset is almost certainly a result of the single supply nature of the ic. The best way to fix this might be to implement a simple virtual ground circuit, and a higher voltage battery to create a negative rail. Then the test signal could be level shifted to 0V. Of course, vgnd would need to drive the saline bath too, so it would have to be a least a little hefty. We could also just send the test signal though an isolator although I doubt Josh will like that approach.
+
 6. What p2p excitation voltage should we be using?
 
 7. Why is the external oscillator required?
