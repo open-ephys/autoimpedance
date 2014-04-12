@@ -834,7 +834,10 @@ server.log(mux.setChannel(5));
 //server.log(zsensor.startSweep());
 //server.log(zsensor.standby());
 
-server.log(isrc.setI(10));
+
+// TODO: the actual current source seems to be inversely related to the the 
+// required amount of current for some reason
+server.log(isrc.setI(10)); 
 server.log(isrc.iset);
 server.log(mux.plate(3));
 
