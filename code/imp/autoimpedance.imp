@@ -29,12 +29,13 @@ class ZSensor {
     cyc = null; // 16-bit no. cycles register
     
     // Results
-    tmp = null; // temperature
-    zR = null; // real impedance component
-    zI = null; // imaginary impedance component
-    ohm = null; // impedance magnitude
-    rad = null; // relative phase
-    
+    zR = null; // Real impedance component
+    zI = null; // Imaginary impedance component
+    ohm = null; // Impedance magnitude
+    rad = null; // Relative phase
+    tempR = null; // Temperature register
+    tempC = null; // Ambient device temp in deg. C
+    tempK = null; // Ambient device temp in K
     
     // Construct the  Object
     constructor(i2c, clock) {
@@ -53,20 +54,19 @@ class ZSensor {
         // PGA Gain
         gain = 1;
         
-        // Default ctl 
+        // Default register values
         ctl = 0xA000; // power-down mode
         cyc = 0x0001; // 1 cycle
+        tempR = 0;
         
         // Zero the measurements
-        tmp = 0;
         zR = 0;
         zI = 0;
         ohm = 0;
         rad = 0;
-        
+
         // Set clock source to external
         setClkSrc("external");
-
     }
 
     function setSweep() {
@@ -126,7 +126,7 @@ class ZSensor {
     
     function measureTemp() {
         
-        // Measure temperature command
+        // Repeat frequency command
         ctl = (ctl & ~(0xF0 << 8)) | 0x90 << 8;
         return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar()); 
     }
@@ -205,7 +205,6 @@ class ZSensor {
         // Update the chip
         return _i2c.write(ADDRESS, "\x81" + ctl.tochar()); 
     }
-    
     
     function setStartHz(fHz){
         
@@ -323,13 +322,6 @@ class ZSensor {
                                     3; Frequency sweep complete
         */
         
-        // switch (which) {
-        //     case "temp" :
-                
-        //         return
-        //         break;
-        // }
-        
         if (setReadAddress(0x8F) == 0) {
             local status = _i2c.read(ADDRESS,"",1)[0];
             return status & 0x07;
@@ -368,6 +360,45 @@ class ZSensor {
         // Convert to resistance and phase values
         
         
+    }
+    
+    function getTemp() {
+        
+        // Issue measure temperature command
+        if (measureTemp() != 0) {
+            
+            // Failed to set control register
+            return -1;
+        }
+        
+        // Wait for valid temperature result
+        while((queryStatus() & 0x01) != 1) {
+            imp.sleep(0.001);
+        }
+        
+        // Read temperature result
+        setReadAddress(0x92);
+        tempR = (tempR & ~(0xFF00)) | _i2c.read(ADDRESS, "", 1)[0] << 8;
+        
+        setReadAddress(0x93);
+        tempR = (tempR & ~(0x00FF)) | _i2c.read(ADDRESS, "", 1)[0];
+
+        // Convert 13-bit temp meausrement to C/K
+        if ((tempR & 0x02000000) == 0) {
+            
+            // This is a positive value
+            tempC = (tempR & 0x03FFFFFF).tofloat()/32.0;
+            tempK = tempC + 273.15;
+        } 
+        else { 
+            
+            // This is a negative value
+            tempC = ((tempR & 0x03FFFFFF).tofloat() - 8192.0)/32.0;
+            tempK = tempC + 273.15;
+        }
+        
+        // Success
+        return 0;
     }
 }
 
@@ -657,9 +688,36 @@ class Mux {
                 sq_throwerror(mode,"invalid mode.");
                 return -1;
         }
-        
+
         // Success
         return 0;
+    }
+    
+    function plate(t) {
+        /*
+		Delivers DC current to the currently selected electrode. The amount of 
+		current delivered depends on the settings of a previously devied ISrc object.
+		
+        Inputs:
+            t: Time, in seconds, that current should be delivered for.
+            
+        Returns:
+            Error code
+        */
+        
+        // Make sure we are in plating mode
+        setMode("plate");
+        
+        // Deliver current for specified time period
+        _sr.setBit(7,1);
+        _sr.update();
+        imp.sleep(t);
+        _sr.setBit(7,0);
+        _sr.update();
+        
+         // Success
+        return 0;
+        
     }
     
     function setChannel(chan) {
@@ -701,6 +759,45 @@ class Mux {
     }
 }
 
+class ISrc {
+    
+    _pot = null;
+    _zsensor = null;
+    
+    // User parameters
+    iset = null;
+    
+    constructor(pot, zsensor) {
+        _pot = pot;
+        _zsensor = zsensor;
+    }
+    
+    function setI(i) {
+        /*
+		Sets the temperature-compenstated output of the onboard LM324 current source.
+		
+        Inputs:
+            i: Required current in uA
+            
+        Returns:
+            Error code
+        */
+        
+        // Update the temperature measurement in the vacinity of LM324
+        zsensor.getTemp();
+        
+        // Set the current output 
+        local R = (227.0 * zsensor.tempK)/(i.tofloat());
+        _pot.setR(R);
+        
+        // Log the current iset value
+        iset = (227.0 * zsensor.tempK)/_pot.Raw;
+        
+        // Success
+        return 0;
+    }
+}
+
 
 // Configure i2c bus
 hardware.i2c89.configure(CLOCK_SPEED_100_KHZ);
@@ -711,54 +808,67 @@ clock <- Clock(hardware.i2c89);
 zsensor <- ZSensor(hardware.i2c89,clock);
 sr <- ShiftReg();
 mux <- Mux(sr);
+isrc <- ISrc(pot,zsensor);
 
 // // Test script
 server.log("Autoimpedance is running...")
 
 
-server.log(clock.setHz(500e5)); 
-server.log(pot.setR(20e3)); 
-server.log(mux.setMode("ztest"));
+// server.log(clock.setHz(500e5)); 
+// server.log(pot.setR(20e3)); 
+// server.log(mux.setMode("ztest"));
 server.log(mux.setChannel(5));
-server.log(zsensor.powerDown());
-server.log(zsensor.standby());
-server.log(zsensor.reset());
-server.log(zsensor.setClkSrc("external"));
-server.log(zsensor.setVoltage(2.0));
-server.log(zsensor.setStartHz(500));
-server.log(zsensor.setIncHz(10));
-server.log(zsensor.setNumSteps(100));
-server.log(zsensor.setNumSettleCycles(10));
-server.log(zsensor.setPGAGain(1));
-server.log(zsensor.setSweep());
-server.log(zsensor.initStartFreq());
-server.log(zsensor.queryStatus());
-server.log(zsensor.startSweep());
+// server.log(zsensor.powerDown());
+// server.log(zsensor.standby());
+// server.log(zsensor.reset());
+// server.log(zsensor.setClkSrc("external"));
+// server.log(zsensor.setVoltage(2.0));
+// server.log(zsensor.setStartHz(500));
+// server.log(zsensor.setIncHz(10));
+// server.log(zsensor.setNumSteps(100));
+// server.log(zsensor.setNumSettleCycles(10));
+// server.log(zsensor.setPGAGain(1));
+// server.log(zsensor.setSweep());
+//server.log(zsensor.initStartFreq());
+//server.log(zsensor.queryStatus());
+//server.log(zsensor.startSweep());
+//server.log(zsensor.standby());
+
+server.log(isrc.setI(10));
+server.log(isrc.iset);
+server.log(mux.plate(3));
+
+server.log(isrc.setI(100));
+server.log(isrc.iset);
+server.log(mux.plate(3));
+
+server.log(isrc.setI(10000));
+server.log(isrc.iset);
+server.log(mux.plate(3));
+
+// local status = zsensor.queryStatus();
+// while ((status & 0x04) != 4) {
 
 
-local status = zsensor.queryStatus();
-while ((status & 0x04) != 4) {
+//     while ((status & 0x02) != 2) {
+//          imp.sleep(0.1);
+//           status = zsensor.queryStatus();
+//     }
+    
+//     // Valid real/image data
+//     zsensor.getZ();
+//     server.log(zsensor.zR);
+//     server.log(zsensor.zI);
+    
+    
+//     // Increment frequency
+//     zsensor.incrementFreq();
+//     status = zsensor.queryStatus();
+    
+    
+// }
 
-
-    while ((status & 0x02) != 2) {
-         imp.sleep(0.1);
-          status = zsensor.queryStatus();
-    }
-    
-    // Valid real/image data
-    zsensor.getZ();
-    server.log(zsensor.zR);
-    server.log(zsensor.zI);
-    
-    
-    // Increment frequency
-    zsensor.incrementFreq();
-    status = zsensor.queryStatus();
-    
-    
-}
-
-server.log(zsensor.powerDown());
+// server.log(zsensor.powerDown());
 
 
 
