@@ -15,7 +15,7 @@ class ZSensor {
     // Shift 7-bit address to 8-bit address required by the imp
     static ADDRESS = 0x0D << 1;
     
-    // User changeable properties
+    // User changeable parameters
     numSteps = null;
     startHz = null;
     incHz = null;
@@ -23,6 +23,13 @@ class ZSensor {
     voltage = null;
     gain = null;
     clkSrc = null;
+    
+    // Calibration parameters
+    static Ri2v = 100e3; // This is the value of the current to voltage resistor on the board
+    calType = null;
+    gainFac1 = null;
+    gainFac2M = null;
+    gainFac2B = null;
     
     // Internal variables
     ctl = null; // 16-bit control register
@@ -356,9 +363,30 @@ class ZSensor {
         setReadAddress(0x97);
         zI = (zR & ~(0x00FF)) | _i2c.read(ADDRESS, "", 1)[0];
         
+        // Twos complement conversion
+        zR = -(zR & 0x8000).tointeger() * 32768 + (zR & 0x7FFF).tointeger();
+        zI = -(zI & 0x8000).tointeger() * 32768 + (zI & 0x7FFF).tointeger();
         
-        // Convert to resistance and phase values
+    }
+    
+    function convertZ () {
         
+        if (calType == "1-point") {
+            
+            // Use calibration factor to determine true impedance
+            local mag = math.sqrt(math.pow(zR,2).tofloat() + math.pow(zI,2).tofloat());
+            ohm = 1/(gainFac1 * mag);
+            
+            // Success
+            return 0;
+        }
+        else if (calType == "2-point") {
+            
+            return -1;   
+        }
+        else {
+            return -1;
+        }
         
     }
     
@@ -399,6 +427,53 @@ class ZSensor {
         
         // Success
         return 0;
+    }
+    
+    function get1PCal(zKnown, fHz) {
+        
+        // Set the calibration type to 1-point
+        calType = "1-point";
+        
+        // Temporarily set the start frequency to fHz
+        local oldStartHz = startHz;
+        setStartHz(fHz);
+        setSweep();
+        
+        // Start the sweep (only the first frequency will be performed)
+        server.log("Starting 1-point calibration.")
+        standby();
+        initStartFreq();
+        startSweep();
+        local status = queryStatus();
+        while ((status & 0x02) != 2) {
+            imp.sleep(0.1);
+            server.log(status);
+            status = queryStatus();
+        }
+    
+        // Valid real/image data
+        getZ();
+        
+        // Cancel the sweep, revert to previously selected parameters, and power down
+        reset();
+        setStartHz(oldStartHz);
+        setSweep();
+        
+        // Calculate the gain factor
+        local mag = math.sqrt(math.pow(zR,2).tofloat() + math.pow(zI,2).tofloat());
+        gainFac1 = 1/(zKnown * mag);
+        
+        // Success
+        return 0;
+    }
+    
+    function get2PCal(zKnown, fHz0, fHz1) {
+        
+        // Set the calibration type to 2-point
+        calType = "2-point";
+        
+        // Success
+        return -1;
     }
 }
 
@@ -799,6 +874,8 @@ class ISrc {
 }
 
 
+/////////// PLAYGROUND //////////
+
 // Configure i2c bus
 hardware.i2c89.configure(CLOCK_SPEED_100_KHZ);
 
@@ -810,68 +887,95 @@ sr <- ShiftReg();
 mux <- Mux(sr);
 isrc <- ISrc(pot,zsensor);
 
-// // Test script
-server.log("Autoimpedance is running...")
 
+server.log("Autoimpedance is running...");
 
-// server.log(clock.setHz(500e5)); 
-// server.log(pot.setR(20e3)); 
-// server.log(mux.setMode("ztest"));
+/* 
+IMPEDANCE MEASUREMENT TEST
+*/
+
+server.log(clock.setHz(100e5)); 
+server.log(mux.setMode("ztest"));
 server.log(mux.setChannel(5));
-// server.log(zsensor.powerDown());
-// server.log(zsensor.standby());
-// server.log(zsensor.reset());
-// server.log(zsensor.setClkSrc("external"));
-// server.log(zsensor.setVoltage(2.0));
-// server.log(zsensor.setStartHz(500));
+server.log(zsensor.powerDown());
+server.log(zsensor.standby());
+server.log(zsensor.reset());
+server.log(zsensor.setClkSrc("external"));
+server.log(zsensor.setVoltage(2.0));
+server.log(zsensor.setStartHz(500));
+server.log(zsensor.setPGAGain(1));
+
+// // One-point calibration factor calculations
 // server.log(zsensor.setIncHz(10));
-// server.log(zsensor.setNumSteps(100));
+// server.log(zsensor.setNumSteps(10));
 // server.log(zsensor.setNumSettleCycles(10));
-// server.log(zsensor.setPGAGain(1));
-// server.log(zsensor.setSweep());
-//server.log(zsensor.initStartFreq());
-//server.log(zsensor.queryStatus());
-//server.log(zsensor.startSweep());
-//server.log(zsensor.standby());
+// zsensor.get1PCal(680e3,1e3);
+// server.log(zsensor.convertZ());
+// server.log(zsensor.ohm);
 
 
-// TODO: the actual current source seems to be inversely related to the the 
-// required amount of current for some reason
-server.log(isrc.setI(10)); 
-server.log(isrc.iset);
-server.log(mux.plate(3));
+server.log(zsensor.setStartHz(500));
+server.log(zsensor.setIncHz(10));
+server.log(zsensor.setNumSteps(10));
+server.log(zsensor.setNumSettleCycles(1));
+server.log(zsensor.setSweep());
 
-server.log(isrc.setI(100));
-server.log(isrc.iset);
-server.log(mux.plate(3));
+server.log(zsensor.initStartFreq());
+server.log(zsensor.startSweep());
 
-server.log(isrc.setI(10000));
-server.log(isrc.iset);
-server.log(mux.plate(3));
-
-// local status = zsensor.queryStatus();
-// while ((status & 0x04) != 4) {
+local status = zsensor.queryStatus();
+while ((status & 0x04) != 4) {
 
 
-//     while ((status & 0x02) != 2) {
-//          imp.sleep(0.1);
-//           status = zsensor.queryStatus();
-//     }
+    while ((status & 0x02) != 2) {
+        imp.sleep(0.1);
+        status = zsensor.queryStatus();
+        server.log(status);
+    }
     
-//     // Valid real/image data
-//     zsensor.getZ();
-//     server.log(zsensor.zR);
-//     server.log(zsensor.zI);
+    // Valid real/image data
+    zsensor.getZ();
+    zsensor.convertZ();
+    server.log(zsensor.ohm);
     
     
-//     // Increment frequency
-//     zsensor.incrementFreq();
-//     status = zsensor.queryStatus();
-    
-    
-// }
+    // Increment frequency
+    zsensor.incrementFreq();
+    status = zsensor.queryStatus();
+}
 
-// server.log(zsensor.powerDown());
+server.log(zsensor.powerDown());
+
+
+// // Two-point gain factor calculation 
+// fHz0 = 500;
+// fHz1 = 1500;
+// zCal = 680e3;
+
+
+
+/* 
+PLATING TEST
+*/
+
+// // TODO: the actual current source seems to be inversely related to the the 
+// // required amount of current for some reason. 
+// // TODO: There is some strange behavior where once the AD5833 takes a temperature
+// // measurement (needed to set current), it gets 'stuck' in that mode, unable to make
+// // and impedance measure. This could have to do with muxes getting stuck in the
+// // plating position too, though. Fixing requires power cycle.
+//
+// server.log(isrc.setI(10)); 
+// server.log(isrc.iset);
+// server.log(mux.plate(3));
+
+// server.log(isrc.setI(100));
+// server.log(isrc.iset);
+// server.log(mux.plate(3));
+
+// server.log(isrc.setI(10000));
+// server.log(isrc.iset);
+// server.log(mux.plate(3));
 
 
 
