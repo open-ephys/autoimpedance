@@ -28,10 +28,12 @@ class ZSensor {
     static Ri2v = 100e3; // This is the value of the current to voltage resistor on the board
     calType = null;
     gainFac1 = null;
+    gainFac2F0 = null;
     gainFac2M = null;
     gainFac2B = null;
     
     // Internal variables
+    currHz = null; // The currently tested frequency
     ctl = null; // 16-bit control register
     cyc = null; // 16-bit no. cycles register
     
@@ -92,8 +94,8 @@ class ZSensor {
         
         // Number of steps
         D = numSteps;
-        _i2c.write(ADDRESS, "\0x88" + (D >> 8).tochar()); 
-        return _i2c.write(ADDRESS, "\0x89" + D.tochar()); 
+        _i2c.write(ADDRESS, "\x88" + (D >> 8).tochar()); 
+        return _i2c.write(ADDRESS, "\x89" + D.tochar()); 
     }
     
     function standby() {
@@ -112,12 +114,18 @@ class ZSensor {
     
     function startSweep() {
         
+        // Set the current frequency
+        currHz = startHz;
+        
         // Start sweep command
         ctl = (ctl & ~(0xF0 << 8)) | 0x20 << 8;
         return _i2c.write(ADDRESS, "\x80" + (ctl >> 8).tochar()); 
     }
     
     function incrementFreq() {
+        
+        // Increment the current frequency
+        currHz += incHz;
         
         // Increment frequency command
         ctl = (ctl & ~(0xF0 << 8)) | 0x30 << 8;
@@ -185,6 +193,9 @@ class ZSensor {
     }
     
     function reset() {
+        
+        // Reset the current frequency
+        currHz = startHz;
     
         ctl = (ctl & ~(0x10)) | 0x10;
         return _i2c.write(ADDRESS, "\x81" + ctl.tochar()); 
@@ -364,9 +375,12 @@ class ZSensor {
         zI = (zR & ~(0x00FF)) | _i2c.read(ADDRESS, "", 1)[0];
         
         // Twos complement conversion
-        zR = -(zR & 0x8000).tointeger() * 32768 + (zR & 0x7FFF).tointeger();
-        zI = -(zI & 0x8000).tointeger() * 32768 + (zI & 0x7FFF).tointeger();
+        zR = -((zR & 0x8000) >> 15).tointeger() * 32768 + (zR & 0x7FFF).tointeger();
+        zI = -((zI & 0x8000) >> 15).tointeger() * 32768 + (zI & 0x7FFF).tointeger();
         
+        // Success
+        return 0;
+ 
     }
     
     function convertZ () {
@@ -382,7 +396,18 @@ class ZSensor {
         }
         else if (calType == "2-point") {
             
-            return -1;   
+            // Get the frequency-dependent gain factor
+            local k = gainFac2M * (currHz - gainFac2F0) + gainFac2B;
+            
+            server.log(currHz);
+            
+            // Use calibration factor to determine true impedance
+            local mag = math.sqrt(math.pow(zR,2).tofloat() + math.pow(zI,2).tofloat());
+            ohm = 1/(k * mag);
+            
+            // Success
+            return 0;
+            
         }
         else {
             return -1;
@@ -390,6 +415,84 @@ class ZSensor {
         
     }
     
+    function get1PCal(zKnown, fHz) {
+        
+        // Set the calibration type to 1-point
+        calType = "1-point";
+        
+        // Temporarily set the start frequency to fHz
+        local oldStartHz = startHz;
+        local oldIncHz = incHz;
+        local oldNumSteps = numSteps;
+        
+        // Do a single frequency, temporarily
+        setStartHz(fHz);
+        setIncHz(0);
+        setNumSteps(0);
+        setSweep();
+        setNumSettleCycles(100)
+        
+        // Start the sweep (only the first frequency will be performed)
+        standby();
+        initStartFreq();
+        startSweep();
+        local status = queryStatus();
+        while ((status & 0x02) != 2) {
+            imp.sleep(0.1);
+            status = queryStatus();
+        }
+    
+        // Valid real/image data
+        getZ();
+        
+        // Cancel the sweep and revert to previously selected parameters
+        reset();
+        setStartHz(oldStartHz);
+        setIncHz(oldIncHz);
+        setNumSteps(oldNumSteps);
+        setSweep();
+        
+        // Put the chip in standby mode
+        standby();
+        
+        // Calculate the gain factor
+        local mag = math.sqrt(math.pow(zR,2).tofloat() + math.pow(zI,2).tofloat());
+        gainFac1 = 1/(zKnown * mag);
+        
+        // Success
+        return 0;
+    }
+    
+    function get2PCal(zKnown, fHz0, fHz1) {
+        
+        // Run 1-point cal 2X at each requested frequency to get the gain factor
+        // for each.
+        
+        if (fHz1 > fHz0) {
+        
+            get1PCal(zKnown, fHz0);
+            local k0 = gainFac1;
+            get1PCal(zKnown, fHz1);
+            local k1 = gainFac1;
+            
+            gainFac2F0 = fHz0.tofloat();
+            gainFac2M = (k1-k0)/(fHz1-fHz0).tofloat();
+            gainFac2B = k0;
+            
+            server.log(gainFac2M);
+            
+            // Set the calibration type to 2-point
+            calType = "2-point";
+            
+            // Success
+            return 0;
+        }
+        else {
+        
+            // fHz1 must be larger than fHz0
+            return -1;
+        }
+        
     function getTemp() {
         
         // Issue measure temperature command
@@ -428,52 +531,6 @@ class ZSensor {
         // Success
         return 0;
     }
-    
-    function get1PCal(zKnown, fHz) {
-        
-        // Set the calibration type to 1-point
-        calType = "1-point";
-        
-        // Temporarily set the start frequency to fHz
-        local oldStartHz = startHz;
-        setStartHz(fHz);
-        setSweep();
-        
-        // Start the sweep (only the first frequency will be performed)
-        server.log("Starting 1-point calibration.")
-        standby();
-        initStartFreq();
-        startSweep();
-        local status = queryStatus();
-        while ((status & 0x02) != 2) {
-            imp.sleep(0.1);
-            server.log(status);
-            status = queryStatus();
-        }
-    
-        // Valid real/image data
-        getZ();
-        
-        // Cancel the sweep, revert to previously selected parameters, and power down
-        reset();
-        setStartHz(oldStartHz);
-        setSweep();
-        
-        // Calculate the gain factor
-        local mag = math.sqrt(math.pow(zR,2).tofloat() + math.pow(zI,2).tofloat());
-        gainFac1 = 1/(zKnown * mag);
-        
-        // Success
-        return 0;
-    }
-    
-    function get2PCal(zKnown, fHz0, fHz1) {
-        
-        // Set the calibration type to 2-point
-        calType = "2-point";
-        
-        // Success
-        return -1;
     }
 }
 
@@ -894,54 +951,53 @@ server.log("Autoimpedance is running...");
 IMPEDANCE MEASUREMENT TEST
 */
 
-server.log(clock.setHz(100e5)); 
+server.log(clock.setHz(750e5)); 
 server.log(mux.setMode("ztest"));
 server.log(mux.setChannel(5));
-server.log(zsensor.powerDown());
 server.log(zsensor.standby());
-server.log(zsensor.reset());
 server.log(zsensor.setClkSrc("external"));
-server.log(zsensor.setVoltage(2.0));
-server.log(zsensor.setStartHz(500));
+server.log(zsensor.setVoltage(1));
 server.log(zsensor.setPGAGain(1));
 
-// // One-point calibration factor calculations
-// server.log(zsensor.setIncHz(10));
-// server.log(zsensor.setNumSteps(10));
-// server.log(zsensor.setNumSettleCycles(10));
-// zsensor.get1PCal(680e3,1e3);
-// server.log(zsensor.convertZ());
-// server.log(zsensor.ohm);
+// Calibration factor calculations
+zsensor.get1PCal(680e3,1000);
+//zsensor.get2PCal(680e3,900,1100);
+server.log(zsensor.convertZ());
+server.log(zsensor.ohm);
 
-
-server.log(zsensor.setStartHz(500));
-server.log(zsensor.setIncHz(10));
-server.log(zsensor.setNumSteps(10));
-server.log(zsensor.setNumSettleCycles(1));
+// Program sweep parameters
+server.log(zsensor.setStartHz(1000));
+server.log(zsensor.setIncHz(0));
+server.log(zsensor.setNumSteps(0));
+server.log(zsensor.setNumSettleCycles(10));
 server.log(zsensor.setSweep());
 
-server.log(zsensor.initStartFreq());
-server.log(zsensor.startSweep());
-
-local status = zsensor.queryStatus();
-while ((status & 0x04) != 4) {
-
-
-    while ((status & 0x02) != 2) {
-        imp.sleep(0.1);
+for (local ch = 1; ch < 10; ch++) {
+    
+    server.log(mux.setChannel(ch));
+    server.log(zsensor.initStartFreq());
+    server.log(zsensor.startSweep());
+    
+    local status = zsensor.queryStatus();
+    while ((status & 0x04) != 4) {
+    
+        while ((status & 0x02) != 2) {
+            imp.sleep(0.1);
+            status = zsensor.queryStatus();
+        }
+        
+        // Valid real/image data
+        zsensor.getZ();
+        zsensor.convertZ();
+        server.log(zsensor.ohm);
+        
+        
+        // Increment frequency
+        zsensor.incrementFreq();
         status = zsensor.queryStatus();
-        server.log(status);
     }
     
-    // Valid real/image data
-    zsensor.getZ();
-    zsensor.convertZ();
-    server.log(zsensor.ohm);
-    
-    
-    // Increment frequency
-    zsensor.incrementFreq();
-    status = zsensor.queryStatus();
+    zsensor.reset();
 }
 
 server.log(zsensor.powerDown());

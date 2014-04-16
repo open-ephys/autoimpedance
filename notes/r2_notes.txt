@@ -12,12 +12,18 @@ Potential autoimpedance circuit improvements
 
 4. Silk screen font must be larger because print resolution is too course for current size.
 
-5. Do we need a DC blocking cap at the test_out pin of the AD5933 to prevent the DC bias (table 5 of AD5933 datasheet) on test signal from electroplating during the impedance test?
+X5. Do we need a DC blocking cap at the test_out pin of the AD5933 to prevent the DC bias (table 5 of AD5933 datasheet) on test signal from electroplating during the impedance test?
 
-	> EDIT: The DC offset is almost certainly a result of the single supply nature of the ic. The best way to fix this might be to implement a simple virtual ground circuit, and a higher voltage battery to create a negative rail. Then the test signal could be level shifted to 0V. Of course, vgnd would need to drive the saline bath too, so it would have to be a least a little hefty. We could also just send the test signal though an isolator although I doubt Josh will like that approach.
+	> EDIT 1: The DC offset is almost certainly a result of the single supply nature of the ic. The best way to fix this might be to implement a simple virtual ground circuit, and a higher voltage battery to create a negative rail. Then the test signal could be level shifted to 0V. Of course, vgnd would need to drive the saline bath too, so it would have to be a least a little hefty. We could also just send the test signal though an isolator although I doubt Josh will like that approach.
+	
+	> EDIT 2: The input stage of the AD5933 uses VDD/2 as a reference. Thus, all signals coming out of the device are referenced to this virtual ground, causing them to effectively be bipolar from the perspective of the electrode. Therefore, no DC blocking should be required.
 
-6. What p2p excitation voltage should we be using?
+X6. What p2p excitation voltage should we be using?
 
-7. Why is the external oscillator required?
+	> EDIT: Something around 100-200mVPP
+
+X7. Why is the external oscillator required?
 
 	> EDIT: Because the dynamic range with onboard oscillator is 1kHz to 100 kHz, and it is not really accurate in the low end where we need it.
+
+8. There needs to be an off, or at least, reset switch. Sometimes AD5933 becomes unresponsive and requires a power cycle to get back to normal. This could be a programming error, but its good to have a fail-safe.
