@@ -157,7 +157,7 @@ class ZSensor {
         
         // Covert to 24-bit code
         if (clkSrc == "internal") {
-            local value = math.floor((fHz.tofloat() / 4.0e5) * math.pow(2,27));
+            local value = math.floor((fHz.tofloat() / 4.0e6) * math.pow(2,27));
     		return (value.tointeger() & 0x00FFFFFF);
         }
         else if (clkSrc == "external") {
@@ -358,25 +358,51 @@ class ZSensor {
         return _i2c.write(ADDRESS, "\xB0" + address.tochar());
     }
     
+    function readRegister (register) {
+        
+        setReadAddress(register);
+        local data = _i2c.read(ADDRESS, "\xA0\x02", 2);
+        local result = data[0] << 8 | data[1];
+        return result;
+        
+    }
+    
     function getZ() {
         
         // Set the read address and read the data in that address
+        zR = 0;
+        zI = 0;
         
         setReadAddress(0x94);
-        zR = (zR & ~(0xFF00)) | _i2c.read(ADDRESS, "", 1)[0] << 8;
-
-        setReadAddress(0x95);
-        zR = (zR & ~(0x00FF)) | _i2c.read(ADDRESS, "", 1)[0];
-            
-        setReadAddress(0x96);
-        zI = (zR & ~(0xFF00)) | _i2c.read(ADDRESS, "", 1)[0] << 8;
-            
-        setReadAddress(0x97);
-        zI = (zR & ~(0x00FF)) | _i2c.read(ADDRESS, "", 1)[0];
+        local data = _i2c.read(ADDRESS, "\xA0\x04", 4);
+        zR = data[0] << 8 | data[1];
+        zI = data[2] << 8 | data[3];
         
+        // zR = _i2c.read(ADDRESS, "\xA0\x04", 1)[0].tointeger() << 8;
+        
+        // //server.log(zR);
+
+        // setReadAddress(0x95);
+        // zR = zR |  _i2c.read(ADDRESS, "", 1)[0].tointeger();
+        
+        // //server.log(zR);
+
+        // setReadAddress(0x96);
+        // zI = _i2c.read(ADDRESS, "", 1)[0].tointeger() << 8;
+        
+        // //server.log(zI);
+            
+        // setReadAddress(0x97);
+        // zI = zI | _i2c.read(ADDRESS, "", 1)[0].tointeger();
+        
+        //server.log(zI);
+
         // Twos complement conversion
-        zR = -((zR & 0x8000) >> 15).tointeger() * 32768 + (zR & 0x7FFF).tointeger();
-        zI = -((zI & 0x8000) >> 15).tointeger() * 32768 + (zI & 0x7FFF).tointeger();
+        zR = -((zR & 0x8000) >> 15) * 32768 + (zR & 0x7FFF);
+        zI = -((zI & 0x8000) >> 15) * 32768 + (zI & 0x7FFF);
+        
+        server.log(zR);
+        server.log(zI);
         
         // Success
         return 0;
@@ -398,8 +424,6 @@ class ZSensor {
             
             // Get the frequency-dependent gain factor
             local k = gainFac2M * (currHz - gainFac2F0) + gainFac2B;
-            
-            server.log(currHz);
             
             // Use calibration factor to determine true impedance
             local mag = math.sqrt(math.pow(zR,2).tofloat() + math.pow(zI,2).tofloat());
@@ -457,7 +481,11 @@ class ZSensor {
         
         // Calculate the gain factor
         local mag = math.sqrt(math.pow(zR,2).tofloat() + math.pow(zI,2).tofloat());
+        server.log(mag);
+        
         gainFac1 = 1/(zKnown * mag);
+        
+        server.log(gainFac1);
         
         // Success
         return 0;
@@ -479,8 +507,6 @@ class ZSensor {
             gainFac2M = (k1-k0)/(fHz1-fHz0).tofloat();
             gainFac2B = k0;
             
-            server.log(gainFac2M);
-            
             // Set the calibration type to 2-point
             calType = "2-point";
             
@@ -492,6 +518,7 @@ class ZSensor {
             // fHz1 must be larger than fHz0
             return -1;
         }
+    }
         
     function getTemp() {
         
@@ -530,7 +557,6 @@ class ZSensor {
         
         // Success
         return 0;
-    }
     }
 }
 
@@ -870,19 +896,16 @@ class Mux {
         }
         else {
             
-            // Set the MUX16 address
-            _sr.out = (_sr.out & ~0x0F) | chan
-            
-            // Select which MUX16 to use
+            // Select which MUX16 to use and set the local address
             if (chan <= 15) {
-                _sr.setBit(4, 0) // MUX16b
+                _sr.setBit(4, 1) // MUX16a
+                _sr.out = (_sr.out & ~0x0F) | chan;
             }
             else {
-                _sr.setBit(4, 1) // MUX16a
+                _sr.setBit(4, 0) // MUX16b
+                _sr.out = (_sr.out & ~0x0F) | (chan - 16);
             }
-            
-            server.log(_sr.out);
-            
+
             _sr.update();
             
             // Success
@@ -951,54 +974,65 @@ server.log("Autoimpedance is running...");
 IMPEDANCE MEASUREMENT TEST
 */
 
-server.log(clock.setHz(750e5)); 
-server.log(mux.setMode("ztest"));
-server.log(mux.setChannel(5));
-server.log(zsensor.standby());
-server.log(zsensor.setClkSrc("external"));
-server.log(zsensor.setVoltage(1));
-server.log(zsensor.setPGAGain(1));
+local ch = 23;
 
-// Calibration factor calculations
-zsensor.get1PCal(680e3,1000);
-//zsensor.get2PCal(680e3,900,1100);
-server.log(zsensor.convertZ());
-server.log(zsensor.ohm);
+// server.log(clock.setHz(1e6)); 
+// server.log(mux.setMode("ztest"));
+// server.log(mux.setChannel(ch));
+// server.log(zsensor.standby());
+// server.log(zsensor.setClkSrc("external"));
+// server.log(zsensor.setVoltage(0.2));
+// server.log(zsensor.setPGAGain(5));
 
-// Program sweep parameters
-server.log(zsensor.setStartHz(1000));
-server.log(zsensor.setIncHz(0));
-server.log(zsensor.setNumSteps(0));
-server.log(zsensor.setNumSettleCycles(10));
-server.log(zsensor.setSweep());
+// // Calibration factor calculations
+// zsensor.get1PCal(1000e3,50000);
+// //zsensor.get2PCal(680e3,900,1100);
+// server.log(zsensor.convertZ());
+// server.log(zsensor.ohm);
 
-for (local ch = 1; ch < 10; ch++) {
+// // Program sweep parameter
+// server.log(zsensor.setStartHz(50000));
+// server.log(zsensor.setIncHz(100));
+// server.log(zsensor.setNumSteps(0));
+// server.log(zsensor.setNumSettleCycles(100));
+// server.log(zsensor.setSweep());
+// server.log(zsensor.ctl);
+server.log(zsensor.readRegister(0x80));
+
+//local volts = [0.2,0.4,1,2];
+
+
+// for (local i = 0; i < 32; i++) {
     
-    server.log(mux.setChannel(ch));
-    server.log(zsensor.initStartFreq());
-    server.log(zsensor.startSweep());
+//     //server.log(zsensor.setVoltage(volts[i]));
     
-    local status = zsensor.queryStatus();
-    while ((status & 0x04) != 4) {
+//     server.log(mux.setChannel(i));
+//     zsensor.initStartFreq();
+//     zsensor.startSweep();
     
-        while ((status & 0x02) != 2) {
-            imp.sleep(0.1);
-            status = zsensor.queryStatus();
-        }
+//     local status = zsensor.queryStatus();
+//     while ((status & 0x04) != 0x04) {
+//         while ((status & 0x02) != 0x02) {
+//             imp.sleep(0.1);
+//             status = zsensor.queryStatus();
+//         }
         
-        // Valid real/image data
-        zsensor.getZ();
-        zsensor.convertZ();
-        server.log(zsensor.ohm);
+//         // Valid real/imaginary data
+//         zsensor.getZ();
+//         zsensor.convertZ();
+//         server.log(zsensor.ohm);
+//         server.log("--");
         
-        
-        // Increment frequency
-        zsensor.incrementFreq();
-        status = zsensor.queryStatus();
-    }
+//         // Increment frequency
+//         zsensor.incrementFreq();
+//         status = zsensor.queryStatus();
+//     }
     
-    zsensor.reset();
-}
+//     zsensor.reset();
+    
+//     //zsensor.getTemp();
+//     //server.log(zsensor.tempC);
+// }
 
 server.log(zsensor.powerDown());
 
@@ -1016,7 +1050,7 @@ PLATING TEST
 
 // // TODO: the actual current source seems to be inversely related to the the 
 // // required amount of current for some reason. 
-// // TODO: There is some strange behavior where once the AD5833 takes a temperature
+// // TODO: There is some strange behavior where once the AD5933 takes a temperature
 // // measurement (needed to set current), it gets 'stuck' in that mode, unable to make
 // // and impedance measure. This could have to do with muxes getting stuck in the
 // // plating position too, though. Fixing requires power cycle.
