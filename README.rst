@@ -1,3 +1,5 @@
+**Warning** This project is deprecated! If you have interest in creating an open source automated electrode plater, please get in touch with us!
+
 =====================
 Autoimpedance
 =====================
